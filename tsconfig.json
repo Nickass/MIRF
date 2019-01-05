@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es5",
+    "jsx": "react",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "experimentalDecorators": false,
+    "declaration": false,
+    "removeComments": false,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "strict": true,
+    "outDir": "build",
+    "lib": ["es2015", "es6", "es7", "dom"],
+    "baseUrl": "src",
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": ["dist", "build", "node_modules"]
+}

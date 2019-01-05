@@ -9,8 +9,8 @@ const compiler = webpack(config);
 
 const serverConfig = {
   hot: true,
-  // contentBase: 'public',
-  // compress: true,
+  contentBase: 'public',
+  compress: true,
   host: HOST,
   port: PORT
 }

@@ -2,21 +2,19 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+const path = require('path');
 
 module.exports = {
     mode: 'development',
     entry: [
+      require.resolve('webpack-dev-server/client') + '?/',
+      require.resolve('webpack/hot/dev-server'),
       'react-hot-loader/patch',
-      'react-dev-utils/webpackHotDevClient',
-      'src/index.js',
+      'index.tsx',
     ],
     output: {
-      path: process.cwd() + '/public',
+      path: path.resolve(process.cwd(), 'public'),
       filename: 'bundle.js',
-      publicPath: '/',
-    },
-    devServer: {
-      historyApiFallback: true,
     },
     module: {
       rules: [
@@ -102,6 +100,11 @@ module.exports = {
         }
       ]
     },
+    devServer: {
+      historyApiFallback: true,
+      contentBase: path.resolve(process.cwd(), 'public'),
+      hot: true
+    },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
@@ -112,6 +115,10 @@ module.exports = {
     ],
     resolve: {
       extensions: [".tsx", ".ts", ".js", ".jsx"],
+      modules: [
+        path.resolve(process.cwd(), 'node_modules'),
+        path.resolve(process.cwd(), 'src')
+      ]
     },
   };
   
