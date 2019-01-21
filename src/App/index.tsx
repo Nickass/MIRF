@@ -4,7 +4,7 @@ import * as React from 'react';
 // custom
 import Header from './Header';
 import Footer from './Footer';
-import Translator from './widgets/Translator';
+import Translator from './pages/Translator';
 
 // assets
 import './assets/styles.scss';

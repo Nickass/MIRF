@@ -1,10 +1,15 @@
 // modules
 import * as React from 'react';
-import * as cn from 'classnames';
 import { connect } from 'react-redux';
-import { fetchWords } from './saga';
+import { createStructuredSelector } from 'reselect';
+// import { Link } from 'react-router-dom';
+import * as cn from 'classnames';
 
 // custom
+import { fetchWords } from './saga';
+import { selectSomeWords } from './selectors';
+import { selectWordsPerPage } from 'App/pages/Settings/selectors';
+import Pagination from 'App/widgets/Pagination';
 
 // assets
 import './assets/styles.scss';
@@ -12,12 +17,15 @@ import './assets/styles.scss';
 interface TranslatorProps {
   className?: string;
   words: Array<{en: string; ru: string}>;
+  wordsPerPage: number;
   dispatch: any;
 };
 
 class Translator extends React.Component<TranslatorProps> {
   componentDidMount() {
-    fetchWords(this.props.dispatch);
+    const { dispatch, wordsPerPage } = this.props;
+    
+    fetchWords(dispatch, wordsPerPage, 0);
   }
 
   render () {
@@ -31,22 +39,28 @@ class Translator extends React.Component<TranslatorProps> {
             <tr>
               <th>EN</th>
               <th>RU</th>
+              <th>Know</th>
             </tr>
           </thead>
           <tbody>
-            {words.slice(0, 10).map(({en, ru}, i) => (
+            {words.map(({en, ru}, i) => (
               <tr key={en + ru + i}>
                 <td>{en}</td>
                 <td>{ru}</td>
+                <td>
+                  <input type="checkbox"/>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <Pagination className="Translator__pagination" />
       </div>
     )
   }
 }
 
-export default connect((state: any) => ({
-  words: state.translator.words
+export default connect(createStructuredSelector({
+  words: selectSomeWords,
+  wordsPerPage: selectWordsPerPage,
 }))(Translator);

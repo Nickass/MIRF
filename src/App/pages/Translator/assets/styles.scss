@@ -1,0 +1,41 @@
+@import '~assets/_mixins';
+
+.Translator {
+  width: 100%;
+  border: 1px solid #e1e1e1;
+
+  &__table {
+    width: 100%;
+    background: #f1f1f1;
+  }
+
+  tHead > tr th {
+    padding: 20px 0;
+    background: #ddd;
+  }
+
+  tBody tr:nth-child(2n + 1) {
+    background: #fff;
+  }
+}
+
+.pagination {
+  @include reset-list;
+  display: flex;
+  justify-content: center;
+  
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+    border-radius: 50%;
+    background: #aaa;
+    cursor: pointer;
+  }
+
+  &__link {
+  }
+}
