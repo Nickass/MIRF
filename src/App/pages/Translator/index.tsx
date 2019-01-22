@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { Switch, Route } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 import * as cn from 'classnames';
 
@@ -19,16 +20,26 @@ interface TranslatorProps {
   words: Array<{en: string; ru: string}>;
   wordsPerPage: number;
   dispatch: any;
+  match: any;
 };
 
 class Translator extends React.Component<TranslatorProps> {
   componentDidMount() {
-    const { dispatch, wordsPerPage } = this.props;
-    
-    fetchWords(dispatch, wordsPerPage, 0);
+    const { dispatch, wordsPerPage, match: { params: { id } } } = this.props;
+    console.log('id', id)
+    fetchWords(dispatch, wordsPerPage, id * wordsPerPage);
+  }
+  
+  componentDidUpdate(prevProps: any) {
+    const { dispatch, wordsPerPage, match: { params: { id } } } = prevProps;
+
+    if (id !== this.props.match.params.id) {
+      fetchWords(dispatch, wordsPerPage, id * wordsPerPage);
+    }
   }
 
   render () {
+    console.log(this.props);
     const { className, words = [] } = this.props;
     
     return (
