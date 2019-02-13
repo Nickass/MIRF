@@ -25,6 +25,9 @@
   justify-content: center;
   
   &__item {
+  }
+
+  &__link {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,9 +36,11 @@
     margin: 0 5px;
     border-radius: 50%;
     background: #aaa;
-    cursor: pointer;
-  }
-
-  &__link {
+    color: #e1e1e1;
+    text-decoration: none;
+    
+    &--active {
+      border: 1px solid #aa0000;
+    }
   }
 }

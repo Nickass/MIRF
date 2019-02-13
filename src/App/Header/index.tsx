@@ -19,17 +19,7 @@ class Header extends React.Component<HeaderProps> {
     return (
       <header className={cn(className, 'Header')}>
         <h1>Hi! I am main header!</h1>
-        <ul>
-          <li>
-            <Link to="/">home</Link>
-          </li>
-          <li>
-            <Link to="/translator/1">one</Link>
-          </li>
-          <li>
-            <Link to="/translator/2">two</Link>
-          </li>
-        </ul>
+        <Link to="/translator">go to translator</Link>
       </header>
     )
   }
