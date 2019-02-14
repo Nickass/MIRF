@@ -14,23 +14,27 @@ interface PaginationProps {
 
 class Pagination extends React.Component<PaginationProps> {
   render () {
-    const { className, path, count } = this.props;
-    
+    let { className, path, count } = this.props;
+    count = count > 10 ? 10 : count;
+
     return (
-      <ul className={cn(className, 'pagination')}>
-        {(new Array(count)).fill('').map((v, num) => (
-          <li className="pagination__item" key={(num + 1)}>
-            <Link
-              className="pagination__link"
-              activeClassName="pagination__link--active"
-              to={path + '/' + (num + 1)}
-              exact={true}
-            >
-              {(num + 1)}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div className="pagination">
+        <ul className={cn(className, 'pagination')}>
+          {(new Array(count)).fill('').map((v, num) => (
+            <li className="pagination__item" key={(num + 1)}>
+              <Link
+                className="pagination__link"
+                activeClassName="pagination__link--active"
+                to={path + '/' + (num + 1)}
+                exact={true}
+              >
+                {(num + 1)}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      
+      </div>
     )
   }
 }

@@ -1,8 +1,13 @@
 import { createSelector } from 'reselect';
 
-export const wordsSelector = (state: any) => state.translator.words;
+export const wordsSelector = (state: any) => state.translator;
 
-export const selectSomeWords = createSelector(
+export const selectWords = createSelector(
   wordsSelector,
-  words => words
+  translator => translator.words
+);
+
+export const selectCountWords = createSelector(
+  wordsSelector,
+  translator => translator.countWords
 );

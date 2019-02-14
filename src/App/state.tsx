@@ -1,5 +1,5 @@
 const appState = {
-  countWords: 0
+  appInited: true
 };
 
 export default appState;
