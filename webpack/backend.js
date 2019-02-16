@@ -1,20 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
+const nodeExternals = require('webpack-node-externals');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
-
-var externalsBackend = {};
-if(isProduction) externalsBackend.client = 'commonjs ./static/client.js'
-
-fs.readdirSync('node_modules')
-    .filter(function(x) {
-        return ['.bin'].indexOf(x) === -1;
-    })
-    .forEach(function(mod) {
-        externalsBackend[mod] = 'commonjs ' + mod;
-    });
 
 module.exports = {
   target: 'node',
@@ -29,7 +19,12 @@ module.exports = {
     path: path.join(process.cwd(), isProduction ? 'build' : 'dev'),
     filename: 'server.js',
   },  
-  externals: externalsBackend,
+  externals: nodeExternals({
+    whitelist: [
+      /\.(?!(?:jsx?|json)$).{1,5}$/i,
+      /\.(?!(?:css?|scss)$).{1,5}$/i, // TODO: check with other files
+    ],
+  }),
   plugins: [
     new webpack.ExtendedAPIPlugin(), // This plug add __webpack_hash__ global variable
   ],
@@ -42,6 +37,10 @@ module.exports = {
       },
       {
         test: /\.(sa|sc|c)ss$/,
+        use: 'ignore-loader',
+      },
+      {
+        test: /\.css$/,
         use: 'ignore-loader',
       },
       {

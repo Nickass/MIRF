@@ -6,16 +6,22 @@ const autoprefixer = require('autoprefixer');
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
+const hmrEntry = [
+  `webpack-dev-server/client?http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}`,
+  'webpack/hot/only-dev-server',
+  'react-hot-loader/patch',
+];
+const entry = [
+  'client.tsx',
+];
+
+if (isDevelopment) {
+  entry.unshift(hmrEntry);
+}
+
 module.exports = {
-  entry: [
-    `webpack-dev-server/client?http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}`,
-    'webpack/hot/only-dev-server',
-    'react-hot-loader/patch',
-    'client.tsx',
-  ],
+  entry,
   output: {
-    library: 'client',
-    libraryTarget: 'umd',
     path: path.join(process.cwd(), isProduction ? 'build/static/' : 'dev/static/'),
     publicPath: isProduction ? '/static' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/static`,
     filename: 'client.js'
