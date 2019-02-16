@@ -16,7 +16,7 @@ const entry = [
 ];
 
 if (isDevelopment) {
-  entry.unshift(hmrEntry);
+  entry.unshift(...hmrEntry);
 }
 
 module.exports = {
