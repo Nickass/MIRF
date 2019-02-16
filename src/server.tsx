@@ -10,7 +10,7 @@ import client from 'client'; // will changed to require('./static/client.js') in
 let clientName: string, assetUrl: string;
 
 if(process.env.NODE_ENV === 'development') {
-  assetUrl = 'http://localhost:9000/';
+  assetUrl = `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/`;
   clientName = `client.js`;
 } else { // if prod will be require from client bundle
   assetUrl = '/';
@@ -19,14 +19,13 @@ if(process.env.NODE_ENV === 'development') {
 
 const Server = express();
 const ReactApp = client.App;
-let store = client.configureStore();
+let [store] = client.configureStore();
 
 
 Server.use(`/static`, express.static(path.join(__dirname, `/static/`)));
 Server.use(`/static/${clientName}`, express.static(path.join(__dirname, `/static/client.js`)));
 Server.post(`/UPDATE_STORE`, bodyParser.json(), (req, res) => {
-  console.log(req.body);
-  store = client.configureStore(req.body.REDUX_STATE); // ADD CHECK 
+  [store] = client.configureStore(req.body.REDUX_STATE); // ADD CHECK 
   res.redirect(302, 'back');
 });
 Server.use(function(req, res) {
@@ -41,9 +40,9 @@ Server.use(function(req, res) {
 
   return res.end(renderHTML(ReactDom.renderToString(serverProvider)));
 });
-Server.listen(9000, ()=>console.log('Server is runing!'));
+Server.listen(process.env.SERVER_PORT, ()=>console.log('Server is runing!'));
 
-
+console.log('process.env.PORT', process.env.SERVER_PORT)
 function renderHTML(appContent: any) {
   return `
   <!DOCTYPE html>
@@ -52,10 +51,10 @@ function renderHTML(appContent: any) {
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width">
       <title>WHEN I DO LEARN REACT I CRAZZY</title>
-      <script>windoserverw.REDUX_STATE = ${JSON.stringify(store.getState())}</script>
+      <script>window.REDUX_STATE = ${JSON.stringify(store.getState())}</script>
     </head>
     <body>
-      <div id="react-root">${appContent}</div>
+      <div id="app-root">${appContent}</div>
       <script type="application/javascript" src="${assetUrl}static/${clientName}"></script>
     </body>
   </html>

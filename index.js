@@ -1,3 +1,5 @@
+require('./env.js');
+
 const nodemon = require('nodemon');
 const WebpackDevServer = require('webpack-dev-server');
 const webpack = require('webpack');
@@ -5,9 +7,6 @@ const common = require('./webpack/common.js');
 const backend = require('./webpack/backend.js');
 const frontend = require('./webpack/frontend.js');
 const _ = require('lodash');
-
-const PORT = 8080;
-const HOST = 'localhost';
 
 const backConf = _.merge({}, common, backend);
 const frontConf = _.merge({}, common, frontend);
@@ -32,8 +31,8 @@ if(process.env.NODE_ENV === 'development') {
         // stats: { colors: true },
         stats: 'errors-only',
         historyApiFallback: true,
-        publicPath: `http://${HOST}:${PORT}/public`,
-    }).listen(PORT, HOST);
+        publicPath: `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/static`,
+    }).listen(process.env.HMR_SERVER_PORT, process.env.HMR_SERVER_HOST);
 } else {
     webpack([backConf, frontConf], webpackFunc);
 }

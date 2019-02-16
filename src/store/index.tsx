@@ -1,5 +1,5 @@
-import { combineReducers, createStore, applyMiddleware, compose, Reducer } from 'redux';
-import { createBrowserHistory, History } from 'history';
+import { combineReducers, createStore, applyMiddleware, compose, Reducer, Store } from 'redux';
+import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 
 import appState from 'App/state';
@@ -9,41 +9,32 @@ import settingsReducer from 'App/pages/Settings/reducer';
 import translatorState from 'App/pages/Translator/state';
 import translatorReducer from 'App/pages/Translator/reducer';
 
-export type action = { type: string; payload?: any; };
 
-const initialState = {
+export type action = { type: string; payload?: any; };
+export const isServer = !(
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+);
+export const defaultState = {
   router: {},
   app: appState,
   settings: settingsState,
   translator: translatorState
 };
 
-const reducers: any = {
-  app: appReducer,
-  settings: settingsReducer,
-  translator: translatorReducer
-};
-
-let history: any;
-
-if (typeof document !== 'undefined') {
-  history = createBrowserHistory();
-  reducers.router = connectRouter(history) as any; // TODO typing the function
-}
-
-const rootReducer = combineReducers<typeof initialState>(reducers);
-const composeEnhancers = typeof window !== 'undefined'
- ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
-
-export default function(passedState: any = initialState) {
-  let enhancer: any;
-
-  if (typeof document !== 'undefined') {
-    enhancer = composeEnhancers(
-      applyMiddleware(routerMiddleware(history))
-    );
-  }
-
+export default function(initialState = defaultState, url = '/'): [Store, History] {
+  const composeEnhancers = !isServer && process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
+  const history = !isServer ? createBrowserHistory() : createMemoryHistory({
+    initialEntries: ['/']
+  });
+  const enhancer = composeEnhancers(applyMiddleware(routerMiddleware(history)));
+  const rootReducer = combineReducers<typeof initialState>({
+    router: connectRouter(history) as any,
+    app: appReducer,
+    settings: settingsReducer,
+    translator: translatorReducer
+  });
   const store = createStore<typeof initialState, action, any, any>(rootReducer, initialState, enhancer);
 
   if (module.hot) {
@@ -60,5 +51,5 @@ export default function(passedState: any = initialState) {
     });
   }
 
-  return store;
+  return [store, history];
 }

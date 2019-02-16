@@ -6,45 +6,27 @@ const autoprefixer = require('autoprefixer');
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
-
-// with babel
-// const forHMR = [
-//   'webpack-dev-server/client?http://localhost:8080',
-//   'webpack/hot/only-dev-server'
-// ];
-// const forOld = ['babel-polyfill', './client.js'];
-// const entry = isDevelopment ? [...forHMR, ...forOld] : forOld
-
-// with Typescript
-const forHMR = [
-  require.resolve('webpack-dev-server/client') + '?/',
-  require.resolve('webpack/hot/dev-server'),
-  'react-hot-loader/patch',
-  'client.tsx',
-];
-const entry = forHMR;
-const HOST = 'localhost';
-const PORT = 9000;
-
-
 module.exports = {
-  entry,
+  entry: [
+    `webpack-dev-server/client?http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}`,
+    'webpack/hot/only-dev-server',
+    'react-hot-loader/patch',
+    'client.tsx',
+  ],
   output: {
     library: 'client',
     libraryTarget: 'umd',
     path: path.join(process.cwd(), isProduction ? 'build/static/' : 'dev/static/'),
-    publicPath: isProduction ? '/static' : `http://${HOST}:${PORT}/static`,
+    publicPath: isProduction ? '/static' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/static`,
     filename: 'client.js'
   },
   devServer: {
     historyApiFallback: true,
     contentBase: path.resolve(process.cwd(), 'public'),
-    hot: true
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new SpriteLoaderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
   ],
   resolve: {
