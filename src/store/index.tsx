@@ -11,7 +11,6 @@ import translatorReducer from 'App/pages/Translator/reducer';
 
 export type action = { type: string; payload?: any; };
 
-export const history = createBrowserHistory();
 const initialState = {
   router: {},
   app: appState,
@@ -19,19 +18,32 @@ const initialState = {
   translator: translatorState
 };
 
-const rootReducer = combineReducers<typeof initialState>({
-  router: connectRouter(history) as any, // TODO typing the function
+const reducers: any = {
   app: appReducer,
   settings: settingsReducer,
   translator: translatorReducer
-});
+};
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+let history: any;
 
-export default function() {
-  const enhancer = composeEnhancers(
-    applyMiddleware(routerMiddleware(history))
-  );
+if (typeof document !== 'undefined') {
+  history = createBrowserHistory();
+  reducers.router = connectRouter(history) as any; // TODO typing the function
+}
+
+const rootReducer = combineReducers<typeof initialState>(reducers);
+const composeEnhancers = typeof window !== 'undefined'
+ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
+
+export default function(passedState: any = initialState) {
+  let enhancer: any;
+
+  if (typeof document !== 'undefined') {
+    enhancer = composeEnhancers(
+      applyMiddleware(routerMiddleware(history))
+    );
+  }
+
   const store = createStore<typeof initialState, action, any, any>(rootReducer, initialState, enhancer);
 
   if (module.hot) {
