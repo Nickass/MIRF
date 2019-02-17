@@ -1,0 +1,42 @@
+.Header {
+  
+  &__nav {
+
+  }
+
+  &__nav-list {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+  }
+
+  &__nav-item {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    margin-right: 10px;
+  }
+
+  &__nav-link {
+    display: block;    
+    color: inherit;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(pink, .6);
+    transition: 400ms;
+    font-weight: 600;
+    font-size: 14px;
+    color: #a11;
+    text-transform: uppercase;
+
+    &--active,
+    &:hover {
+      border-bottom: 2px solid red;
+    }
+
+    &--active {
+      color: black;
+    }
+  }
+}

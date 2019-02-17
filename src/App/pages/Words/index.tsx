@@ -14,8 +14,9 @@ import Pagination from 'App/widgets/Pagination';
 
 // assets
 import './assets/styles.scss';
+import book from 'system/book';
 
-interface TranslatorProps {
+interface WordsProps {
   className?: string;
   words: Array<{en: string; ru: string}>;
   wordsPerPage: number;
@@ -24,7 +25,7 @@ interface TranslatorProps {
   match: any;
 };
 
-class Translator extends React.Component<TranslatorProps> {
+class Words extends React.Component<WordsProps> {
   componentDidMount() {
     const { dispatch, wordsPerPage, match: { params: { id } } } = this.props;
     
@@ -44,9 +45,9 @@ class Translator extends React.Component<TranslatorProps> {
     const { className, words = [], countWords } = this.props;
     
     return (
-      <div className={cn(className, 'Translator')}>
-        <h2 className="Translator__title">Translator player</h2>
-        <table className="Translator__table">
+      <div className={cn(className, 'Words')}>
+        <h2 className="Words__title">Words player</h2>
+        <table className="Words__table">
           <thead>
             <tr>
               <th>EN</th>
@@ -66,7 +67,7 @@ class Translator extends React.Component<TranslatorProps> {
             ))}
           </tbody>
         </table>
-        <Pagination className="Translator__pagination" count={countWords} path="/translator"/>
+        <Pagination className="Words__pagination" count={countWords} path={book.words.root('')} />
       </div>
     )
   }
@@ -76,4 +77,4 @@ export default connect(createStructuredSelector({
   words: selectWords,
   wordsPerPage: selectWordsPerPage,
   countWords: selectCountWords,
-}))(Translator);
+}))(Words);

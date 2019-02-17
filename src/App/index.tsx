@@ -3,10 +3,14 @@ import * as React from 'react';
 import { Switch, Route } from 'react-router';
 import { connect } from 'react-redux';
 
+// system
+import book from 'system/book';
+
 // custom
 import Header from './Header';
 import Footer from './Footer';
-import Translator from './pages/Translator';
+import Words from './pages/Words';
+import Settings from './pages/Settings';
 
 // assets
 import './assets/styles.scss';
@@ -20,9 +24,11 @@ class App extends React.Component<AppProps> {
       <div className="App">
         <Header className="App__header" />
         <Switch>
-          <Route path="/translator/:id" component={Translator} />
-        </Switch>
-        {/* <Translator className="App__center" /> */}
+            {/* <Route path={book.home.root()} component={Root} /> */}
+            <Route path={book.words.root('')} component={Words} />
+            <Route path={book.settings.root()} component={Settings} />
+          </Switch>
+        {/* <Words className="App__center" /> */}
         <Footer className="App__footer" />
       </div>
     )

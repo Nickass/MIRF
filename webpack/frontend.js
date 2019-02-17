@@ -35,13 +35,6 @@ module.exports = {
     new SpriteLoaderPlugin(),
     new webpack.NamedModulesPlugin(),
   ],
-  resolve: {
-    extensions: [".tsx", ".ts", ".js", ".jsx", ".scss", ".css"],
-    modules: [
-      path.resolve(process.cwd(), 'node_modules'),
-      path.resolve(process.cwd(), 'src')
-    ]
-  },
   module: {
     rules: [
       {

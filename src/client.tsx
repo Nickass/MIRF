@@ -27,9 +27,7 @@ function main(Root = App) {
     <AppContainer>
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <Switch>
-            <Route path="/" component={Root} />
-          </Switch>
+          <Root />
         </ConnectedRouter>
       </Provider>
     </AppContainer>,

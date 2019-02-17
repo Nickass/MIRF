@@ -24,7 +24,7 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".jsx", ".scss", ".css"],
     modules: [
-      path.resolve(process.cwd(), 'node_modules'),
+      'node_modules',
       path.resolve(process.cwd(), 'src')
     ]
   },

@@ -18,14 +18,14 @@ class Pagination extends React.Component<PaginationProps> {
     count = count > 10 ? 10 : count;
 
     return (
-      <div className="pagination">
-        <ul className={cn(className, 'pagination')}>
+      <div className="Pagination">
+        <ul className={cn(className, 'Pagination__list')}>
           {(new Array(count)).fill('').map((v, num) => (
-            <li className="pagination__item" key={(num + 1)}>
+            <li className="Pagination__item" key={(num + 1)}>
               <Link
-                className="pagination__link"
-                activeClassName="pagination__link--active"
-                to={path + '/' + (num + 1)}
+                className="Pagination__link"
+                activeClassName="Pagination__link--active"
+                to={path + (num + 1)}
                 exact={true}
               >
                 {(num + 1)}
