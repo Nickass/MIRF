@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import book from 'system/book';
 
 // custom
+import Home from 'pages/Home';
+import NotFound from 'pages/NotFound';
 import Settings from 'pages/Settings';
 import Words from 'pages/Words';
 import Header from './Header';
@@ -25,9 +27,10 @@ class App extends React.Component<AppProps> {
         <Header className="App__header" />
         <div className="App__center">
           <Switch>
-            {/* <Route path={book.home.root()} component={Root} /> */}
+            <Route path={book.home.root()} component={Home} exact={true} />
             <Route path={book.words.root('')} component={Words} />
             <Route path={book.settings.root()} component={Settings} />
+            <Route component={NotFound} />
           </Switch>
         </div>
         <Footer className="App__footer" />

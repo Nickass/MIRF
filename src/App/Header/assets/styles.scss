@@ -1,5 +1,14 @@
 .Header {
   
+  &__logo {
+    display: block;
+    max-width: 400px;
+    margin: 0 auto 1em;
+    font-size: 48px;
+    color: brown;
+    text-decoration: none;
+  }
+
   &__nav {
 
   }

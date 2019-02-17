@@ -13,10 +13,6 @@ import './assets/styles.scss';
 
 const nav = [
   {
-    to: book.home.root(),
-    name: 'Home',
-  },
-  {
     to: book.words.root(''),
     name: 'Words'
   },
@@ -36,7 +32,9 @@ class Header extends React.Component<HeaderProps> {
 
     return (
       <header className={cn(className, 'Header')}>
-        <h1>Hi! Welcome to english cards!</h1>
+        <Link className="Header__logo" to={book.home.root()}>
+          Hi! Welcome to english cards!
+        </Link>
         <nav className="Header__nav">
           <ul className="Header__nav-list">
             {nav.map(item => (
@@ -45,6 +43,7 @@ class Header extends React.Component<HeaderProps> {
                   className="Header__nav-link"
                   activeClassName="Header__nav-link--active"
                   to={item.to}
+                  exact={true}
                 >
                   {item.name}
                 </Link>
