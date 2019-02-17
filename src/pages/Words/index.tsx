@@ -9,8 +9,8 @@ import * as cn from 'classnames';
 // custom
 import { fetchWords, fetchInfo } from './saga';
 import { selectWords, selectCountWords } from './selectors';
-import { selectWordsPerPage } from 'App/pages/Settings/selectors';
-import Pagination from 'App/widgets/Pagination';
+import { selectWordsPerPage } from 'pages/Settings/selectors';
+import Pagination from 'widgets/Pagination';
 
 // assets
 import './assets/styles.scss';

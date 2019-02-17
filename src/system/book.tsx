@@ -1,6 +1,6 @@
 const book = {
   home: {
-    root: () => '/'
+    root: () => '/home'
   },
   settings: {
     root: () => '/settings',

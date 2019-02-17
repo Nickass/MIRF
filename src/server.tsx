@@ -42,7 +42,6 @@ Server.use(function(req, res) {
 });
 Server.listen(process.env.SERVER_PORT, ()=>console.log('Server is runing!'));
 
-console.log('process.env.PORT', process.env.SERVER_PORT)
 function renderHTML(appContent: any) {
   return `
   <!DOCTYPE html>
