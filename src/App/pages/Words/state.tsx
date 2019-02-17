@@ -1,9 +1,9 @@
-interface translatorState {
+interface wordsState {
   words: Array<{en: string; ru: string;}>;
   countWords: number;
 };
 
-const translatorState: translatorState = {
+const wordsState: wordsState = {
   words: [
     {
       en: 'nothinga',
@@ -13,4 +13,4 @@ const translatorState: translatorState = {
   countWords: 0,
 };
 
-export default translatorState;
+export default wordsState;

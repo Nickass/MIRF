@@ -6,8 +6,8 @@ import appState from 'App/state';
 import appReducer from 'App/reducer';
 import settingsState from 'App/pages/Settings/state';
 import settingsReducer from 'App/pages/Settings/reducer';
-import translatorState from 'App/pages/Translator/state';
-import translatorReducer from 'App/pages/Translator/reducer';
+import wordsState from 'App/pages/Words/state';
+import wordsReducer from 'App/pages/Words/reducer';
 
 
 export type action = { type: string; payload?: any; };
@@ -20,7 +20,7 @@ export const defaultState = {
   router: {},
   app: appState,
   settings: settingsState,
-  translator: translatorState
+  words: wordsState
 };
 
 export default function(initialState = defaultState, url = '/'): [Store, History] {
@@ -33,7 +33,7 @@ export default function(initialState = defaultState, url = '/'): [Store, History
     router: connectRouter(history) as any,
     app: appReducer,
     settings: settingsReducer,
-    translator: translatorReducer
+    words: wordsReducer
   });
   const store = createStore<typeof initialState, action, any, any>(rootReducer, initialState, enhancer);
 
@@ -46,8 +46,8 @@ export default function(initialState = defaultState, url = '/'): [Store, History
       store.replaceReducer(settingsReducer)
     });
 
-    module.hot.accept('App/pages/Translator/reducer', () => {
-      store.replaceReducer(translatorReducer)
+    module.hot.accept('App/pages/Words/reducer', () => {
+      store.replaceReducer(wordsReducer)
     });
   }
 
