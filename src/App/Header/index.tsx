@@ -43,7 +43,6 @@ class Header extends React.Component<HeaderProps> {
                   className="Header__nav-link"
                   activeClassName="Header__nav-link--active"
                   to={item.to}
-                  exact={true}
                 >
                   {item.name}
                 </Link>

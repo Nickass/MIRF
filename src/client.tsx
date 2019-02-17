@@ -22,7 +22,6 @@ const [store, history] = configureStore();
 
 function main(Root = App) {
   const root = document.getElementById('app-root');
-
   render(
     <AppContainer>
       <Provider store={store}>

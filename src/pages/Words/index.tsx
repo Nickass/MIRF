@@ -2,9 +2,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Switch, Route } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
 import * as cn from 'classnames';
+
+// system
+import book from 'system/book';
 
 // custom
 import { fetchWords, fetchInfo } from './saga';
@@ -14,7 +15,6 @@ import Pagination from 'widgets/Pagination';
 
 // assets
 import './assets/styles.scss';
-import book from 'system/book';
 
 interface WordsProps {
   className?: string;

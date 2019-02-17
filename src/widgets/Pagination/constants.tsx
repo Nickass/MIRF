@@ -1,3 +1,0 @@
-export const WORDS_REQUEST = 'WORDS_REQUEST';
-export const WORDS_SUCCESS = 'WORDS_SUCCESS';
-export const WORDS_FAILURE = 'WORDS_FAILURE';
