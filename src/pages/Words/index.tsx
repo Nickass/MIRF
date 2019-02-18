@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import * as cn from 'classnames';
 
 // system
 import book from 'system/book';
@@ -14,7 +13,7 @@ import { selectWordsPerPage } from 'pages/Settings/selectors';
 import Pagination from 'widgets/Pagination';
 
 // assets
-import './assets/styles.scss';
+import { Container, Title, Table, Th, Tr } from './assets/styles';
 
 interface WordsProps {
   className?: string;
@@ -45,30 +44,30 @@ class Words extends React.Component<WordsProps> {
     const { className, words = [], countWords } = this.props;
     
     return (
-      <div className={cn(className, 'Words')}>
-        <h2 className="Words__title">Words player</h2>
-        <table className="Words__table">
+      <Container className={className}>
+        <Title>Words player</Title>
+        <Table>
           <thead>
-            <tr>
-              <th>EN</th>
-              <th>RU</th>
-              <th>Know</th>
-            </tr>
+            <Tr>
+              <Th>EN</Th>
+              <Th>RU</Th>
+              <Th>Know</Th>
+            </Tr>
           </thead>
           <tbody>
             {words.map(({en, ru}, i) => (
-              <tr key={en + ru + i}>
+              <Tr key={en + ru + i}>
                 <td>{en}</td>
                 <td>{ru}</td>
                 <td>
                   <input type="checkbox"/>
                 </td>
-              </tr>
+              </Tr>
             ))}
           </tbody>
-        </table>
-        <Pagination className="Words__pagination" count={countWords} path={book.words.root('')} />
-      </div>
+        </Table>
+        <Pagination count={countWords} path={book.words.root('')} />
+      </Container>
     )
   }
 }

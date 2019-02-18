@@ -5,6 +5,7 @@ import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import { StaticRouter } from 'react-router';
 import { Provider } from 'react-redux';
+import { ServerStyleSheet } from 'styled-components'
 import client from 'client'; // will changed to require('./static/client.js') in prod
 
 let clientName: string, assetUrl: string;
@@ -30,7 +31,7 @@ Server.post(`/UPDATE_STORE`, bodyParser.json(), (req, res) => {
 });
 Server.use(function(req, res) {
   let context = {};
-
+  
   let serverProvider = (
     <Provider store={store}>
       <StaticRouter location={req.url} context={context}>
@@ -38,11 +39,19 @@ Server.use(function(req, res) {
       </StaticRouter>
     </Provider>);
 
-  return res.end(renderHTML(ReactDom.renderToString(serverProvider)));
+try {
+  const sheet = new ServerStyleSheet();
+  const css = sheet.getStyleTags();
+  const html = ReactDom.renderToString(serverProvider);
+  return res.end(renderHTML(html, css));
+} catch(e) {
+  return res.end(renderHTML('Something went wrong on server!<br />' + e.message));
+}
+
 });
 Server.listen(process.env.SERVER_PORT, ()=>console.log('Server is runing!'));
 
-function renderHTML(appContent: any) {
+function renderHTML(appContent: any, css = '') {
   return `
   <!DOCTYPE html>
   <html lang="en"> 
@@ -50,6 +59,7 @@ function renderHTML(appContent: any) {
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width">
       <title>WHEN I DO LEARN REACT I CRAZZY</title>
+      ${css}
       <script>window.REDUX_STATE = ${JSON.stringify(store.getState())}</script>
     </head>
     <body>

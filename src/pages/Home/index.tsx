@@ -6,28 +6,19 @@ import * as React from 'react';
 // assets
 import './assets/styles.scss';
 
-interface AppProps {
-
+interface HomeProps {
+  className?: string;
 };
 
-class App extends React.Component<AppProps> {
+class Home extends React.Component<HomeProps> {
   render () {
+    const { className } = this.props;
     return (
-      <div className="App">
-        <header className="App__header">
-          <h1>Welcom to light video player</h1>
-        </header>
-        <div className="App__center">
-          <video className="Video">
-            <source src="" />
-          </video>
-        </div>
-        <footer className="App__footer">
-          <p>Created by Nikolay Nazarishin. 2019</p>
-        </footer>
+      <div className={className}>
+        Hi and welocome to home!
       </div>
     )
   }
 }
 
-export default App;
+export default Home;

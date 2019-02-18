@@ -7,13 +7,16 @@ import * as React from 'react';
 import './assets/styles.scss';
 
 interface SettingsProps {
-
+  className?: string;
 };
 
 class Settings extends React.Component<SettingsProps> {
   render () {
+    const { className } = this.props;
+
     return (
-      <div className="Settings">
+      <div className={className}>
+        You are at settings page
       </div>
     )
   }

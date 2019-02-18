@@ -1,9 +1,12 @@
 // modules
 import * as React from 'react';
-import * as cn from 'classnames';
 
 // assets
-import './assets/styles.scss';
+import {
+  Error,
+  ErrorTitle,
+  ErrorDesc
+} from './assets/styles';
 
 export type HasErrorProps = {
   className?: string;
@@ -46,10 +49,10 @@ class HasError extends React.Component<HasErrorProps, State> {
     const { hasError } = this.state;
     
     return hasError ? (
-      <div className={cn(className, 'HasError')}>
-        <h1 className="HasError__title">Something bad happens</h1>
-        <p className="HasError__desc">{this.error && this.error.message}</p>
-        <p className="HasError__trace">
+      <Error className={className}>
+        <ErrorTitle>Something bad happens</ErrorTitle>
+        <ErrorDesc>{this.error && this.error.message}</ErrorDesc>
+        <ErrorDesc>
           {this.info && this.info.componentStack
             .split('\n')
             .filter(trace => !!trace)
@@ -59,8 +62,8 @@ class HasError extends React.Component<HasErrorProps, State> {
                 <br />
               </span>
             ))}
-        </p>
-      </div>
+        </ErrorDesc>
+      </Error>
     ) : children;
   }
 }
