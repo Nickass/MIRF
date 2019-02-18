@@ -2,9 +2,14 @@ const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
 const nodeExternals = require('webpack-node-externals');
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
+
+const styledComponentsTransformer = createStyledComponentsTransformer({
+  getDisplayName: (filename, bindingName) => {console.log(filename, bindingName); return getFilename(filename) + "_" + bindingName}
+});
 
 module.exports = {
   target: 'node',
@@ -34,6 +39,9 @@ module.exports = {
         test: /\.tsx?$/,
         loader: 'ts-loader',
         exclude: /node_modules/,
+        options: {
+          getCustomTransformers: () => ({ before: [styledComponentsTransformer] }), // TODO: force it working
+        }
       },
       {
         test: /\.(sa|sc|c)ss$/,
