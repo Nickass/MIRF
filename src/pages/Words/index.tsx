@@ -2,6 +2,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { History } from 'history';
+import { match } from 'react-router';
 
 // system
 import book from 'system/book';
@@ -21,15 +23,23 @@ interface WordsProps {
   wordsPerPage: number;
   countWords: number;
   dispatch: any;
-  match: any;
+  match: match<{id: string;}>;
+  history: History;
+  location: Location;
 };
 
 class Words extends React.Component<WordsProps> {
   componentDidMount() {
-    const { dispatch, wordsPerPage, match: { params: { id } } } = this.props;
+    const { dispatch, wordsPerPage, history, location, match: { params: { id } } } = this.props;
     
-    fetchWords(dispatch, wordsPerPage, id * wordsPerPage);
+    if (!id) {
+      history.push(location.pathname + 1);
+      
+      return;
+    }
+    
     fetchInfo(dispatch);
+    fetchWords(dispatch, wordsPerPage, parseInt(id) * wordsPerPage);
   }
   
   componentDidUpdate(prevProps: any) {
@@ -41,9 +51,9 @@ class Words extends React.Component<WordsProps> {
   }
 
   render () {
-    const { className, words = [], countWords } = this.props;
+    const { className, words = [], wordsPerPage, countWords, match: { params: { id } } } = this.props;
     
-    return (
+    return words.length ? (
       <Container className={className}>
         <Title>Words player</Title>
         <Table>
@@ -66,8 +76,10 @@ class Words extends React.Component<WordsProps> {
             ))}
           </tbody>
         </Table>
-        <Pagination count={countWords} path={book.words.root('')} />
+        <Pagination count={Math.ceil(countWords / wordsPerPage)} getTo={book.words.root} current={parseInt(id)}/>
       </Container>
+    ) : (
+      <div>Loading...</div>
     )
   }
 }

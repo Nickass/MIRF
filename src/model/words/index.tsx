@@ -1,21 +1,30 @@
 import { defaultMemoize } from 'reselect';
+let cache: string[];
 
 export const getTranslates = async (limit = 15, offset = 0) => {
-  const res = await fetch('/en.txt');
-  const text = await res.text();
-  const words = text.split('\n').map(pair => pair.split(' ')[0]);
-  const partOfWords = words.slice(offset,  offset + limit);
+  if (!cache) {
+    const res = await fetch('http://localhost:3000/static/en.txt');
+    const text = await res.text();
+    const words = text.split('\n').map(pair => pair.split(' ')[0]);
+    cache = words;
+  }
+  
+  const partOfWords = cache.slice(offset,  offset + limit);
   const translates = partOfWords.map(word => ({en: word, ru: ''}));
-
+  
   return translates;
 }
 
 export const getInfo = async () => {
-  const res = await fetch('/en.txt');
-  const text = await res.text();
-  const words = text.split('\n').map(pair => pair.split(' ')[0]);
+  if(!cache) {
+    const res = await fetch('../static/en.txt');
+    const text = await res.text();
+    const words = text.split('\n').map(pair => pair.split(' ')[0]);
+
+    cache = words;
+  }
   
   return {
-    countWords: words.length
+    countWords: cache.length
   };
 }

@@ -35,7 +35,7 @@ class App extends React.Component<AppProps, State> {
         <ErrorBoundary>
           <Switch>
             <Route path={book.home.root()} component={center(Home)} exact={true} />
-            <Route path={book.words.root('')} component={center(Words)} />
+            <Route path={book.words.root()} component={center(Words)} />
             <Route path={book.settings.root()} component={center(Settings)} />
             <Route component={NotFound} />
           </Switch>

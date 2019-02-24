@@ -4,12 +4,7 @@ interface wordsState {
 };
 
 const wordsState: wordsState = {
-  words: [
-    {
-      en: 'nothinga',
-      ru: 'ничего'
-    }
-  ],
+  words: [],
   countWords: 0,
 };
 
