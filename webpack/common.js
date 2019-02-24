@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const env = require('./env');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -10,7 +11,7 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(), 
     new webpack.DefinePlugin({ 
       'process.env': { 
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         HMR_SERVER_PORT: JSON.stringify(process.env.HMR_SERVER_PORT),
         HMR_SERVER_HOST: JSON.stringify(process.env.HMR_SERVER_HOST),
         SERVER_PORT: JSON.stringify(process.env.SERVER_PORT),
@@ -28,5 +29,14 @@ module.exports = {
       path.resolve(process.cwd(), 'src')
     ]
   },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ]
+  }
 };
   

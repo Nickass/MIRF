@@ -1,30 +1,40 @@
 import { defaultMemoize } from 'reselect';
+import request from 'system/request';
+
 let cache: string[];
 
 export const getTranslates = async (limit = 15, offset = 0) => {
-  if (!cache) {
-    const res = await fetch('http://localhost:3000/static/en.txt');
-    const text = await res.text();
-    const words = text.split('\n').map(pair => pair.split(' ')[0]);
-    cache = words;
+  try {
+    if (!cache) {
+      const res = await request(`/public/en.txt`);
+      const text = await res.text();
+      const words = text.split('\n').map(pair => pair.split(' ')[0]);
+      cache = words;
+    }
+    
+    const partOfWords = cache.slice(offset,  offset + limit);
+    const translates = partOfWords.map(word => ({en: word, ru: ''}));
+    
+    return translates;
+  } catch (e) {
+    console.error(e);
+    return [];
   }
-  
-  const partOfWords = cache.slice(offset,  offset + limit);
-  const translates = partOfWords.map(word => ({en: word, ru: ''}));
-  
-  return translates;
 }
 
 export const getInfo = async () => {
-  if(!cache) {
-    const res = await fetch('../static/en.txt');
-    const text = await res.text();
-    const words = text.split('\n').map(pair => pair.split(' ')[0]);
-
-    cache = words;
-  }
+  try {
+    if(!cache) {
+      const res = await request(`/public/en.txt`);
+      const text = await res.text();
+      const words = text.split('\n').map(pair => pair.split(' ')[0]);
   
-  return {
-    countWords: cache.length
-  };
+      cache = words;
+    }
+
+    return { countWords: cache.length };
+  } catch (e) {
+    console.error(e);
+    return { countWords: 0 }
+  }
 }

@@ -6,14 +6,16 @@ import * as bodyParser from 'body-parser';
 import { StaticRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { ServerStyleSheet } from 'styled-components'
-import client from 'client'; // will changed to require('./static/client.js') in prod
+import client from 'client'; // will changed to require('./public/client.js') in prod
 
-let clientName: string, assetUrl: string;
+let clientName: string, assetUrl: string, staticPath: string;
 
 if(process.env.NODE_ENV === 'development') {
+  staticPath = path.join(__dirname, `../public/`);
   assetUrl = `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/`;
   clientName = `client.js`;
 } else { // if prod will be require from client bundle
+  staticPath = path.join(__dirname, `./public/`);
   assetUrl = '/';
   clientName = `client-${__webpack_hash__}.js`;
 } 
@@ -23,8 +25,8 @@ const ReactApp = client.App;
 let [store] = client.configureStore();
 
 
-Server.use(`/static`, express.static(path.join(__dirname, `/static/`)));
-Server.use(`/static/${clientName}`, express.static(path.join(__dirname, `/static/client.js`)));
+Server.use(`/public`, express.static(staticPath));
+Server.use(`/public/${clientName}`, express.static(path.join(__dirname, `/public/client.js`)));
 Server.post(`/UPDATE_STORE`, bodyParser.json(), (req, res) => {
   [store] = client.configureStore(req.body.REDUX_STATE); // ADD CHECK 
   res.redirect(302, 'back');
@@ -64,7 +66,7 @@ function renderHTML(appContent: any, css = '') {
     </head>
     <body>
       <div id="app-root">${appContent}</div>
-      <script type="application/javascript" src="${assetUrl}static/${clientName}"></script>
+      <script type="application/javascript" src="${assetUrl}public/${clientName}"></script>
     </body>
   </html>
   `;

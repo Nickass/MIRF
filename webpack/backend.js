@@ -12,11 +12,9 @@ module.exports = {
     __dirname: false,
     __filename: false,
   },
-  entry: [
-    'server.tsx',
-  ],
+  entry: 'server.tsx',
   output: {
-    path: path.join(process.cwd(), isProduction ? 'build' : 'dev'),
+    path: path.join(process.cwd(), 'build'),
     filename: 'server.js',
   },  
   externals: nodeExternals({
@@ -30,11 +28,6 @@ module.exports = {
   ],
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        exclude: /node_modules/,
-      },
       {
         test: /\.(sa|sc|c)ss$/,
         use: 'ignore-loader',

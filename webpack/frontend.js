@@ -19,13 +19,11 @@ if (isDevelopment) {
   entry.unshift(...hmrEntry);
 }
 
-
-
 module.exports = {
   entry,
   output: {
-    path: path.join(process.cwd(), isProduction ? 'build/static/' : 'dev/static/'),
-    publicPath: isProduction ? '/static' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/static`,
+    path: path.join(process.cwd(), 'build/public/'),
+    publicPath: isProduction ? '/public' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public`,
     filename: 'client.js'
   },
   devServer: {
@@ -33,17 +31,12 @@ module.exports = {
     contentBase: path.resolve(process.cwd(), 'public'),
   },
   plugins: [
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new SpriteLoaderPlugin(),
-    new webpack.NamedModulesPlugin(),
   ],
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        exclude: /node_modules/,
-      },
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
