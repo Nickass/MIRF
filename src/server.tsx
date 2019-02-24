@@ -7,6 +7,7 @@ import { StaticRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { ServerStyleSheet } from 'styled-components'
 import client from 'client'; // will changed to require('./public/client.js') in prod
+import { getTranslates, getInfo } from 'model/words/back';
 
 let clientName: string, assetUrl: string, staticPath: string;
 
@@ -22,16 +23,41 @@ if(process.env.NODE_ENV === 'development') {
 
 const Server = express();
 const ReactApp = client.App;
-let [store] = client.configureStore();
-
 
 Server.use(`/public`, express.static(staticPath));
 Server.use(`/public/${clientName}`, express.static(path.join(__dirname, `/public/client.js`)));
 Server.post(`/UPDATE_STORE`, bodyParser.json(), (req, res) => {
-  [store] = client.configureStore(req.body.REDUX_STATE); // ADD CHECK 
+  // [store] = client.configureStore(req.body.REDUX_STATE); // ADD CHECK 
   res.redirect(302, 'back');
 });
+
+Server.use(async (req, res, next) => {
+  const [store] = client.configureStore();
+  req._reduxStore = store;
+  next();
+});
+Server.use('/words/:id?', async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!id) {
+    res.redirect('/words/1');
+    next();
+    return;
+  }
+
+  req._reduxStore.dispatch({
+    type: 'WORDS_SUCCESS',
+    payload: await getTranslates(10, id * 10)
+  });
+  req._reduxStore.dispatch({
+    type: 'INFO_WORDS_SUCCESS',
+    payload: await getInfo()
+  });
+
+  next();
+});
 Server.use(function(req, res) {
+  let store = req._reduxStore;
   let context = {};
   
   let serverProvider = (
@@ -41,19 +67,18 @@ Server.use(function(req, res) {
       </StaticRouter>
     </Provider>);
 
-try {
-  const sheet = new ServerStyleSheet();
-  const css = sheet.getStyleTags();
-  const html = ReactDom.renderToString(serverProvider);
-  return res.end(renderHTML(html, css));
-} catch(e) {
-  return res.end(renderHTML('Something went wrong on server!<br />' + e.message));
-}
-
+  try {
+    const sheet = new ServerStyleSheet();
+    const css = sheet.getStyleTags();
+    const html = ReactDom.renderToString(serverProvider);
+    return res.end(renderHTML(html, css, store.getState()));
+  } catch(e) {
+    return res.end(renderHTML('Something went wrong on server!<br />' + e.message));
+  }
 });
 Server.listen(process.env.SERVER_PORT, ()=>console.log('Server is runing!'));
 
-function renderHTML(appContent: any, css = '') {
+function renderHTML(appContent: any, css = '', state = {}) {
   return `
   <!DOCTYPE html>
   <html lang="en"> 
@@ -62,7 +87,7 @@ function renderHTML(appContent: any, css = '') {
       <meta name="viewport" content="width=device-width">
       <title>WHEN I DO LEARN REACT I CRAZZY</title>
       ${css}
-      <script>window.REDUX_STATE = ${JSON.stringify(store.getState())}</script>
+      <script>window.REDUX_STATE = ${JSON.stringify(state)}</script>
     </head>
     <body>
       <div id="app-root">${appContent}</div>

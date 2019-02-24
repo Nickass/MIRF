@@ -8,3 +8,9 @@ declare interface Window {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
   REDUX_STATE: any;
 }
+
+declare namespace Express {
+  export interface Request {
+    _reduxStore?: any;
+  }
+}

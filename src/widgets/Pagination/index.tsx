@@ -26,7 +26,7 @@ type State = {
 class Pagination extends React.Component<PaginationProps, State> {
   container = React.createRef<HTMLUListElement>();
   state = {
-    pages: [],
+    pages: this.getPagesTemplate(),
   };
 
   componentDidMount() {
@@ -97,7 +97,7 @@ class Pagination extends React.Component<PaginationProps, State> {
       
       return Math.floor(width / 50);
     } else {
-      return 0;
+      return 5;
     }
   }
 

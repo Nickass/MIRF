@@ -4,7 +4,6 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Switch, Route } from 'react-router-dom';
 import configureStore, { isServer } from 'store';
 
 // assets
@@ -16,9 +15,6 @@ import App from 'App';
 
 // assets
 import 'assets/atomic';
-
-
-const [store, history] = configureStore();
 
 function main(Root = App) {
   const [store, history] = configureStore(window.REDUX_STATE);
