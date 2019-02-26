@@ -16,8 +16,11 @@ import App from 'App';
 // assets
 import 'assets/atomic';
 
+
+const [, history] = configureStore();
+
 function main(Root = App) {
-  const [store, history] = configureStore(window.REDUX_STATE);
+  const [store] = configureStore(window.REDUX_STATE);
   
   const root = document.getElementById('app-root');
   render(

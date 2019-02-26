@@ -1,6 +1,6 @@
 // modules
 import * as React from 'react';
-import { Switch, Route } from 'react-router';
+import { Switch, Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
 // system
@@ -16,12 +16,14 @@ import ErrorBoundary from 'widgets/ErrorBoundary';
 // assets
 import {
   Container,
+  centerStyle,
   Header,
-  center,
   Footer
 } from './assets/styles';
+import styled from 'styled-components';
 
 type AppProps = {
+  
 };
 type State = {
 
@@ -34,9 +36,10 @@ class App extends React.Component<AppProps, State> {
         <Header />
         <ErrorBoundary>
           <Switch>
-            <Route path={book.home.root()} component={center(Home)} exact={true} />
-            <Route path={book.words.root()} component={center(Words)} />
-            <Route path={book.settings.root()} component={center(Settings)} />
+            <Redirect from={book.words.root('')} to={book.words.root(1)} exact/>
+            <Route path={book.home.root()} component={Home} exact={true} />
+            <Route path={book.words.root()} component={Words} />
+            <Route path={book.settings.root()} component={Settings} />
             <Route component={NotFound} />
           </Switch>
         </ErrorBoundary>

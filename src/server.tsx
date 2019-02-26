@@ -7,7 +7,7 @@ import { StaticRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { ServerStyleSheet } from 'styled-components'
 import client from 'client'; // will changed to require('./public/client.js') in prod
-import { getTranslates, getInfo } from 'model/words/back';
+import Routes, * as routing from 'routing/back';
 
 let clientName: string, assetUrl: string, staticPath: string;
 
@@ -31,32 +31,15 @@ Server.post(`/UPDATE_STORE`, bodyParser.json(), (req, res) => {
   res.redirect(302, 'back');
 });
 
-Server.use(async (req, res, next) => {
+Server.get('*', async (req, res, next) => {
   const [store] = client.configureStore();
   req._reduxStore = store;
   next();
 });
-Server.use('/words/:id?', async (req, res, next) => {
-  const { id } = req.params;
 
-  if (!id) {
-    res.redirect('/words/1');
-    next();
-    return;
-  }
+Routes.forEach(name => Server.use(routing[name]));
 
-  req._reduxStore.dispatch({
-    type: 'WORDS_SUCCESS',
-    payload: await getTranslates(10, id * 10)
-  });
-  req._reduxStore.dispatch({
-    type: 'INFO_WORDS_SUCCESS',
-    payload: await getInfo()
-  });
-
-  next();
-});
-Server.use(function(req, res) {
+Server.get('*', function(req, res) {
   let store = req._reduxStore;
   let context = {};
   
@@ -73,7 +56,7 @@ Server.use(function(req, res) {
     const html = ReactDom.renderToString(serverProvider);
     return res.end(renderHTML(html, css, store.getState()));
   } catch(e) {
-    return res.end(renderHTML('Something went wrong on server!<br />' + e.message));
+    return res.end(renderHTML('Something went wrong on the server!<br />' + e.message));
   }
 });
 Server.listen(process.env.SERVER_PORT, ()=>console.log('Server is runing!'));

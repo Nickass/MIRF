@@ -19,19 +19,13 @@ type PaginationProps = {
 };
 
 type Pages = Array<(number | null)>;
-type State = {
-  pages: Pages;
-};
+type State = {};
 
 class Pagination extends React.Component<PaginationProps, State> {
   container = React.createRef<HTMLUListElement>();
-  state = {
-    pages: this.getPagesTemplate(),
-  };
 
   componentDidMount() {
-    this.calcPages();
-
+    this.forceUpdate();
     window.addEventListener('resize', this.calcPages);
   }
 
@@ -40,7 +34,7 @@ class Pagination extends React.Component<PaginationProps, State> {
   }
 
   calcPages = () => {
-    this.setState({pages: this.getPagesTemplate()});
+    this.forceUpdate();
   }
 
   getPagesTemplate() {
@@ -123,8 +117,8 @@ class Pagination extends React.Component<PaginationProps, State> {
 
   render () {
     const { className, current, count } = this.props;
-    const { pages } = this.state;
-
+    const pages = this.getPagesTemplate();
+    
     // p               |1|, 2, 3                n
     // p, 1, 2, 3, 4, 5, 6, 7, 8, |9|, 10, 11   n
     // p, 1, 2, 3, |4|, 5 ... 7, 8, 9, 10, 12   n

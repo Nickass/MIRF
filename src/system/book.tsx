@@ -8,7 +8,7 @@ const book = {
     auth: () => '/settings/user/auth'
   },
   words: {
-    root: (id: any = ':id?') => '/words/' + id
+    root: (id: any = ':id') => '/words/' + id
   }
 }
 

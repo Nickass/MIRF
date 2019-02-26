@@ -1,4 +1,4 @@
-import sc from 'styled-components';
+import sc, { css } from 'styled-components';
 import header from '../Header';
 import footer from '../Footer';
 import * as React from 'react'
@@ -16,14 +16,11 @@ export const Header = sc(header)`
   background: #eaeaea;
 `;
 
-export const center = (el: any) => (props: any) => {
-  const El = sc(el)`
-    max-width: 900px;
-    margin: auto;
-  `;
-
-  return <El {...props} />;
-};
+export const centerStyle = css`
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+`;
 
 export const Footer = sc(footer)`
   margin-top: auto;

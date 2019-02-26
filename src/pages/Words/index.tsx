@@ -30,21 +30,17 @@ interface WordsProps {
 
 class Words extends React.Component<WordsProps> {
   componentDidMount() {
-    const { dispatch, wordsPerPage, history, location, match: { params: { id } } } = this.props;
-    
-    if (!id) {
-      history.push(location.pathname + 1);
-      
-      return;
+    const { countWords, words, dispatch, wordsPerPage, match: { params: { id } } } = this.props;
+
+    if (!countWords || !words.length ) {
+      fetchInfo(dispatch);
+      fetchWords(dispatch, wordsPerPage, parseInt(id) * wordsPerPage);
     }
-    
-    fetchInfo(dispatch);
-    fetchWords(dispatch, wordsPerPage, parseInt(id) * wordsPerPage);
   }
   
   componentDidUpdate(prevProps: any) {
     const { dispatch, wordsPerPage, match: { params: { id } } } = prevProps;
-
+    
     if (id !== this.props.match.params.id) {
       fetchWords(dispatch, wordsPerPage, id * wordsPerPage);
     }
