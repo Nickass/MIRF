@@ -6,6 +6,11 @@ const autoprefixer = require('autoprefixer');
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
+
+const plugins = [
+  new webpack.NamedModulesPlugin(),
+  new SpriteLoaderPlugin()
+];
 const hmrEntry = [
   `webpack-dev-server/client?http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}`,
   'webpack/hot/only-dev-server',
@@ -17,24 +22,22 @@ const entry = [
 
 if (isDevelopment) {
   entry.unshift(...hmrEntry);
+  plugins.unshift(new webpack.HotModuleReplacementPlugin())
 }
 
 module.exports = {
   entry,
   output: {
     path: path.join(process.cwd(), 'build/public/'),
-    publicPath: isProduction ? '/public' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public`,
+    publicPath: isProduction ? '/public/' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public`,
     filename: 'client.js'
   },
   devServer: {
     historyApiFallback: true,
-    contentBase: path.resolve(process.cwd(), 'public'),
+    contentBase: path.resolve(process.cwd(), '/public/'),
+    hot: isDevelopment
   },
-  plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new SpriteLoaderPlugin(),
-  ],
+  plugins,
   module: {
     rules: [
       {

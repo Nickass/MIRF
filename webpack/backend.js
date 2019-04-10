@@ -14,7 +14,7 @@ module.exports = {
   },
   entry: 'server.tsx',
   output: {
-    path: path.join(process.cwd(), 'build'),
+    path: path.join(process.cwd(), '/build/'),
     filename: 'server.js',
   },  
   externals: nodeExternals({

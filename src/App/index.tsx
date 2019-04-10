@@ -7,16 +7,11 @@ import { connect } from 'react-redux';
 import book from 'system/book';
 
 // custom
-// import Home from 'pages/Home';
-// import NotFound from 'pages/NotFound';
-// import Settings from 'pages/Settings';
-// import Words from 'pages/Words';
-import ErrorBoundary from 'widgets/ErrorBoundary';
-
 const Home = loadable(() => import('pages/Home'));
 const Settings = loadable(() => import('pages/Settings'));
 const Words = loadable(() => import('pages/Words'));
 const NotFound = loadable(() => import('pages/NotFound'));
+import ErrorBoundary from 'widgets/ErrorBoundary';
 
 // assets
 import {

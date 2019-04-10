@@ -9,6 +9,11 @@ import { ServerStyleSheet } from 'styled-components'
 import client from 'client'; // will changed to require('./public/client.js') in prod
 import Routes, * as routing from 'routing/back';
 
+import { ChunkExtractor } from '@loadable/server';
+const statsFile = path.join(__dirname, '../build/loadable-stats.json');
+
+const extractor = new ChunkExtractor({ statsFile })
+
 let clientName: string, assetUrl: string, staticPath: string;
 
 if(process.env.NODE_ENV === 'development') {
@@ -24,6 +29,7 @@ if(process.env.NODE_ENV === 'development') {
 const Server = express();
 const ReactApp = client.App;
 
+Server.use(`/favicon.ico`, express.static(path.join(staticPath, 'favicon.ico')));
 Server.use(`/public`, express.static(staticPath));
 Server.use(`/public/${clientName}`, express.static(path.join(__dirname, `/public/client.js`)));
 Server.post(`/UPDATE_STORE`, bodyParser.json(), (req, res) => {
@@ -40,20 +46,22 @@ Server.get('*', async (req, res, next) => {
 Routes.forEach(name => Server.use(routing[name]));
 
 Server.get('*', function(req, res) {
-  let store = req._reduxStore;
-  let context = {};
-  
-  let serverProvider = (
+  const store = req._reduxStore;
+  const context = {};
+
+  const serverProvider = (
     <Provider store={store}>
       <StaticRouter location={req.url} context={context}>
         <ReactApp />
       </StaticRouter>
-    </Provider>);
-
+    </Provider>
+  );
+  
   try {
+    const jsx = extractor.collectChunks(serverProvider);
     const sheet = new ServerStyleSheet();
     const css = sheet.getStyleTags();
-    const html = ReactDom.renderToString(serverProvider);
+    const html = ReactDom.renderToString(jsx);
     return res.end(renderHTML(html, css, store.getState()));
   } catch(e) {
     return res.end(renderHTML('Something went wrong on the server!<br />' + e.message));
