@@ -22,12 +22,11 @@ export const defaultState = {
   settings: settingsState,
   words: wordsState
 };
+export const history = !isServer ? createBrowserHistory() : createMemoryHistory();
 
-export default function(initialState = defaultState, url = '/'): [Store, History] {
+export default function(initialState = defaultState): Store {
   const composeEnhancers = !isServer && process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
-  const history = !isServer ? createBrowserHistory() : createMemoryHistory({
-    initialEntries: [url]
-  });
+  
   const enhancer = composeEnhancers(applyMiddleware(routerMiddleware(history)));
   const rootReducer = combineReducers<typeof initialState>({
     router: connectRouter(history) as any,
@@ -51,5 +50,5 @@ export default function(initialState = defaultState, url = '/'): [Store, History
     });
   }
 
-  return [store, history];
+  return store;
 }

@@ -13,7 +13,6 @@ const frontend = require('./webpack/frontend.js');
 const backConf = merge({}, common, backend);
 const frontConf = merge({}, common, frontend);
 
-// console.log(frontConf.module.rules); process.exit();
 
 let webpackFunc = (err, stats) => {
   if(err) console.log(err)
@@ -26,9 +25,10 @@ let webpackFunc = (err, stats) => {
 
 if(process.env.NODE_ENV === 'development') {
   nodemon({ script: './build/server.js' });
-  
+
   webpack(backConf, webpackFunc);
   new WebpackDevServer(webpack(frontConf), {
+    port: process.env.HMR_SERVER_PORT, // work for windows
     headers: { 'Access-Control-Allow-Origin': '*' },
     hot: true,
     inline: true,

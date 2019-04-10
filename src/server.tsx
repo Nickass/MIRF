@@ -27,12 +27,12 @@ const ReactApp = client.App;
 Server.use(`/public`, express.static(staticPath));
 Server.use(`/public/${clientName}`, express.static(path.join(__dirname, `/public/client.js`)));
 Server.post(`/UPDATE_STORE`, bodyParser.json(), (req, res) => {
-  // [store] = client.configureStore(req.body.REDUX_STATE); // ADD CHECK 
+  // const store = client.configureStore(req.body.REDUX_STATE); // ADD CHECK 
   res.redirect(302, 'back');
 });
 
 Server.get('*', async (req, res, next) => {
-  const [store] = client.configureStore();
+  const store = client.configureStore();
   req._reduxStore = store;
   next();
 });

@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import configureStore, { isServer } from 'store';
+import configureStore, { history, isServer } from 'store';
 
 // assets
 import 'normalize.css/normalize.css';
@@ -16,11 +16,8 @@ import App from 'App';
 // assets
 import 'assets/atomic';
 
-
-const [, history] = configureStore();
-
 function main(Root = App) {
-  const [store] = configureStore(window.REDUX_STATE);
+  const store = configureStore(window.REDUX_STATE);
   
   const root = document.getElementById('app-root');
   render(
@@ -30,8 +27,8 @@ function main(Root = App) {
           <Root />
         </ConnectedRouter>
       </Provider>
-    </AppContainer>,
-    root
+    </AppContainer>
+    , root
   );
 }
 

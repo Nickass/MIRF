@@ -38,7 +38,7 @@ export default class extends React.Component<HeaderProps> {
     return (
       <Header className={className}>
         <Logo to={book.home.root()}>
-          Hi! Welcome to english cards!
+          Hi! Welcome to english cards!1vv
         </Logo>
         <Nav>
           <NavList>
