@@ -1,17 +1,22 @@
 // modules
 import * as React from 'react';
 import { Switch, Route, Redirect } from 'react-router';
+import loadable from '@loadable/component'
 import { connect } from 'react-redux';
-
 // system
 import book from 'system/book';
 
 // custom
-import Home from 'pages/Home';
-import NotFound from 'pages/NotFound';
-import Settings from 'pages/Settings';
-import Words from 'pages/Words';
+// import Home from 'pages/Home';
+// import NotFound from 'pages/NotFound';
+// import Settings from 'pages/Settings';
+// import Words from 'pages/Words';
 import ErrorBoundary from 'widgets/ErrorBoundary';
+
+const Home = loadable(() => import('pages/Home'));
+const Settings = loadable(() => import('pages/Settings'));
+const Words = loadable(() => import('pages/Words'));
+const NotFound = loadable(() => import('pages/NotFound'));
 
 // assets
 import {
