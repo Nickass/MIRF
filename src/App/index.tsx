@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Switch, Route, Redirect } from 'react-router';
 import loadable from '@loadable/component'
 import { connect } from 'react-redux';
+import { Helmet } from "react-helmet";
 // system
 import book from 'system/book';
 
@@ -33,6 +34,10 @@ class App extends React.Component<AppProps, State> {
   render () {
     return (
       <Container>
+        <Helmet titleTemplate="MySite.com - %s">
+          <html lang="en" />
+          <title>Hello!</title>
+        </Helmet>
         <Header />
         <ErrorBoundary>
           <Switch>

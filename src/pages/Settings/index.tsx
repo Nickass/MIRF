@@ -1,5 +1,6 @@
 // modules
 import * as React from 'react';
+import { Helmet } from "react-helmet";
 
 // custom
 
@@ -16,6 +17,9 @@ class Settings extends React.Component<SettingsProps> {
 
     return (
       <div className={className}>
+        <Helmet>
+          <title>Settings</title>
+        </Helmet>
         You are at settings page
       </div>
     )

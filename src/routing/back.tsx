@@ -32,6 +32,5 @@ export const words = Router()
     next();
   });
 
-const Routes: ['words'] = ['words'];
 
-export default Routes;
+export default [words];

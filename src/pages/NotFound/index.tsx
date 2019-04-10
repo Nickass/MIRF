@@ -1,5 +1,6 @@
 // modules
 import * as React from 'react';
+import { Helmet } from "react-helmet";
 
 // custom
 
@@ -16,6 +17,9 @@ class NotFound extends React.Component<NotFoundProps> {
     const { className } = this.props;
     return (
       <div className={className}>
+        <Helmet>
+          <title>404 - not found</title>
+        </Helmet>
         <strong className="NotFound__code">404</strong>
         <h1 className="NotFound__titl">Sorry page not found</h1>
       </div>

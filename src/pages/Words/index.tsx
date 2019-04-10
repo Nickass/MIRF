@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { History } from 'history';
 import { match } from 'react-router';
+import { Helmet } from "react-helmet";
 
 // system
 import book from 'system/book';
@@ -51,6 +52,9 @@ class Words extends React.Component<WordsProps> {
     
     return words.length ? (
       <Container className={className}>
+        <Helmet>
+          <title>Words</title>
+        </Helmet>
         <Title>Words player</Title>
         <Table>
           <thead>

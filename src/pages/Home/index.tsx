@@ -1,5 +1,6 @@
 // modules
 import * as React from 'react';
+import { Helmet } from "react-helmet";
 
 // custom
 
@@ -15,6 +16,9 @@ class Home extends React.Component<HomeProps> {
     const { className } = this.props;
     return (
       <div className={className}>
+        <Helmet>
+          <title>Home</title>
+        </Helmet>
         Hi and welocome to home!
       </div>
     )

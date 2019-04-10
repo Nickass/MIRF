@@ -5,11 +5,14 @@ import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import { StaticRouter } from 'react-router';
 import { Provider } from 'react-redux';
-import { ServerStyleSheet } from 'styled-components'
-import client from 'client'; // will changed to require('./public/client.js') in prod
-import Routes, * as routing from 'routing/back';
 
 import { ChunkExtractor } from '@loadable/server';
+import { ServerStyleSheet } from 'styled-components'
+import Helmet, { HelmetData } from 'react-helmet';
+
+import client from 'client'; // will changed to require('./public/client.js') in prod
+import Routes from 'routing/back';
+
 const statsFile = path.join(__dirname, '../build/loadable-stats.json');
 
 const extractor = new ChunkExtractor({ statsFile })
@@ -43,7 +46,9 @@ Server.get('*', async (req, res, next) => {
   next();
 });
 
-Routes.forEach(name => Server.use(routing[name]));
+for (let Route of Routes) {
+  Server.use(Route);
+}
 
 Server.get('*', function(req, res) {
   const store = req._reduxStore;
@@ -62,25 +67,30 @@ Server.get('*', function(req, res) {
     const sheet = new ServerStyleSheet();
     const css = sheet.getStyleTags();
     const html = ReactDom.renderToString(jsx);
+
     return res.end(renderHTML(html, css, store.getState()));
   } catch(e) {
     return res.end(renderHTML('Something went wrong on the server!<br />' + e.message));
   }
 });
-Server.listen(process.env.SERVER_PORT, ()=>console.log('Server is runing!'));
+Server.listen(process.env.SERVER_PORT, () => console.log('Server is runing!'));
 
 function renderHTML(appContent: any, css = '', state = {}) {
+  const helmet = Helmet.renderStatic();
+
   return `
   <!DOCTYPE html>
-  <html lang="en"> 
+  <html ${helmet.htmlAttributes.toString()}> 
     <head> 
+      ${helmet.title.toString()}
       <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width">
-      <title>WHEN I DO LEARN REACT I CRAZZY</title>
+      <meta name="viewport" content="width=device-width" />
+      ${helmet.meta.toString()}
+      ${helmet.link.toString()}
       ${css}
       <script>window.REDUX_STATE = ${JSON.stringify(state)}</script>
     </head>
-    <body>
+    <body ${helmet.bodyAttributes.toString()}>
       <div id="app-root">${appContent}</div>
       <script type="application/javascript" src="${assetUrl}public/${clientName}"></script>
     </body>
