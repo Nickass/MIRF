@@ -4,6 +4,9 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
+import { loadableReady } from '@loadable/component'
+
+// system
 import configureStore, { history, isServer } from 'store';
 
 // assets
@@ -38,8 +41,7 @@ if (!isServer) {
       main(require('App').default)
     });
   }
-
-  main(App);
+  loadableReady(() => main(App));
 }
 
-export default { App, configureStore };
+export { App, configureStore };

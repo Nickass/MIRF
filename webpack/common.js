@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -8,7 +7,6 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 module.exports = {
   mode: process.env.NODE_ENV,
   plugins: [
-    new LoadablePlugin(),
     new webpack.NoEmitOnErrorsPlugin(), 
     new webpack.DefinePlugin({ 
       'process.env': { 

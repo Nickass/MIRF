@@ -4,6 +4,8 @@ import { Switch, Route, Redirect } from 'react-router';
 import loadable from '@loadable/component'
 import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
+import styled from 'styled-components';
+
 // system
 import book from 'system/book';
 
@@ -21,7 +23,6 @@ import {
   Header,
   Footer
 } from './assets/styles';
-import styled from 'styled-components';
 
 type AppProps = {
   
@@ -34,7 +35,7 @@ class App extends React.Component<AppProps, State> {
   render () {
     return (
       <Container>
-        <Helmet titleTemplate="MySite.com - %s">
+        <Helmet titleTemplate="English cards | %s">
           <html lang="en" />
           <title>Hello!</title>
         </Helmet>

@@ -4,8 +4,6 @@ import { Helmet } from "react-helmet";
 
 // custom
 
-// assets
-import './assets/styles.scss';
 
 interface NotFoundProps {
   className?: string;

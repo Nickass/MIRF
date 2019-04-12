@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet";
 // custom
 
 // assets
-import './assets/styles.scss';
 
 interface HomeProps {
   className?: string;

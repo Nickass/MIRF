@@ -1,6 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+const LoadablePlugin = require('@loadable/webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -8,8 +10,13 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 
 const plugins = [
+  new LoadablePlugin({ filename: '../client-stats.json', writeToDisk: true }),
   new webpack.NamedModulesPlugin(),
-  new SpriteLoaderPlugin()
+  new SpriteLoaderPlugin(),
+  new MiniCssExtractPlugin({
+    filename: '[name].[contenthash].css',
+    chunkFilename: '[name].[contenthash].css',
+  }),
 ];
 const hmrEntry = [
   `webpack-dev-server/client?http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}`,
@@ -28,9 +35,9 @@ if (isDevelopment) {
 module.exports = {
   entry,
   output: {
-    path: path.join(process.cwd(), 'build/public/'),
-    publicPath: isProduction ? '/public/' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public`,
-    filename: 'client.js'
+    path: path.join(process.cwd(), 'dist/public/'),
+    publicPath: isProduction ? '/' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public`,
+    filename: '[name]-[contenthash].js'
   },
   devServer: {
     historyApiFallback: true,
@@ -43,7 +50,10 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          'style-loader',
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: { hmr: isDevelopment },
+          },
           'css-loader',
           {
             loader: 'postcss-loader',
