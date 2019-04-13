@@ -1,12 +1,13 @@
 // modules
 import * as React from 'react';
 import { Helmet } from "react-helmet";
+import { RouteComponentProps } from 'react-router';
 
 // custom
 
 // assets
 
-interface HomeProps {
+interface HomeProps extends RouteComponentProps {
   className?: string;
 };
 

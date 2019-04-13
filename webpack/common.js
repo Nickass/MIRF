@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -16,10 +18,11 @@ module.exports = {
         SERVER_PORT: JSON.stringify(process.env.SERVER_PORT),
         SERVER_HOST: JSON.stringify(process.env.SERVER_HOST),
       }
-    })
+    }),
+    // new BundleAnalyzerPlugin()
   ],
   context: path.join(process.cwd(), 'src'),
-  devtool: isDevelopment ? 'cheap-module-inline-source-map' : false,
+  devtool: isDevelopment ? 'cheap-module-inline-source-map' : undefined,
   watch: isDevelopment,
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".jsx", ".scss", ".css"],

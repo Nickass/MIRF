@@ -1,28 +1,38 @@
 // modules
 import * as React from 'react';
-import { Switch, Route, Redirect } from 'react-router';
-import loadable from '@loadable/component'
-import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
-import styled from 'styled-components';
-
-// system
-import book from 'system/book';
+import sc, { css } from 'styled-components';
 
 // custom
-const Home = loadable(() => import('pages/Home'));
-const Settings = loadable(() => import('pages/Settings'));
-const Words = loadable(() => import('pages/Words'));
-const NotFound = loadable(() => import('pages/NotFound'));
+import NakedHeader from './Header';
+import NakedFooter from './Footer';
+import NakedPages from 'pages';
 import ErrorBoundary from 'widgets/ErrorBoundary';
 
 // assets
-import {
-  Container,
-  centerStyle,
-  Header,
-  Footer
-} from './assets/styles';
+const Container = sc.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  text-align: center;
+`;
+const Header = sc(NakedHeader)`
+  padding: 50px 0;
+  background: #eaeaea;
+`;
+const Pages = sc(NakedPages)`
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+`;
+const Footer = sc(NakedFooter)`
+  margin-top: auto;
+  padding: 20px 0;
+  background: #3a3a3a;
+  color: #fff;
+`;
 
 type AppProps = {
   
@@ -41,13 +51,7 @@ class App extends React.Component<AppProps, State> {
         </Helmet>
         <Header />
         <ErrorBoundary>
-          <Switch>
-            <Redirect from={book.words.root('')} to={book.words.root(1)} exact/>
-            <Route path={book.home.root()} component={Home} exact={true} />
-            <Route path={book.words.root()} component={Words} />
-            <Route path={book.settings.root()} component={Settings} />
-            <Route component={NotFound} />
-          </Switch>
+          <Pages />
         </ErrorBoundary>
         <Footer />
       </Container>

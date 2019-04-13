@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { History } from 'history';
-import { match } from 'react-router';
+import { match, RouteComponentProps } from 'react-router';
 import { Helmet } from "react-helmet";
 
 // system
@@ -18,20 +18,18 @@ import Pagination from 'widgets/Pagination';
 // assets
 import { Container, Title, Table, Th, Tr } from './assets/styles';
 
-interface WordsProps {
+interface WordsProps extends RouteComponentProps<{id: string;}> {
   className?: string;
   words: Array<{en: string; ru: string}>;
   wordsPerPage: number;
   countWords: number;
   dispatch: any;
-  match: match<{id: string;}>;
-  history: History;
-  location: Location;
 };
 
 class Words extends React.Component<WordsProps> {
   componentDidMount() {
     const { countWords, words, dispatch, wordsPerPage, match: { params: { id } } } = this.props;
+    console.log('mount');
 
     if (!countWords || !words.length ) {
       fetchInfo(dispatch);
@@ -41,7 +39,7 @@ class Words extends React.Component<WordsProps> {
   
   componentDidUpdate(prevProps: any) {
     const { dispatch, wordsPerPage, match: { params: { id } } } = prevProps;
-    
+    console.log('update', id, this.props.match.params.id);
     if (id !== this.props.match.params.id) {
       fetchWords(dispatch, wordsPerPage, id * wordsPerPage);
     }

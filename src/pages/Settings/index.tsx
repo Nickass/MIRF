@@ -1,11 +1,12 @@
 // modules
 import * as React from 'react';
 import { Helmet } from "react-helmet";
+import { RouteComponentProps } from 'react-router';
 
 // custom
 
 
-interface SettingsProps {
+interface SettingsProps extends RouteComponentProps {
   className?: string;
 };
 

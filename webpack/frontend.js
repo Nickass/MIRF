@@ -37,7 +37,7 @@ module.exports = {
   output: {
     path: path.join(process.cwd(), 'dist/public/'),
     publicPath: isProduction ? '/' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public`,
-    filename: '[name]-[contenthash].js'
+    filename: `[name]${isDevelopment ? '' : '-[contenthash]'}.js`
   },
   devServer: {
     historyApiFallback: true,

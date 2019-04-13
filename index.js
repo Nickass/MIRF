@@ -16,10 +16,10 @@ const frontConf = merge({}, common, frontend);
 
 let webpackFunc = (err, stats) => {
   if(err) console.log(err)
-  else console.log(stats.toString({
-    time: true,
-    colors: true
-  }));
+  // else console.log(stats.toString({
+  //   time: true,
+  //   colors: true
+  // }));
 }
 
 
@@ -30,7 +30,7 @@ if(process.env.NODE_ENV === 'development') {
     headers: { 'Access-Control-Allow-Origin': '*' },
     hot: true,
     inline: true,
-    stats: { colors: true },
+    // stats: { colors: true },
     stats: 'errors-only',
     historyApiFallback: true,
     publicPath: `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public`,

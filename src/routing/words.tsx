@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { getTranslates, getInfo } from 'model/words/back';
 import * as bodyParser from 'body-parser';
 
-export const words = Router()
+export default Router()
   .get('/words/', async function(req, res, next) {
     res.redirect('/words/1');
     
@@ -31,6 +31,3 @@ export const words = Router()
     res.json(await getInfo());
     next();
   });
-
-
-export default [words];
