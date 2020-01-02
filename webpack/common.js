@@ -26,6 +26,7 @@ module.exports = {
   watch: isDevelopment,
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".jsx", ".scss", ".css"],
+    alias: { 'react-dom': '@hot-loader/react-dom' },
     modules: [
       'node_modules',
       path.resolve(process.cwd(), 'src')
