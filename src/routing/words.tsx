@@ -13,7 +13,7 @@ export default Router()
 
     req._reduxStore.dispatch({
       type: 'WORDS_SUCCESS',
-      payload: await getTranslates(10, id * 10)
+      payload: await getTranslates(10, parseInt(id) * 10)
     });
     req._reduxStore.dispatch({
       type: 'INFO_WORDS_SUCCESS',
