@@ -1,5 +1,5 @@
 import { defaultMemoize } from 'reselect';
-import request from 'system/request';
+import request from '~/utils/request';
 
 
 export const getTranslates = async (limit = 15, offset = 0) => {

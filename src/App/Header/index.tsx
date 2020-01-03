@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // system
-import book from 'system/book';
+import book from '~/utils/book';
 
 // custom
 

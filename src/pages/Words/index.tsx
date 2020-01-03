@@ -7,13 +7,13 @@ import { match, RouteComponentProps } from 'react-router';
 import { Helmet } from "react-helmet";
 
 // system
-import book from 'system/book';
+import book from '~/utils/book';
 
 // custom
 import { fetchWords, fetchInfo } from './saga';
 import { selectWords, selectCountWords } from './selectors';
-import { selectWordsPerPage } from 'pages/Settings/selectors';
-import Pagination from 'widgets/Pagination';
+import { selectWordsPerPage } from '~/pages/Settings/selectors';
+import Pagination from '~/widgets/Pagination';
 
 // assets
 import { Container, Title, Table, Th, Tr } from './assets/styles';

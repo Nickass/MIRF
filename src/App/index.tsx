@@ -6,8 +6,8 @@ import sc, { css } from 'styled-components';
 // custom
 import NakedHeader from './Header';
 import NakedFooter from './Footer';
-import NakedPages from 'pages';
-import ErrorBoundary from 'widgets/ErrorBoundary';
+import NakedPages from '~/pages';
+import ErrorBoundary from '~/widgets/ErrorBoundary';
 
 // assets
 const Container = sc.div`

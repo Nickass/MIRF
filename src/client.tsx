@@ -7,17 +7,17 @@ import { ConnectedRouter } from 'connected-react-router';
 import { loadableReady } from '@loadable/component'
 
 // system
-import configureStore, { history, isServer } from 'store';
+import configureStore, { history, isServer } from '~/store';
 
 // assets
 import 'normalize.css/normalize.css';
-import 'assets/base';
+import '~/assets/base.scss';
 
 // custom
-import App from 'App';
+import App from '~/App';
 
 // assets
-import 'assets/atomic';
+import '~/assets/atomic.scss';
 
 function main(Root = App) {
   const store = configureStore(window.REDUX_STATE);
@@ -37,8 +37,8 @@ function main(Root = App) {
 
 if (!isServer) {
   if (module.hot) {
-    module.hot.accept('App', () => {
-      main(require('App').default)
+    module.hot.accept('~/App', () => {
+      main(require('~/App').default)
     });
   }
   loadableReady(() => main(App));

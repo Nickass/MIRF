@@ -1,4 +1,4 @@
-import * as backend from 'model/words';
+import * as backend from '~/model/words';
 
 import {
   getWords,

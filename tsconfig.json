@@ -13,8 +13,12 @@
     "strict": true,
     "outDir": "build",
     "lib": ["es2015", "es6", "es7", "dom"],
-    "baseUrl": "src",
-    "forceConsistentCasingInFileNames": true
+    "baseUrl": ".",
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "~/*": ["./src/*"],
+      "~~/*": ["./*"]
+    }
   },
   "exclude": ["dist", "build", "node_modules"]
 }

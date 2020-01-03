@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getTranslates, getInfo } from 'model/words/back';
+import { getTranslates, getInfo } from '~/model/words/back';
 import * as bodyParser from 'body-parser';
 
 export default Router()

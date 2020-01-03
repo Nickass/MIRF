@@ -4,7 +4,7 @@ import { Switch, Route, Redirect, RouteComponentProps } from 'react-router';
 import loadable from '@loadable/component'
 
 // system
-import book from 'system/book';
+import book from '~/utils/book';
 
 // custo
 

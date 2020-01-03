@@ -26,17 +26,20 @@ module.exports = {
   watch: isDevelopment,
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".jsx", ".scss", ".css"],
-    alias: { 'react-dom': '@hot-loader/react-dom' },
-    modules: [
-      'node_modules',
-      path.resolve(process.cwd(), 'src')
-    ]
+    alias: {
+      '~': path.resolve(__dirname, '../src/'),
+      '~~': path.resolve(__dirname, '../'),
+      'react-dom': '@hot-loader/react-dom'
+    }
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
+        resolve: {
+          extensions: [".tsx", ".ts", ".js", ".jsx"]
+        },
         use: [
           {
             loader: 'babel-loader',

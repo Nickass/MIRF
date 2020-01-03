@@ -24,7 +24,7 @@ const hmrEntry = [
   'react-hot-loader/patch',
 ];
 const entry = [
-  'client.tsx',
+  '~/client.tsx',
 ];
 
 if (isDevelopment) {

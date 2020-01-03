@@ -12,9 +12,9 @@ module.exports = {
     __dirname: false,
     __filename: false,
   },
-  entry: 'server.tsx',
+  entry: '~/server.tsx',
   output: {
-    path: path.join(process.cwd(), '/dist/'),
+    path: path.join(__dirname, '../dist/'),
     filename: '[name].js',
   },  
   externals: nodeExternals({

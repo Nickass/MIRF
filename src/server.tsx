@@ -9,8 +9,8 @@ import { ChunkExtractor } from '@loadable/server';
 import { ServerStyleSheet } from 'styled-components'
 import Helmet from 'react-helmet';
 
-import Routes from 'routing';
-import { App as ReactApp, configureStore } from 'client'; // It must be optimized, when will be implemented "mode: universal" in webpack.
+import Routes from '~/server/routing';
+import { App as ReactApp, configureStore } from '~/client'; // It must be optimized, when will be implemented "mode: universal" in webpack.
 
 
 const Server = express();

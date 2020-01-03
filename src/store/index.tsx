@@ -2,12 +2,12 @@ import { combineReducers, createStore, applyMiddleware, compose, Reducer, Store 
 import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { connectRouter, routerMiddleware, RouterState } from 'connected-react-router';
 
-import appState from 'App/state';
-import appReducer from 'App/reducer';
-import settingsState from 'pages/Settings/state';
-import settingsReducer from 'pages/Settings/reducer';
-import wordsState from 'pages/Words/state';
-import wordsReducer from 'pages/Words/reducer';
+import appState from '~/App/state';
+import appReducer from '~/App/reducer';
+import settingsState from '~/pages/Settings/state';
+import settingsReducer from '~/pages/Settings/reducer';
+import wordsState from '~/pages/Words/state';
+import wordsReducer from '~/pages/Words/reducer';
 
 export type action = { type: string; payload?: any; };
 export const isServer = !(
@@ -42,15 +42,15 @@ export default function(initialState = defaultState): Store {
   const store = createStore<defaultState, action, any, any>(rootReducer, initialState as defaultState, enhancer);
 
   if (module.hot) {
-    module.hot.accept('App/reducer', () => {
+    module.hot.accept('~/App/reducer', () => {
       store.replaceReducer(appReducer)
     });
 
-    module.hot.accept('pages/Settings/reducer', () => {
+    module.hot.accept('~/pages/Settings/reducer', () => {
       store.replaceReducer(settingsReducer)
     });
 
-    module.hot.accept('pages/Words/reducer', () => {
+    module.hot.accept('~/pages/Words/reducer', () => {
       store.replaceReducer(wordsReducer)
     });
   }

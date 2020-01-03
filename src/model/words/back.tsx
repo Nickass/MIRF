@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 export const getTranslates = async (limit = 15, offset = 0) => {
   try {
     const res = await fs.readFile(`./public/en.txt`);
-    const text = await res.toString();
+    const text = res.toString();
     const words = text.split('\n').map(pair => pair.split(' ')[0]);
     
     const partOfWords = words.slice(offset,  offset + limit);
@@ -19,7 +19,7 @@ export const getTranslates = async (limit = 15, offset = 0) => {
 export const getInfo = async () => {
   try {
     const res = await fs.readFile(`./public/en.txt`);
-    const text = await res.toString();
+    const text = res.toString();
     const words = text.split('\n').map(pair => pair.split(' ')[0]);
 
     return { countWords: words.length };
