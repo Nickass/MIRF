@@ -7,7 +7,7 @@ import { match, RouteComponentProps } from 'react-router';
 import { Helmet } from "react-helmet";
 
 // system
-import book from '~/utils/book';
+import { getPathByRouteID } from '~/utils/routes';
 
 // custom
 import { fetchWords, fetchInfo } from './saga';
@@ -27,6 +27,8 @@ interface WordsProps extends RouteComponentProps<{id: string;}> {
 };
 
 class Words extends React.Component<WordsProps> {
+  getTo = (id: number) => getPathByRouteID('words', { id });
+
   componentDidMount() {
     const { countWords, words, dispatch, wordsPerPage, match: { params: { id } } } = this.props;
     console.log('mount');
@@ -74,7 +76,7 @@ class Words extends React.Component<WordsProps> {
             ))}
           </tbody>
         </Table>
-        <Pagination count={Math.ceil(countWords / wordsPerPage)} getTo={book.words.root} current={parseInt(id)}/>
+        <Pagination count={Math.ceil(countWords / wordsPerPage)} getTo={this.getTo} current={parseInt(id)}/>
       </Container>
     ) : (
       <div>Loading...</div>

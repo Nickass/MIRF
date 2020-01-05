@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // system
-import book from '~/utils/book';
+import { getPathByRouteID } from '~/utils/routes';
 
 // custom
 
@@ -16,15 +16,16 @@ import {
   NavLink
 } from './assets/styles';
 
+const homeTo = getPathByRouteID('home');
 const nav = [
   {
-    to: book.words.root(''),
-    name: 'Words'
+    path: getPathByRouteID('words', { id: '1' }),
+    name: 'Words',
   },
   {
-    to: book.settings.root(),
-    name: 'Settings'
-  }
+    path: getPathByRouteID('settings'),
+    name: 'Settings',
+  },
 ]
 
 interface HeaderProps {
@@ -37,14 +38,14 @@ export default class extends React.Component<HeaderProps> {
 
     return (
       <Header className={className}>
-        <Logo to={book.home.root()}>
+        <Logo to={homeTo}>
           Hi! Welcome to english cards!
         </Logo>
         <Nav>
           <NavList>
             {nav.map(item => (
               <NavItem key={item.name}>
-                <NavLink to={item.to} >
+                <NavLink to={item.path} >
                   {item.name}
                 </NavLink>
               </NavItem>

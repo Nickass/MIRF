@@ -1,18 +1,20 @@
 // modules
 import * as React from 'react';
 import { Switch, Route, Redirect, RouteComponentProps } from 'react-router';
-import loadable from '@loadable/component'
+import loadable, { LoadableComponent } from '@loadable/component'
 
 // system
-import book from '~/utils/book';
+import { routes } from '~/utils/routes';
 
 // custo
 
 const fallback = <div>Load chunk</div>;
-const Home = loadable(() => import('./Home'), { fallback });
-const Settings = loadable(() => import('./Settings'), { fallback });
-const Words = loadable(() => import('./Words'), { fallback });
-const NotFound = loadable(() => import('./NotFound'), { fallback });
+const components: {[propName: string]: LoadableComponent<any> } = {
+  Home: loadable(() => import('./Home'), { fallback }),
+  Settings: loadable(() => import('./Settings'), { fallback }),
+  Words: loadable(() => import('./Words'), { fallback }),
+  NotFound: loadable(() => import('./NotFound'), { fallback }),
+}
 
 type PagesProps = {
   className?: string;
@@ -21,15 +23,25 @@ type State = {
 
 };
 
+const getAllRoutes = (routes: routes, path = '/', rootProps = {}) => routes.map(config => {
+  const Page = components[config.component];
+  const fullPath = `/${path}/${config.path}`.replace(/\/*/, '/');
+
+  return (
+    <Route exact strict key={config.id} path={fullPath} render={props => (
+      <Page {...rootProps} {...config.props} {...props}>
+        {!!config.children && getAllRoutes(config.children, fullPath, config.props) }
+      </Page>
+    )} />
+  )
+});
+
 class Pages extends React.Component<PagesProps, State> {
   render () {
     return (
       <Switch>
-        <Redirect from={book.words.root('')} to={book.words.root(1)} exact/>
-        <Route path={book.home.root()} exact={true} render={(props) => <Home {...this.props} {...props} />} />
-        <Route path={book.words.root()} render={(props) => <Words {...this.props} {...props} />} />
-        <Route path={book.settings.root()} render={(props) => <Settings {...this.props} {...props} />} />
-        <Route render={(props) => <NotFound {...this.props} {...props} />} />
+        {getAllRoutes(routes, "/", this.props)}
+        <Route render={(props) => <components.NotFound {...this.props} {...props} />} />
       </Switch>
     )
   }
