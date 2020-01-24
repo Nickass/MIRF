@@ -112,6 +112,13 @@ module.exports = {
         exclude: /[\\\/]ic-.*\.(png|svg|gif|jpe?g)$/i,
         use: [
           {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: '[name].[hash:8].[ext]',
+            },
+          },
+          {
             loader: 'file-loader',
             options: {
               name: '[path][name].[ext]'
