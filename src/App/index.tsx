@@ -6,7 +6,7 @@ import sc, { css } from 'styled-components';
 // custom
 import NakedHeader from './Header';
 import NakedFooter from './Footer';
-import NakedPages from '~/pages';
+import NakedPages from '~/App/router';
 import ErrorBoundary from '~/widgets/ErrorBoundary';
 
 // assets

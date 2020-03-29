@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // system
-import { getPathByRouteID } from '~/utils/routes';
+import { getPathByRouteID } from '~/pages/routes';
 
 // custom
 

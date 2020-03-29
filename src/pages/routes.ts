@@ -3,11 +3,14 @@ import { compile } from 'path-to-regexp';
 export interface route {
   id: string;
   path: string;
+  component?: string;
+  redirected?: string | string[];
+  middleware?: string;
+  children?: route[];
+  method?: 'get' | 'post';
   props?: {
     [propName: string]: any;
-  }
-  component: string;
-  children?: Array<route>;
+  };
 }
 export interface routes extends Array<route> {};
 export const routes: routes = [
@@ -19,28 +22,15 @@ export const routes: routes = [
   {
     id: 'settings',
     path: '/settings',
-    component: 'Settings',
-    children: [
-      {
-        id: 'settings_user',
-        path: '/user',
-        component: 'Settings/User',
-        children: [
-          {
-            id: 'settings_user_auth',
-            path: '/auth',
-            component: 'Settings/User/Auth',
-          }
-        ]
-      },
-    ]
+    component: 'Settings'
   },
   {
     id: 'words',
-    path: '/words/:id',
+    path: '/words',
     component: 'Words',
   }
 ];
+export default routes;
 
 export const getRouteByID = (ID: string, setOfRoutes = routes): route | null => {
   for (let route of setOfRoutes) {
@@ -50,10 +40,13 @@ export const getRouteByID = (ID: string, setOfRoutes = routes): route | null => 
       const innerRoute = getRouteByID(ID, route.children);
 
       if (innerRoute) {
-        return innerRoute;
+        return {
+          ...innerRoute,
+          path: `/${route.path}/${innerRoute}`.replace(/\/+/g, '/'),
+        };
       }
     }
-  }0
+  }
 
   return null;
 };

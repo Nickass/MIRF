@@ -7,7 +7,7 @@ import { match, RouteComponentProps } from 'react-router';
 import { Helmet } from "react-helmet";
 
 // system
-import { getPathByRouteID } from '~/utils/routes';
+import { getPathByRouteID } from '~/pages/routes';
 
 // custom
 import { fetchWords, fetchInfo } from './saga';
@@ -30,8 +30,7 @@ class Words extends React.Component<WordsProps> {
   getTo = (id: number) => getPathByRouteID('words', { id });
 
   componentDidMount() {
-    const { countWords, words, dispatch, wordsPerPage, match: { params: { id } } } = this.props;
-    console.log('mount');
+    const { countWords, words, dispatch, wordsPerPage, match: { params: { id = '1' } } } = this.props;
 
     if (!countWords || !words.length ) {
       fetchInfo(dispatch);
