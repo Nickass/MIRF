@@ -3,7 +3,7 @@ import { Reducer } from 'redux';
 
 // custom
 import initalState from './state';
-import { action } from '~/store';
+import { action } from '~/system/store';
 import {
   WORDS_REQUEST,
   WORDS_SUCCESS,

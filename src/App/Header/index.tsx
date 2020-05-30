@@ -2,7 +2,6 @@
 import * as React from 'react';
 
 // system
-import { getPathByRouteID } from '~/pages/routes';
 
 // custom
 
@@ -16,14 +15,13 @@ import {
   NavLink
 } from './assets/styles';
 
-const homeTo = getPathByRouteID('home');
 const nav = [
   {
-    path: getPathByRouteID('words', { id: '1' }),
+    path: '/words',
     name: 'Words',
   },
   {
-    path: getPathByRouteID('settings'),
+    path: '/settings',
     name: 'Settings',
   },
 ]
@@ -38,7 +36,7 @@ export default class extends React.Component<HeaderProps> {
 
     return (
       <Header className={className}>
-        <Logo to={homeTo}>
+        <Logo to={'/'}>
           Hi! Welcome to english cards!
         </Logo>
         <Nav>

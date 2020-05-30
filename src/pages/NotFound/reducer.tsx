@@ -3,7 +3,7 @@ import { Reducer } from 'redux';
 
 // custom
 import initalState from './state';
-import { action } from '~/store';
+import { action } from '~/system/store';
 import { SETTINGS_REQUEST, SETTINGS_UPDATE, SETTINGS_SUCCESS, SETTINGS_FAILURE } from './constants';
 
 type reducer = Reducer<initalState, action>;

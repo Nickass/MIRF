@@ -8,6 +8,7 @@ import settingsState from '~/pages/Settings/state';
 import settingsReducer from '~/pages/Settings/reducer';
 import wordsState from '~/pages/Words/state';
 import wordsReducer from '~/pages/Words/reducer';
+import { reducer as asyncComponentReducer, state as asyncComponentState } from '~/system/AsyncComponent/store';
 
 export type action = { type: string; payload?: any; };
 export const isServer = !(
@@ -17,11 +18,13 @@ export const isServer = !(
 );
 export interface defaultState {
   router: RouterState; // Do not use router in initial state
+  asyncComponent: asyncComponentState,
   app: appState;
   settings: settingsState;
   words: wordsState;
 }
 export const defaultState = {
+  asyncComponent: asyncComponentState,
   app: appState,
   settings: settingsState,
   words: wordsState
@@ -35,6 +38,7 @@ export default function(initialState = defaultState): Store {
 
   const rootReducer = combineReducers<defaultState>({
     router: routerReducer,
+    asyncComponent: asyncComponentReducer,
     app: appReducer,
     settings: settingsReducer,
     words: wordsReducer

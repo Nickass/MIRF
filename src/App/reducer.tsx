@@ -2,7 +2,7 @@
 import { Reducer } from 'redux';
 
 // custom
-import { action } from '~/store';
+import { action } from '~/system/store';
 import initalState from './state';
 import { APP_INITED } from './constants';
 

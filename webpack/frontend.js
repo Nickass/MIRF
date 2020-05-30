@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 
@@ -10,7 +9,6 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 
 const plugins = [
-  new LoadablePlugin({ filename: '../client-stats.json', writeToDisk: true }),
   new webpack.NamedModulesPlugin(),
   new SpriteLoaderPlugin(),
   new MiniCssExtractPlugin({
@@ -36,7 +34,7 @@ module.exports = {
   entry,
   output: {
     path: path.join(process.cwd(), 'dist/public/'),
-    publicPath: isProduction ? '/' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public`,
+    publicPath: isProduction ? '/' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public/`,
     filename: `[name]${isDevelopment ? '' : '-[contenthash]'}.js`
   },
   devServer: {
@@ -52,7 +50,7 @@ module.exports = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: { hmr: isDevelopment },
+            options: { hmr: isDevelopment }
           },
           'css-loader',
           {

@@ -3,11 +3,13 @@ import * as React from 'react';
 import { Helmet } from "react-helmet";
 import sc, { css } from 'styled-components';
 
+// system
+import NakedPages from '~/system/router';
+import ErrorBoundary from '~/system/ErrorBoundary';
+
 // custom
 import NakedHeader from './Header';
 import NakedFooter from './Footer';
-import NakedPages from '~/App/router';
-import ErrorBoundary from '~/widgets/ErrorBoundary';
 
 // assets
 const Container = sc.div`

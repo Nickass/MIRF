@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -41,12 +40,6 @@ module.exports = {
           extensions: [".tsx", ".ts", ".js", ".jsx"]
         },
         use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: ['@loadable/babel-plugin']
-            }
-          },
           'ts-loader'
         ],
       },

@@ -1,0 +1,22 @@
+{
+  "routes": [
+    {
+      "id": "home",
+      "path": "/",
+      "component": "Home",
+      "props": {} 
+    },
+    {
+      "id": "settings",
+      "path": "/settings",
+      "component": "Settings",
+      "props": {}
+    },
+    {
+      "id": "words",
+      "path": "/words",
+      "component": "Words",
+      "props": {}
+    }
+  ]
+}

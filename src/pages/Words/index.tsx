@@ -7,7 +7,6 @@ import { match, RouteComponentProps } from 'react-router';
 import { Helmet } from "react-helmet";
 
 // system
-import { getPathByRouteID } from '~/pages/routes';
 
 // custom
 import { fetchWords, fetchInfo } from './saga';
@@ -27,59 +26,59 @@ interface WordsProps extends RouteComponentProps<{id: string;}> {
 };
 
 class Words extends React.Component<WordsProps> {
-  getTo = (id: number) => getPathByRouteID('words', { id });
+  getTo = (id: number) => `/words/${id}`;
 
-  componentDidMount() {
-    const { countWords, words, dispatch, wordsPerPage, match: { params: { id = '1' } } } = this.props;
+  // componentDidMount() {
+  //   const { countWords, words, dispatch, wordsPerPage, match: { params: { id = '1' } } } = this.props;
 
-    if (!countWords || !words.length ) {
-      fetchInfo(dispatch);
-      fetchWords(dispatch, wordsPerPage, parseInt(id) * wordsPerPage);
-    }
-  }
+  //   if (!countWords || !words.length ) {
+  //     fetchInfo(dispatch);
+  //     fetchWords(dispatch, wordsPerPage, parseInt(id) * wordsPerPage);
+  //   }
+  // }
   
-  componentDidUpdate(prevProps: any) {
-    const { dispatch, wordsPerPage, match: { params: { id } } } = prevProps;
-    console.log('update', id, this.props.match.params.id);
-    if (id !== this.props.match.params.id) {
-      fetchWords(dispatch, wordsPerPage, id * wordsPerPage);
-    }
-  }
+  // componentDidUpdate(prevProps: any) {
+  //   const { dispatch, wordsPerPage, match: { params: { id } } } = prevProps;
+  //   console.log('update', id, this.props.match.params.id);
+  //   if (id !== this.props.match.params.id) {
+  //     fetchWords(dispatch, wordsPerPage, id * wordsPerPage);
+  //   }
+  // }
 
   render () {
-    const { className, words = [], wordsPerPage, countWords, match: { params: { id } } } = this.props;
-    
-    return words.length ? (
-      <Container className={className}>
-        <Helmet>
-          <title>Words</title>
-        </Helmet>
-        <Title>Words player</Title>
-        <Table>
-          <thead>
-            <Tr>
-              <Th>EN</Th>
-              <Th>RU</Th>
-              <Th>Know</Th>
-            </Tr>
-          </thead>
-          <tbody>
-            {words.map(({en, ru}, i) => (
-              <Tr key={en + ru + i}>
-                <td>{en}</td>
-                <td>{ru}</td>
-                <td>
-                  <input type="checkbox"/>
-                </td>
-              </Tr>
-            ))}
-          </tbody>
-        </Table>
-        <Pagination count={Math.ceil(countWords / wordsPerPage)} getTo={this.getTo} current={parseInt(id)}/>
-      </Container>
-    ) : (
-      <div>Loading...</div>
-    )
+    // const { className, words = [], wordsPerPage, countWords, match: { params: { id } } } = this.props;
+    return "WORDS PAGE"
+    // return words.length ? (
+    //   <Container className={className}>
+    //     <Helmet>
+    //       <title>Words</title>
+    //     </Helmet>
+    //     <Title>Words player</Title>
+    //     <Table>
+    //       <thead>
+    //         <Tr>
+    //           <Th>EN</Th>
+    //           <Th>RU</Th>
+    //           <Th>Know</Th>
+    //         </Tr>
+    //       </thead>
+    //       <tbody>
+    //         {words.map(({en, ru}, i) => (
+    //           <Tr key={en + ru + i}>
+    //             <td>{en}</td>
+    //             <td>{ru}</td>
+    //             <td>
+    //               <input type="checkbox"/>
+    //             </td>
+    //           </Tr>
+    //         ))}
+    //       </tbody>
+    //     </Table>
+    //     <Pagination count={Math.ceil(countWords / wordsPerPage)} getTo={this.getTo} current={parseInt(id)}/>
+    //   </Container>
+    // ) : (
+    //   <div>Loading...</div>
+    // )
   }
 }
 

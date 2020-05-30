@@ -1,0 +1,1 @@
+export default () => 'Inner words route'

@@ -6,14 +6,13 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import * as ReactDom from 'react-dom/server';
-import { ChunkExtractor } from '@loadable/server';
 import { ServerStyleSheet } from 'styled-components'
 import Helmet from 'react-helmet';
-import { Provider as EnvFacadeProvider, createContext as createEnvContext } from '~/utils/env-middleware/FacadeContext';
-import createEnvMiddlewareFacade from '~/utils/env-middleware/createServerFacade';
+import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
+import createEnvFacade from '~/system/env-facade/createServerFacade'
 
-import { App as ReactApp, configureStore } from '~/client'; // It must be optimized, when will be implemented "mode: universal" in webpack.
-import { promises, asyncComponentState, functionCallCounter } from '~/widgets/AsyncComponent/state';
+import configureStore from '~/system/store';
+import ReactApp from '~/App';
 
 const Server = express();
 
@@ -23,22 +22,17 @@ Server.use(express.static(path.join(__dirname, process.env.NODE_ENV === 'develop
 Server.all('*', async (req, res, next) => {
   const store = configureStore();
   req._reduxStore = store;
-  // TODO: make it more explicity
-  functionCallCounter.value = 0;
-  promises.length = 0;
-  asyncComponentState.length = 0;
   next();
 });
 Server.post('/*', bodyParser.json());
-// If it is GET request than we send rendered html
+// If it is GET request than we send rendered html 
 Server.all('*', async function(req, res, next) {
   const store = req._reduxStore;
   const routerContext = {};
-  const context = createEnvContext(store, req, res);
-  const middlewareFacade = createEnvMiddlewareFacade(context, next);
+  const envFacade = createEnvFacade({store});
 
   const wrappComponent = (el: React.ReactElement ) => (
-    <EnvFacadeProvider value={middlewareFacade}>
+    <EnvFacadeProvider value={envFacade}>
       <Provider store={store}>
         <StaticRouter location={req.url} context={routerContext}>
           {el}
@@ -48,19 +42,30 @@ Server.all('*', async function(req, res, next) {
   );
   
   try {
-    const extractor = new ChunkExtractor({ statsFile: path.resolve(__dirname,'../dist/client-stats.json') });
     const sheet = new ServerStyleSheet();
-    const helmet = Helmet.renderStatic();
-    const state = JSON.stringify(store.getState());
-    const jsx = extractor.collectChunks(wrappComponent(<ReactApp />));
-    let html = ReactDom.renderToString(jsx);
-    const resolvedChunks = await Promise.all(promises);
+    const jsx = wrappComponent(<ReactApp />);
 
-    resolvedChunks.forEach((chunk, key) => {
-      const wrappedChunk = wrappComponent(chunk);
-      const strChunk = ReactDom.renderToString(wrappedChunk)
-      html = html.replace(new RegExp(`<div\\sdata-async-id="${key}"\>.*?<\\/div>`, 'mi'), strChunk);
-    });
+    let html = ReactDom.renderToString(jsx);
+    let state = store.getState();
+    let { promises }: { promises: Promise<any>[]} = state.asyncComponent;
+
+    do {
+      const promisesEntries = Object.entries(promises);
+      const wrappedPromises = promisesEntries.map(async ([id, promise]) => {
+        const chunk = await promise;
+        const wrappedChunk = wrappComponent(chunk);
+        const strChunk = ReactDom.renderToString(wrappedChunk);
+        html = html.replace(new RegExp(`<div\\sdata-async-id="${id}.*?<\\/div>`, 'mi'), strChunk);
+        store.dispatch({ type: 'REMOVE_ASYNC_COMPONENT_PROMISE', payload: { id } });
+      });
+      await Promise.all(wrappedPromises);
+      
+      state = store.getState();
+      promises = state.asyncComponent.promises;
+    } while (promises.length)
+
+    const JSONstate = JSON.stringify(state);
+    const helmet = Helmet.renderStatic();
     
     return res.end(`
       <!DOCTYPE html>
@@ -69,17 +74,15 @@ Server.all('*', async function(req, res, next) {
           ${helmet.title.toString()}
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width" />
-          <script>window.ASYNC_COMPONENT_STATE = ${JSON.stringify(asyncComponentState)}</script>
-          <script>window.REDUX_STATE = ${state}</script>
+          <script>window.REDUX_STATE = ${JSONstate}</script>
           ${helmet.meta.toString()}
           ${helmet.link.toString()}
           ${sheet.getStyleTags()}
-          ${extractor.getLinkTags()}
-          ${extractor.getStyleTags()}
         </head>
         <body ${helmet.bodyAttributes.toString()}>
           <div id="app-root">${html}</div>
-          ${extractor.getScriptTags()}
+          ${helmet.script.toString()}
+          <script type="application/javascript" src="http://localhost:8080/public/main.js"></script>
         </body>
       </html>
     `);
