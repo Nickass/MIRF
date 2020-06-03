@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 
 // system
+import Router from '~/system/Router';
 import configureStore, { history, isServer } from '~/system/store';
 import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
 import createEnvFacade from '~/system/env-facade/createClientFacade';
@@ -14,13 +15,10 @@ import createEnvFacade from '~/system/env-facade/createClientFacade';
 import 'normalize.css/normalize.css';
 import '~/assets/base.scss';
 
-// custom
-import App from '~/App';
-
 // assets
 import '~/assets/atomic.scss';
 
-function main(Root = App, hydrender = render) {
+function main(Root = Router, hydrender = render) {
   const store = configureStore(window.REDUX_STATE);
   const facade = createEnvFacade({store});
   const root = document.getElementById('app-root');
@@ -41,11 +39,11 @@ function main(Root = App, hydrender = render) {
 
 if (!isServer) {
   if (module.hot) {
-    module.hot.accept('~/App', () => {
-      main(require('~/App').default, hydrate)
+    module.hot.accept('~/system/Router', () => {
+      main(require('~/system/Router').default, hydrate)
     });
   }
-  main(App, hydrate)
+  main(Router, hydrate)
 }
 
-export { App, configureStore };
+export { Router, configureStore };

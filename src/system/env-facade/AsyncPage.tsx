@@ -2,22 +2,23 @@ import * as React from 'react';
 import AsyncComponent from '~/system/AsyncComponent';
 
 type AyncPageProps = {
-  chunkName: string;
+  component_path: string;
   SuccessComponent: any;
 };
 
 class AyncPage extends React.Component<AyncPageProps> {
   render () {
-    const { chunkName, SuccessComponent } = this.props;
-    const asyncId = `request-page-${chunkName}`;
+    const { component_path, SuccessComponent } = this.props;
+    const asyncId = `request-page-${component_path}`;
 
     return (
       <AsyncComponent id={asyncId} SuccessComponent={SuccessComponent}>
         {async () => {
-          const Page = await import(/* webpackChunkName: "[request]" */ '~/pages/' + chunkName)
-            .then(m => m.default || m);
+          const Page = await import(/* webpackChunkName: "[request]" */ '~/App/' + component_path + 'index')
+            .then(m => m.default);
+          await new Promise(res => setTimeout(res, 600))
 
-          return { chunkName, Page }
+          return { component_path, Page }
         }}
       </AsyncComponent>
     )

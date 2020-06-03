@@ -12,8 +12,8 @@ module.exports = {
     new webpack.DefinePlugin({ 
       'process.env': { 
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        HMR_SERVER_PORT: JSON.stringify(process.env.HMR_SERVER_PORT),
-        HMR_SERVER_HOST: JSON.stringify(process.env.HMR_SERVER_HOST),
+        STATIC_SERVER_PORT: JSON.stringify(process.env.STATIC_SERVER_PORT),
+        STATIC_SERVER_HOST: JSON.stringify(process.env.STATIC_SERVER_HOST),
         SERVER_PORT: JSON.stringify(process.env.SERVER_PORT),
         SERVER_HOST: JSON.stringify(process.env.SERVER_HOST),
       }

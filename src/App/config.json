@@ -1,0 +1,38 @@
+{
+  "name": "Base route",
+  "params": "",
+  "state": { "values": ["lala"] },
+  "routes": [
+    {
+      "id": "home",
+      "path": "/",
+      "dir": "pages/Home/",
+      "middleware": ["auth"],
+      "props": {} 
+    },
+    {
+      "id": "settings",
+      "path": "/settings",
+      "dir": "pages/Settings/",
+      "props": {}
+    },
+    {
+      "id": "words",
+      "path": "/words",
+      "dir": "pages/Words/",
+      "props": {}
+    },
+    {
+      "id": "settings-policy",
+      "path": "/settings/settings-policy",
+      "dir": "pages/SettingsPolicy/",
+      "props": {}
+    },
+    {
+      "id": "not-found",
+      "path": "*",
+      "dir": "pages/NotFound/",
+      "props": {}
+    }
+  ]
+}

@@ -8,7 +8,7 @@ export interface Facade {
   middleware: (middleware: middleware) => void;
   pageLoader: (path: string) => Page;
 }
-export type createFacade = (ctx: { store: Store }) => Facade;
+export type createFacade = (ctx: { store: Store, [propName: string]: any }) => Facade;
 export const createFacade: createFacade = ctx => {
   // const ctx = createContext(ctx.store);
   

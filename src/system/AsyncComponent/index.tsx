@@ -94,7 +94,7 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
   if (errorData) {
     return <ErrorComponent id={id + '-error'} {...errorData} />;
   } else if (successData) {
-    return <SuccessComponent id={id + '-succes'} {...successData} />;
+    return <SuccessComponent id={id + '-success'} {...successData} />;
   } else if (promise) {
     return <LoadComponent id={id + '-load'} />;
   } else {

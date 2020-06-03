@@ -15,24 +15,20 @@ import {
   NavLink
 } from './assets/styles';
 
-const nav = [
-  {
-    path: '/words',
-    name: 'Words',
-  },
-  {
-    path: '/settings',
-    name: 'Settings',
-  },
-]
-
 interface HeaderProps {
   className?: any;
+  config: any;
 };
+
+function pullNav(config: any): any[] {
+  const { routes = [] } = config as { routes: any[] };
+  return [ config, ...routes.reduce((acc, curr) => ([ ...acc, ...pullNav(curr) ]), []) ]
+}
 
 export default class extends React.Component<HeaderProps> {
   render () {
-    const { className } = this.props;
+    const { className, config } = this.props;
+    const nav = pullNav(config);
 
     return (
       <Header className={className}>
@@ -42,9 +38,9 @@ export default class extends React.Component<HeaderProps> {
         <Nav>
           <NavList>
             {nav.map(item => (
-              <NavItem key={item.name}>
-                <NavLink to={item.path} >
-                  {item.name}
+              <NavItem key={item.id + item.name}>
+                <NavLink to={item.path} exact={true}>
+                  {item.name || item.id}
                 </NavLink>
               </NavItem>
             ))}

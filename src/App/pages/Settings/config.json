@@ -1,0 +1,10 @@
+{
+  "name": "Settings page",
+  "routes": [
+    {
+      "id": "profile",
+      "path": "/profile",
+      "dir": "Profile/"
+    }
+  ]
+}

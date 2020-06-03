@@ -3,12 +3,20 @@ const path = require('path');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
+const { StatsWriterPlugin } = require("webpack-stats-plugin")
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 
 const plugins = [
+  new StatsWriterPlugin({
+    stats: {
+      all: false,
+      chunkGroups: true,
+    },
+    filename: "stats.json" // Default
+  }),
   new webpack.NamedModulesPlugin(),
   new SpriteLoaderPlugin(),
   new MiniCssExtractPlugin({
@@ -17,7 +25,7 @@ const plugins = [
   }),
 ];
 const hmrEntry = [
-  `webpack-dev-server/client?http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}`,
+  `webpack-dev-server/client?http://${process.env.STATIC_SERVER_HOST}:${process.env.STATIC_SERVER_PORT}`,
   'webpack/hot/only-dev-server',
   'react-hot-loader/patch',
 ];
@@ -34,7 +42,7 @@ module.exports = {
   entry,
   output: {
     path: path.join(process.cwd(), 'dist/public/'),
-    publicPath: isProduction ? '/' : `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public/`,
+    publicPath: isProduction ? '/' : `http://${process.env.STATIC_SERVER_HOST}:${process.env.STATIC_SERVER_PORT}/public/`,
     filename: `[name]${isDevelopment ? '' : '-[contenthash]'}.js`
   },
   devServer: {

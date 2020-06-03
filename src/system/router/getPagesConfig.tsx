@@ -1,65 +1,59 @@
-export interface nakedRoute {
-  id: string;
-  path: string;
-  component: string;
-  middleware?: string;
-  props?: {
-    [propName: string]: any;
-  };
-}
-export interface route extends nakedRoute {
-  chunkName: string;
-  redirected?: string | string[];
-  config: config | null;
-}
-export interface routes extends Array<route> {};
-export interface config {
-  routes?: routes;
+export interface baseConfig {
+  name?: string;
+  params?: string;
+  redirected?: string[];
+  routes?: subConfig[];
 }
 
-// TODO: separate file
+export interface subConfig {
+  id: string;
+  path: string;
+  dir: string;
+  middlewares?: string[];
+  props?: { [propName: string]: any };
+}
+
+export interface config extends Required<baseConfig>, Required<subConfig> {
+  routes: config[];
+}
+
 // TODO: implement more options
 // {
-// 	component,
-// 	name,
-// 	path,
-//  children
 //  meta
-//  props
 // 	alias,
-//  chunkName
 //  redirect
 //  caseSensitive
 //  pathToRegexpOptions
 // };	
 
-function joinPath(...paths: string[]) {
-  return paths.reduce((acc, curr) => {
-    const prev = acc;
-    const next = curr;
-    return prev + next;
-  }, '')
-}
+export const allConfigsCtx = require.context('~/App/', true, /config/);
 
-export const allConfigsCtx = require.context('~/pages/', true, /config/);
+export const getPagesConfig = ({ id, dir, path, props = {}, middlewares = [] }: subConfig): config => {
+  dir = dir.replace(/\/+/gm, '/');
+  path = path.replace(/\/+/gm, '/');
 
-export const getPagesConfig = (rootPath: string): config | null => {
-  try {
-    const configPath = `${rootPath}config.json`;
-    const config: config = allConfigsCtx(configPath);
-    const rawRoutes = config.routes || [];
-  
-    const routes = rawRoutes.map(route => {
-      const chunkPath = joinPath(rootPath, route.component);
-      const config = getPagesConfig(chunkPath);
+  const configPath = `${dir}config.json`;
+  const baseConfig: baseConfig = allConfigsCtx.keys().includes(configPath) ? allConfigsCtx(configPath) : {};
+  const { name = id, params = '', routes = [], redirected = [] } = baseConfig;
 
-      return { ...route, config, chunkName: chunkPath.replace(/^\.\//, '') };
-    });
-  
-    return { ...config, routes }
-  } catch (err) {
-    return null;
-  }
+  const mergedRoutes: config[] = routes.map(bind => {
+    const sub_dir = `${dir}${bind.dir}`;
+    const sub_path = `${path}${params}${bind.path}`;
+    return getPagesConfig({ ...bind, dir: sub_dir, path: sub_path });
+  }); // TODO: remove comment if this solution doesn't help -> .sort((a, b) => b.path.length - a.path.length);
+
+  return {
+    ...baseConfig,
+    id,
+    name,
+    redirected,
+    middlewares,
+    params,
+    props,
+    path,
+    dir,
+    routes: mergedRoutes
+  };
 }
 
 export default getPagesConfig;

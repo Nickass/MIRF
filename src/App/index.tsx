@@ -1,10 +1,8 @@
 // modules
 import * as React from 'react';
-import { Helmet } from "react-helmet";
 import sc, { css } from 'styled-components';
 
 // system
-import NakedPages from '~/system/router';
 import ErrorBoundary from '~/system/ErrorBoundary';
 
 // custom
@@ -23,21 +21,21 @@ const Header = sc(NakedHeader)`
   padding: 50px 0;
   background: #eaeaea;
 `;
-const Pages = sc(NakedPages)`
-  flex: 1 1 auto;
-  width: 100%;
-  max-width: 900px;
-  margin: auto;
-`;
 const Footer = sc(NakedFooter)`
   margin-top: auto;
   padding: 20px 0;
   background: #3a3a3a;
   color: #fff;
 `;
+// const Pages = sc(NakedPages)`
+//   flex: 1 1 auto;
+//   width: 100%;
+//   max-width: 900px;
+//   margin: auto;
+// `;
 
 type AppProps = {
-  
+  config: any
 };
 type State = {
 
@@ -45,15 +43,12 @@ type State = {
 
 class App extends React.Component<AppProps, State> {
   render () {
+    const { children, config } = this.props;
     return (
       <Container>
-        <Helmet titleTemplate="English cards | %s">
-          <html lang="en" />
-          <title>Hello!</title>
-        </Helmet>
-        <Header />
+        <Header config={config} />
         <ErrorBoundary>
-          <Pages />
+          {children}
         </ErrorBoundary>
         <Footer />
       </Container>

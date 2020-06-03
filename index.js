@@ -24,18 +24,18 @@ let webpackFunc = (err, stats) => {
 
 
 if(process.env.NODE_ENV === 'development') {
-  webpack(backConf, webpackFunc);
   new WebpackDevServer(webpack(frontConf), {
-    port: process.env.HMR_SERVER_PORT, // work for windows
+    port: process.env.STATIC_SERVER_PORT, // work for windows
     headers: { 'Access-Control-Allow-Origin': '*' },
     hot: true,
     inline: true,
     // stats: { colors: true },
     stats: 'errors-only',
     historyApiFallback: true,
-    publicPath: `http://${process.env.HMR_SERVER_HOST}:${process.env.HMR_SERVER_PORT}/public`,
-  }).listen(process.env.HMR_SERVER_PORT, process.env.HMR_SERVER_HOST);
+    publicPath: `http://${process.env.STATIC_SERVER_HOST}:${process.env.STATIC_SERVER_PORT}/public`,
+  }).listen(process.env.STATIC_SERVER_PORT, process.env.STATIC_SERVER_HOST);
   
+  webpack(backConf, webpackFunc);
   nodemon({ script: './dist/main.js' });
 } else {
   fs.copy(path.join(process.cwd(), './public'), path.join(process.cwd(), './dist/public'));
