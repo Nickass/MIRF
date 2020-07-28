@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router';
 import Helmet from 'react-helmet';
 
 // system
-import { Consumer as EnvFacadeConsumer } from '~/system/env-facade/FacadeContext';
+import Page from '~/system/Page';
 import getPagesConfig, { config } from './getPagesConfig';
 
 type PagesProps = {
@@ -33,12 +33,7 @@ const getAllRoutes = (config: config, rootProps = {}, Parent: any = React.Fragme
         <Helmet>
           <title>{name}</title>
         </Helmet>
-        <EnvFacadeConsumer>
-          {ctx => {
-            const Page = ctx.pageLoader(dir.replace(/\.\//, ''));
-            return <Page {...allProps} />;
-          }}
-        </EnvFacadeConsumer>
+        <Page path={dir.replace(/\.\//, '')} props={allProps}/>
       </Parent>
     );
   }

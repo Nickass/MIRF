@@ -1,16 +1,15 @@
 import * as React from 'react'
 import AsyncPage from './AsyncPage';
 
-type PageProps = { [propName: string]: any }
+type PageProps = { path: string; props: { [propName: string]: any } }
 type Page = React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>;
-type pageLoader = (path: string) => Page;
 
-export default function getPageLodader(ctx: any): pageLoader {
-  return component_path => props => {
+export default function getPageLodader(ctx: any): Page {
+  return ({path, props}) => {
     const SuccessComponent = React.useCallback(({ Page }: any) => {
       if (!Page || !Page.type) {
-        const chunkName = component_path.replace(/\//g, '-');
-        const pageModuleName = `./App/${component_path}index.tsx`;
+        const chunkName = path.replace(/\//g, '-');
+        const pageModuleName = `./App/${path}index.tsx`;
         const chunksPlace = (window as any)["webpackJsonp"]
         const chunk = chunksPlace.find((item: any) => item[0][0] === (chunkName + 'index'));
         const modules = chunk[1];
@@ -25,6 +24,6 @@ export default function getPageLodader(ctx: any): pageLoader {
 
       return <Page {...props} />
     }, []);
-    return <AsyncPage component_path={component_path} SuccessComponent={SuccessComponent} />
+    return <AsyncPage component_path={path} SuccessComponent={SuccessComponent} />
   }
 }

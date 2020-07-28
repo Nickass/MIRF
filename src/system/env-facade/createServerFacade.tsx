@@ -1,5 +1,5 @@
 import { createFacade } from './createFacade';
-import getPageLoader from './page-loader/server';
+import getEnvPage from '../Page/server';
 import getErrorProtector from '../ErrorBoundary/server';
 import { memoize } from 'lodash';
 
@@ -12,7 +12,7 @@ const createServerFacade: createFacade = ctx => {
         console.log('error: ', err)
       }
     },
-    pageLoader: getPageLoader(ctx),
+    EnvPage: getEnvPage(ctx),
     ErrorProtector: memoize(getErrorProtector)(ctx)
   })
 }

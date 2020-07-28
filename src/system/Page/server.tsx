@@ -13,14 +13,13 @@ type clientStats = {
     }
   }
 }
-type PageProps = { [propName: string]: any }
+type PageProps = { props: {[propName: string]: any;}; path: string; }
 type Page = React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>;
-type pageLoader = (path: string) => Page;
 
 
-export default function(ctx: any): pageLoader {
-  return component_path => props => {
-    const chunkName = component_path.replace(/\//g, '-') + 'index';
+export default function(ctx: any): Page {
+  return ({ path, props }) => {
+    const chunkName = path.replace(/\//g, '-') + 'index';
     const clientStats: clientStats = ctx.clientStats;
     const { assets } = clientStats.namedChunkGroups[chunkName];
     const scripts = assets.filter(item => item.endsWith('.js')).map(item => (
@@ -40,6 +39,6 @@ export default function(ctx: any): pageLoader {
       </>
     );
 
-    return <AsyncPage component_path={component_path} SuccessComponent={SuccessComponent} />
+    return <AsyncPage component_path={path} SuccessComponent={SuccessComponent} />
   }
 };
