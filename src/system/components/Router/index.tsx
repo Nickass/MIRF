@@ -9,6 +9,10 @@ import getPagesConfig, { config } from './getPagesConfig';
 
 type PagesProps = {
   className?: string;
+  id?: string;
+  path?: string;
+  dir?: string;
+  props?: { [propName: string]: any };
 };
 
 const getAllRedirectedPaths = (config: config): JSX.Element[] => {
@@ -44,17 +48,16 @@ const getAllRoutes = (config: config, rootProps = {}, Parent: any = React.Fragme
   return [...innerRoutes, <Route key={id} exact={true} path={path} component={PageRouteComponent} />]
 }
 
-class Pages extends React.Component<PagesProps> {
-  render () {
-    const config = getPagesConfig({ id: 'baseRoute', path: '/', dir: './' });
 
-    return (
-      <Switch>
-        {getAllRedirectedPaths(config)}
-        {getAllRoutes(config, { ...this.props, config })}
-      </Switch>
-    )
-  }
+export const Pages: React.SFC<PagesProps> = ({ id = 'baseRoute', path = '/', dir = './', props = {} }) => {
+  const config = getPagesConfig({ id, path, dir });
+
+  return (
+    <Switch>
+      {getAllRedirectedPaths(config)}
+      {getAllRoutes(config, { ...props, config })}
+    </Switch>
+  )
 }
 
 export default Pages;
