@@ -2,13 +2,22 @@
 import { Reducer } from 'redux';
 
 // custom
-import { action } from '~/system/store';
+import { action as commmonAction } from '~/system/store';
 
 export type state = {
-  [propName: string]: any;
+  [propName: string]: {
+    message: string;
+    stack: string;
+  };
 };
 export const state: state = {
 };
+
+export type action = commmonAction<{
+  id: string;
+  message?: string;
+  stack?: string;
+}>;
 
 export type reducer = Reducer<state, action>;
 export const reducer: reducer = (upcomingState = state, action) => {
@@ -17,7 +26,10 @@ export const reducer: reducer = (upcomingState = state, action) => {
   switch(action.type) {
     case 'UPSERT_ERROR_BUS': {
       const { id, message, stack } = action.payload;
-      newState[id] = { message, stack }
+
+      if (!message || !stack) throw new Error('Error UPSERT_ERROR_BUS');
+
+      newState[id] = { message, stack };
 
       break;
     }

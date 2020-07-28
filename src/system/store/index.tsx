@@ -7,12 +7,13 @@ import appReducer from '~/App/reducer';
 import { reducer as asyncComponentReducer, state as asyncComponentState } from '~/system/components/AsyncComponent/store';
 import { reducer as errorProtectorReducer, state as errorProtectorState } from '~/system/components/ErrorProtector/store';
 
-export type action = { type: string; payload?: any; };
+export type action<T = any> = { type: string; payload: T; };
 export const isServer = !(
   typeof window !== 'undefined' &&
   window.document &&
   window.document.createElement
 );
+
 export interface defaultState {
   router: RouterState; // Do not use router in initial state
   asyncComponent: asyncComponentState,

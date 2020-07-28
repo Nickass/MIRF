@@ -1,10 +1,9 @@
 import * as React from 'react'
+import { ErrorDisplay, ErrorProtectorProps } from './index';
+import { ClientEnvContext } from '~/system/env-facade/createClientFacade';
 
-export type EnvErrorProtectorProps = {
-  ErrorDisplay: any;
-  id: string;
-  className?: string;
-  children: any;
+export type EnvErrorProtectorProps = ErrorProtectorProps & {
+  ErrorDisplay: ErrorDisplay;
 };
 
 type State = {
@@ -12,24 +11,18 @@ type State = {
   stack: string | null;
 }
 
-export default function getEnvErrorProtector(ctx: any): any {
+export default function getEnvErrorProtector(ctx: ClientEnvContext) {
   return class EnvErrorProtector extends React.Component<EnvErrorProtectorProps, State> {
-    static getDerivedStateFromError(error: any) {
-      return {
-        message: error.message,
-        stack: error.stack
-      };
-    }
-
-    constructor(props: any) {
+    constructor(props: EnvErrorProtectorProps) {
       super(props)
       const { store } = ctx;
       const { id } = props;
       const errors = store.getState().error_protector;
       const { stack, message } = errors[id] || {};
+
       this.state = { stack, message };
 
-      if (message) {
+      if (message && stack) {
         store.dispatch({ type: 'REMOVE_ERROR_BUS', payload: { id } });
       }
     }
@@ -45,7 +38,7 @@ export default function getEnvErrorProtector(ctx: any): any {
       const { id, className, ErrorDisplay, children } = this.props;
       const { message, stack } = this.state;
 
-      return message ? (
+      return message && stack ? (
         <ErrorDisplay id={id} className={className} message={message} stack={stack} />
       ) : children;
     }

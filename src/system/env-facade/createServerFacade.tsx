@@ -1,7 +1,14 @@
-import { createFacade } from './createFacade';
+import { createFacade, EnvContext } from './createFacade';
 import getEnvPage from '../components/Page/server';
 import getEnvErrorProtector from '../components/ErrorProtector/server';
 import { memoize } from 'lodash';
+
+export type ServerEnvContext = EnvContext & {
+  req: any;
+  res: any;
+  clientStats: any;
+  routerContext: any;
+}
 
 const createServerFacade: createFacade = ctx => {
   return ({

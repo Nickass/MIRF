@@ -22,7 +22,7 @@ export type ErrorDisplayProps = {
 
 export type ErrorDisplay = React.SFC<ErrorDisplayProps>;
 export const ErrorDisplay: ErrorDisplay = props => (
-  <Error className={"Error-wrapper " + props.className}>
+  <Error className={props.className}>
     <ErrorTitle>Something bad happend...</ErrorTitle>
     <ErrorSubtitle>{props.message}</ErrorSubtitle>
     <ErrorList>

@@ -11,7 +11,8 @@ export interface Facade {
   EnvPage: Page;
   EnvErrorProtector: ReactComp;
 }
-export type createFacade = (ctx: { store: Store, [propName: string]: any }) => Facade;
+export type EnvContext = { store: Store, [propName: string]: any };
+export type createFacade = (ctx: EnvContext) => Facade;
 export const createFacade: createFacade = ctx => {
   // const ctx = createContext(ctx.store);
   
