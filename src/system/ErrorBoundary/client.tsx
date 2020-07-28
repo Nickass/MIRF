@@ -12,7 +12,6 @@ type State = {
   stack: string | null;
 }
 
-
 export default function getErrorProtector(ctx: any): any {
   return class ErrorProtector extends React.Component<ErrorProtectorProps, State> {
     static getDerivedStateFromError(error: any) {
@@ -37,7 +36,6 @@ export default function getErrorProtector(ctx: any): any {
 
     componentDidCatch(error: Error, info: React.ErrorInfo) {
       this.setState({
-
         message: error.message,
         stack: info.componentStack
       });

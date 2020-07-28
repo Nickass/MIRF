@@ -1,6 +1,6 @@
 import { createFacade } from './createFacade';
 import getPageLoader from './page-loader/server';
-import getErrorProtector from './error-handler/server';
+import getErrorProtector from '../ErrorBoundary/server';
 import { memoize } from 'lodash';
 
 const createServerFacade: createFacade = ctx => {
