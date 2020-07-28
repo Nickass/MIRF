@@ -8,7 +8,8 @@ import { Consumer as EnvConsumer } from '~/system/env-facade/FacadeContext'
 import {
   Error,
   ErrorTitle,
-  ErrorDesc
+  ErrorSubtitle,
+  ErrorList
 } from './assets/styles';
 
 export type ErrorRenderProps = {
@@ -21,18 +22,13 @@ export type ErrorRenderProps = {
 export const ErrorRender: React.SFC<ErrorRenderProps> = props => (
   <Error className={"Error-wrapper " + props.className}>
     <ErrorTitle>Something bad happend</ErrorTitle>
-    <ErrorDesc>{props.message}</ErrorDesc>
-    <ErrorDesc>
+    <ErrorSubtitle>{props.message}</ErrorSubtitle>
+    <ErrorList>
       {props.stack
         .split('\n')
         .filter(trace => !!trace)
-        .map((trace, index) => (
-          <span key={index}>
-            {index + 1} {trace}
-            <br />
-          </span>
-        ))}
-    </ErrorDesc>
+        .map((trace, index) => <li key={index}>{trace}</li>)}
+    </ErrorList>
   </Error>
 );
 

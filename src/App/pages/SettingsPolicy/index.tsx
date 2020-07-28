@@ -13,6 +13,7 @@ interface SettingsPolicyProps extends RouteComponentProps {
 
 class SettingsPolicy extends React.Component<SettingsPolicyProps> {
   render () {
+    throw new Error('SettingsPolicy err')
     return (
       <Container>
         <Title>SettingsPolicy page</Title>
