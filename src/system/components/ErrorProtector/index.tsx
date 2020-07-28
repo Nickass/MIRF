@@ -14,14 +14,16 @@ import {
 
 
 export type ErrorDisplayProps = {
+  id: string;
   className?: string;
   message: string;
   stack: string;
 };
 
-export const ErrorDisplay: React.SFC<ErrorDisplayProps> = props => (
+export type ErrorDisplay = React.SFC<ErrorDisplayProps>;
+export const ErrorDisplay: ErrorDisplay = props => (
   <Error className={"Error-wrapper " + props.className}>
-    <ErrorTitle>Something bad happend</ErrorTitle>
+    <ErrorTitle>Something bad happend...</ErrorTitle>
     <ErrorSubtitle>{props.message}</ErrorSubtitle>
     <ErrorList>
       {props.stack
@@ -33,10 +35,18 @@ export const ErrorDisplay: React.SFC<ErrorDisplayProps> = props => (
 );
 
 
-export const ErrorProtector: React.SFC<any> = props => (
+export type ErrorProtectorProps = {
+  id: string;
+  className?: string;
+  children?: any;
+  ErrorDisplay?: ErrorDisplay;
+};
+
+export const ErrorProtector: React.SFC<ErrorProtectorProps> = props => (
   <EnvConsumer>{env => 
     <env.EnvErrorProtector
       id={props.id}
+      className={props.className}
       children={props.children}
       ErrorDisplay={props.ErrorDisplay || ErrorDisplay}
     />

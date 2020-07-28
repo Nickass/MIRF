@@ -2,9 +2,6 @@
 import * as React from 'react';
 import sc, { css } from 'styled-components';
 
-// system
-import ErrorProtector from '~/system/components/ErrorProtector';
-
 // custom
 import NakedHeader from './Header';
 import NakedFooter from './Footer';
@@ -47,9 +44,7 @@ class App extends React.Component<AppProps, State> {
     return (
       <Container>
         <Header config={config} />
-        <ErrorProtector>
-          {children}
-        </ErrorProtector>
+        {children}
         <Footer />
       </Container>
     )

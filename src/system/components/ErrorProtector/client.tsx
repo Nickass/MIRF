@@ -42,11 +42,11 @@ export default function getEnvErrorProtector(ctx: any): any {
     }
   
     render () {
-      const { ErrorDisplay, children } = this.props;
+      const { id, className, ErrorDisplay, children } = this.props;
       const { message, stack } = this.state;
 
       return message ? (
-        <ErrorDisplay message={message} stack={stack} />
+        <ErrorDisplay id={id} className={className} message={message} stack={stack} />
       ) : children;
     }
   };

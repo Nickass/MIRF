@@ -2,6 +2,7 @@
 import * as React from 'react';
 
 // system
+import ErrorProtector from '~/system/components/ErrorProtector';
 
 // custom
 
@@ -31,22 +32,24 @@ export default class extends React.Component<HeaderProps> {
     const nav = pullNav(config);
 
     return (
-      <Header className={className}>
-        <Logo to={'/'}>
-          Hi! Welcome to english cards!
-        </Logo>
-        <Nav>
-          <NavList>
-            {nav.map(item => (
-              <NavItem key={item.id + item.name}>
-                <NavLink to={item.path} exact={true}>
-                  {item.name || item.id}
-                </NavLink>
-              </NavItem>
-            ))}
-          </NavList>
-        </Nav>
-      </Header>
+      <ErrorProtector id="header">
+        <Header className={className}>
+          <Logo to={'/'}>
+            Hi! Welcome to english cards!
+          </Logo>
+          <Nav>
+            <NavList>
+              {nav.map(item => (
+                <NavItem key={item.id + item.name}>
+                  <NavLink to={item.path} exact={true}>
+                    {item.name || item.id}
+                  </NavLink>
+                </NavItem>
+              ))}
+            </NavList>
+          </Nav>
+        </Header>
+      </ErrorProtector>
     )
   }
 }

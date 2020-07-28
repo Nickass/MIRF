@@ -6,7 +6,7 @@ import parse from 'html-react-parser';
 
 export default function getEnvErrorProtector(ctx: any): any {
   return (props: any) => {
-    const { id, children, ErrorDisplay } = props;
+    const { id, className, children, ErrorDisplay } = props;
 
     try {
       const __html = ReactDom.renderToString(
@@ -19,7 +19,7 @@ export default function getEnvErrorProtector(ctx: any): any {
     } catch (err) {
       const { message, stack } = err;
       ctx.store.dispatch({ type: 'UPSERT_ERROR_BUS', payload: { id, message, stack } })
-      return <ErrorDisplay message={message} stack={stack} />
+      return <ErrorDisplay id={id} className={className} message={message} stack={stack} />
     }
   }
 }
