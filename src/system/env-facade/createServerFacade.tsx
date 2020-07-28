@@ -1,6 +1,6 @@
 import { createFacade } from './createFacade';
 import getEnvPage from '../components/Page/server';
-import getErrorProtector from '../components/ErrorBoundary/server';
+import getEnvErrorProtector from '../components/ErrorProtector/server';
 import { memoize } from 'lodash';
 
 const createServerFacade: createFacade = ctx => {
@@ -13,7 +13,7 @@ const createServerFacade: createFacade = ctx => {
       }
     },
     EnvPage: getEnvPage(ctx),
-    ErrorProtector: memoize(getErrorProtector)(ctx)
+    EnvErrorProtector: memoize(getEnvErrorProtector)(ctx)
   })
 }
 

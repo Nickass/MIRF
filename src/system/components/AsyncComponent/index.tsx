@@ -6,7 +6,7 @@ import { state } from './store'
 import { createStructuredSelector } from 'reselect';
 import { Dispatch } from 'redux';
 import { Consumer as EnvConsumer } from '~/system/env-facade/FacadeContext';
-import ErrorBoundary from '~/system/components/ErrorBoundary';
+import ErrorProtector from '~/system/components/ErrorProtector';
 
 type LoadComponentProps = {
   id: string;
@@ -65,9 +65,9 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
         }
       });
       return (
-        <ErrorBoundary id={'async-component-' + id}>
+        <ErrorProtector id={'async-component-' + id}>
           <SuccessComponent id={id + '-success'} {...data} />
-        </ErrorBoundary>
+        </ErrorProtector>
       )
     } catch (error) {
       const data = {
@@ -100,9 +100,9 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
     return <ErrorComponent id={id + '-error'} {...errorData} />;
   } else if (successData) {
     return (
-      <ErrorBoundary id={'async-component-' + id}>
+      <ErrorProtector id={'async-component-' + id}>
         <SuccessComponent id={id + '-success'} {...successData} />
-      </ErrorBoundary>
+      </ErrorProtector>
     );
   } else if (promise) {
     return <LoadComponent id={id + '-load'} />;

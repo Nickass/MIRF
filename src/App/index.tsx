@@ -3,7 +3,7 @@ import * as React from 'react';
 import sc, { css } from 'styled-components';
 
 // system
-import ErrorBoundary from '~/system/components/ErrorBoundary';
+import ErrorProtector from '~/system/components/ErrorProtector';
 
 // custom
 import NakedHeader from './Header';
@@ -47,9 +47,9 @@ class App extends React.Component<AppProps, State> {
     return (
       <Container>
         <Header config={config} />
-        <ErrorBoundary>
+        <ErrorProtector>
           {children}
-        </ErrorBoundary>
+        </ErrorProtector>
         <Footer />
       </Container>
     )

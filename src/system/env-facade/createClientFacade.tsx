@@ -1,6 +1,6 @@
 import { createFacade } from './createFacade';
 import getEnvPage from '../components/Page/client';
-import getErrorProtector from '../components/ErrorBoundary/client';
+import getEnvErrorProtector from '../components/ErrorProtector/client';
 import { memoize } from 'lodash';
 
 const createClientFacade: createFacade = ctx => {
@@ -9,7 +9,7 @@ const createClientFacade: createFacade = ctx => {
       await middleware(ctx);
     },
     EnvPage: getEnvPage(ctx),
-    ErrorProtector: memoize(getErrorProtector)(ctx)
+    EnvErrorProtector: memoize(getEnvErrorProtector)(ctx)
   })
 }
 

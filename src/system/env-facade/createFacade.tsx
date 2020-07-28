@@ -9,7 +9,7 @@ type middleware = (ctx: object) => Promise<any>
 export interface Facade {
   middleware: (middleware: middleware) => void;
   EnvPage: Page;
-  ErrorProtector: ReactComp;
+  EnvErrorProtector: ReactComp;
 }
 export type createFacade = (ctx: { store: Store, [propName: string]: any }) => Facade;
 export const createFacade: createFacade = ctx => {
@@ -18,7 +18,7 @@ export const createFacade: createFacade = ctx => {
   return ({
     middleware: md => {},
     EnvPage: () => <div>Undefined getEnvPage!</div>,
-    ErrorProtector: () => <div>Undefined ErrorProtector!</div>
+    EnvErrorProtector: () => <div>Undefined EnvErrorProtector!</div>
   })
 }
 

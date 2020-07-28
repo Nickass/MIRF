@@ -12,14 +12,14 @@ import {
   ErrorList
 } from './assets/styles';
 
-export type ErrorRenderProps = {
+
+export type ErrorDisplayProps = {
   className?: string;
   message: string;
   stack: string;
 };
 
-
-export const ErrorRender: React.SFC<ErrorRenderProps> = props => (
+export const ErrorDisplay: React.SFC<ErrorDisplayProps> = props => (
   <Error className={"Error-wrapper " + props.className}>
     <ErrorTitle>Something bad happend</ErrorTitle>
     <ErrorSubtitle>{props.message}</ErrorSubtitle>
@@ -33,14 +33,14 @@ export const ErrorRender: React.SFC<ErrorRenderProps> = props => (
 );
 
 
-export const ErrorBoundary: React.SFC<any> = props => (
+export const ErrorProtector: React.SFC<any> = props => (
   <EnvConsumer>{env => 
-    <env.ErrorProtector
+    <env.EnvErrorProtector
       id={props.id}
       children={props.children}
-      ErrorRender={ErrorRender}
+      ErrorDisplay={props.ErrorDisplay || ErrorDisplay}
     />
   }</EnvConsumer>
 );
 
-export default ErrorBoundary;
+export default ErrorProtector;

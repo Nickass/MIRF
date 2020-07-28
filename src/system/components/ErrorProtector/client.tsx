@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-export type ErrorProtectorProps = {
-  ErrorRender: any;
+export type EnvErrorProtectorProps = {
+  ErrorDisplay: any;
   id: string;
   className?: string;
   children: any;
@@ -12,8 +12,8 @@ type State = {
   stack: string | null;
 }
 
-export default function getErrorProtector(ctx: any): any {
-  return class ErrorProtector extends React.Component<ErrorProtectorProps, State> {
+export default function getEnvErrorProtector(ctx: any): any {
+  return class EnvErrorProtector extends React.Component<EnvErrorProtectorProps, State> {
     static getDerivedStateFromError(error: any) {
       return {
         message: error.message,
@@ -25,7 +25,7 @@ export default function getErrorProtector(ctx: any): any {
       super(props)
       const { store } = ctx;
       const { id } = props;
-      const errors = store.getState().errorBoundary;
+      const errors = store.getState().error_protector;
       const { stack, message } = errors[id] || {};
       this.state = { stack, message };
 
@@ -42,11 +42,11 @@ export default function getErrorProtector(ctx: any): any {
     }
   
     render () {
-      const { ErrorRender, children } = this.props;
+      const { ErrorDisplay, children } = this.props;
       const { message, stack } = this.state;
 
       return message ? (
-        <ErrorRender message={message} stack={stack} />
+        <ErrorDisplay message={message} stack={stack} />
       ) : children;
     }
   };
