@@ -1,9 +1,9 @@
 // modules
 import * as React from 'react';
 import { render, hydrate } from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
+import { AppContainer as HotProvider } from 'react-hot-loader';
+import { Provider as ReduxProvider } from 'react-redux';
+import { ConnectedRouter as RouterProvider } from 'connected-react-router';
 
 // system
 import Router from '~/system/Router';
@@ -25,13 +25,13 @@ function main(Root = Router, hydrender = render) {
 
   hydrender(
     <EnvFacadeProvider value={facade}>
-      <AppContainer>
-        <Provider store={store}>
-          <ConnectedRouter history={history}>
+      <HotProvider>
+        <ReduxProvider store={store}>
+          <RouterProvider history={history}>
             <Root />
-          </ConnectedRouter>
-        </Provider>
-      </AppContainer>
+          </RouterProvider>
+        </ReduxProvider>
+      </HotProvider>
     </EnvFacadeProvider>
     , root
   );

@@ -16,7 +16,7 @@ class AyncPage extends React.Component<AyncPageProps> {
         {async () => {
           const Page = await import(/* webpackChunkName: "[request]" */ '~/App/' + component_path + 'index')
             .then(m => m.default);
-          await new Promise(res => setTimeout(res, 600))
+          await new Promise(res => setTimeout(res, 300))
 
           return { component_path, Page }
         }}

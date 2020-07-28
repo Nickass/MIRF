@@ -13,7 +13,6 @@ interface ProfileProps extends RouteComponentProps {
 
 class Profile extends React.Component<ProfileProps> {
   render () {
-    console.log('Profile')
     return (
       <Container>
         <Title>Profile page</Title>

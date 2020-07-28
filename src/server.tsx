@@ -5,17 +5,15 @@ import * as path from 'path';
 import * as bodyParser from 'body-parser';
 
 import * as React from 'react';
-import { Provider } from 'react-redux';
-import { StaticRouter, StaticRouterContext } from 'react-router';
+import { StaticRouterContext } from 'react-router';
 import * as ReactDom from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components'
 import Helmet from 'react-helmet';
-import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
-import createEnvFacade from '~/system/env-facade/createServerFacade'
 import configureStore from '~/system/store';
 import Router from '~/system/Router';
 import { staticEndpoint } from '~/system/api'
 import axios from 'axios';
+import ServerWrapper from '~/server-wrapper';
 
 // TODO: It must be optimized, when will be implemented "mode: universal" in webpack.
 // We should pull the main client script to avoid creating extra scripts
@@ -39,22 +37,17 @@ export default async function init() {
   Server.all('*', async function(req, res, next) {
     const store = req._reduxStore;
     const routerContext: StaticRouterContext = {};
-    const envFacade = createEnvFacade({store, clientStats});
   
     const wrappComponent = (el: React.ReactElement ) => (
-      <EnvFacadeProvider value={envFacade}>
-        <Provider store={store}>
-          <StaticRouter location={req.url} context={routerContext}>
-            {el}
-          </StaticRouter>
-        </Provider>
-      </EnvFacadeProvider>
+      <ServerWrapper {...{store, req, res, clientStats, routerContext}}>
+        {el}
+      </ServerWrapper>
     );
     
     try {
       const sheet = new ServerStyleSheet();
       const jsx = wrappComponent(<Router />);
-  
+
       let html = ReactDom.renderToString(jsx);
       let state = store.getState();
       let { promises }: { promises: Promise<any>[]} = state.asyncComponent;
@@ -65,6 +58,7 @@ export default async function init() {
           const chunk = await promise;
           const wrappedChunk = wrappComponent(chunk);
           const strChunk = ReactDom.renderToString(wrappedChunk);
+
           html = html.replace(new RegExp(`<div\\sdata-async-id="${id}.*?<\\/div>`, 'mi'), strChunk);
           store.dispatch({ type: 'REMOVE_ASYNC_COMPONENT_PROMISE', payload: { id } });
         });

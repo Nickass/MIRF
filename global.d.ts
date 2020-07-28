@@ -17,9 +17,3 @@ declare namespace Express {
     _reduxStore?: any;
   }
 }
-
-declare module 'react-async-ssr' {
-  const def: any;
-  export default def;
-}
-

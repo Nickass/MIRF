@@ -36,7 +36,7 @@ const getAllRoutes = (config: config, rootProps = {}, Parent: any = React.Fragme
         <EnvFacadeConsumer>
           {ctx => {
             const Page = ctx.pageLoader(dir.replace(/\.\//, ''));
-            return <Page {...allProps} />
+            return <Page {...allProps} />;
           }}
         </EnvFacadeConsumer>
       </Parent>

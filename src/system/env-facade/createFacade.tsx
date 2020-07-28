@@ -1,12 +1,15 @@
 import * as React from 'react'
 import { Store } from 'redux';
 
+type ReactComp = React.FunctionComponent<any> | React.ComponentClass<any>;
+
 type PageProps = { [propName: string]: any }
-type Page = React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>;
+type Page = ReactComp;
 type middleware = (ctx: object) => Promise<any>
 export interface Facade {
   middleware: (middleware: middleware) => void;
   pageLoader: (path: string) => Page;
+  ErrorProtector: ReactComp;
 }
 export type createFacade = (ctx: { store: Store, [propName: string]: any }) => Facade;
 export const createFacade: createFacade = ctx => {
@@ -14,7 +17,8 @@ export const createFacade: createFacade = ctx => {
   
   return ({
     middleware: md => {},
-    pageLoader: path => () => <div>Undefinded env!</div>
+    pageLoader: path => () => <div>Undefined pageLoader!</div>,
+    ErrorProtector: () => <div>Undefined ErrorProtector!</div>
   })
 }
 
