@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router';
 import Helmet from 'react-helmet';
 
 // system
-import Page from '~/system/Page';
+import Page from '~/system/components/Page';
 import getPagesConfig, { config } from './getPagesConfig';
 
 type PagesProps = {

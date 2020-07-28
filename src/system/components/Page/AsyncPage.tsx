@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AsyncComponent from '~/system/AsyncComponent';
+import AsyncComponent from '~/system/components/AsyncComponent';
 
 type AyncPageProps = {
   component_path: string;

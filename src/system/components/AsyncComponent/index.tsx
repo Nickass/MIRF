@@ -6,7 +6,7 @@ import { state } from './store'
 import { createStructuredSelector } from 'reselect';
 import { Dispatch } from 'redux';
 import { Consumer as EnvConsumer } from '~/system/env-facade/FacadeContext';
-import ErrorBoundary from '~/system/ErrorBoundary';
+import ErrorBoundary from '~/system/components/ErrorBoundary';
 
 type LoadComponentProps = {
   id: string;

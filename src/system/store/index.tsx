@@ -4,8 +4,8 @@ import { connectRouter, routerMiddleware, RouterState } from 'connected-react-ro
 
 import appState from '~/App/state';
 import appReducer from '~/App/reducer';
-import { reducer as asyncComponentReducer, state as asyncComponentState } from '~/system/AsyncComponent/store';
-import { reducer as errorBoundaryReducer, state as errorBoundaryState } from '~/system/ErrorBoundary/store';
+import { reducer as asyncComponentReducer, state as asyncComponentState } from '~/system/components/AsyncComponent/store';
+import { reducer as errorBoundaryReducer, state as errorBoundaryState } from '~/system/components/ErrorBoundary/store';
 
 export type action = { type: string; payload?: any; };
 export const isServer = !(

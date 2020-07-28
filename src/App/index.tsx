@@ -3,7 +3,7 @@ import * as React from 'react';
 import sc, { css } from 'styled-components';
 
 // system
-import ErrorBoundary from '~/system/ErrorBoundary';
+import ErrorBoundary from '~/system/components/ErrorBoundary';
 
 // custom
 import NakedHeader from './Header';
