@@ -1,10 +1,11 @@
 import * as React from 'react'
 import AsyncPage from './AsyncPage';
+import { ClientEnvContext } from '~/system/env-facade/createClientFacade';
 
 type PageProps = { path: string; props: { [propName: string]: any } }
 type Page = React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>;
 
-export default function getPageLodader(ctx: any): Page {
+export default function getPageLodader(ctx: ClientEnvContext): Page {
   return ({path, props}) => {
     const SuccessComponent = React.useCallback(({ Page }: any) => {
       if (!Page || !Page.type) {
@@ -24,6 +25,6 @@ export default function getPageLodader(ctx: any): Page {
 
       return <Page {...props} />
     }, []);
-    return <AsyncPage component_path={path} SuccessComponent={SuccessComponent} />
+    return <AsyncPage componentPath={path} SuccessComponent={SuccessComponent} />
   }
 }

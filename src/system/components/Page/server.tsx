@@ -1,6 +1,7 @@
 import * as React from 'react';
 import AsyncPage from './AsyncPage';
 import Helmet from 'react-helmet';
+import { ServerEnvContext } from '~/system/env-facade/createServerFacade';
 
 
 type clientStats = {
@@ -17,7 +18,7 @@ type PageProps = { props: {[propName: string]: any;}; path: string; }
 type Page = React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>;
 
 
-export default function(ctx: any): Page {
+export default function(ctx: ServerEnvContext): Page {
   return ({ path, props }) => {
     const chunkName = path.replace(/\//g, '-') + 'index';
     const clientStats: clientStats = ctx.clientStats;
@@ -39,6 +40,6 @@ export default function(ctx: any): Page {
       </>
     );
 
-    return <AsyncPage component_path={path} SuccessComponent={SuccessComponent} />
+    return <AsyncPage componentPath={path} SuccessComponent={SuccessComponent} />
   }
 };

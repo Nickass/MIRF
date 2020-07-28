@@ -1,4 +1,4 @@
-import { createFacade, EnvContext } from './createFacade';
+import { Facade, EnvContext } from './createFacade';
 import getEnvPage from '../components/Page/server';
 import getEnvErrorProtector from '../components/ErrorProtector/server';
 import { memoize } from 'lodash';
@@ -10,7 +10,7 @@ export type ServerEnvContext = EnvContext & {
   routerContext: any;
 }
 
-const createServerFacade: createFacade = ctx => {
+const createServerFacade = (ctx: ServerEnvContext): Facade => {
   return ({
     middleware: middleware => async () => {
       try {
