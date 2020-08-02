@@ -76,6 +76,10 @@ export default async function init() {
   
       const JSONstate = JSON.stringify(state);
       const helmet = Helmet.renderStatic();
+
+      const hashSuffix = process.env.NODE_ENV === 'development' ? '' : '-' + __webpack_hash__;
+      const mainJs = `http://localhost:8080/public/main${hashSuffix}.js`
+      const mainCss = `http://localhost:8080/public/main${hashSuffix}.css`
       
       return res.end(`
         <!DOCTYPE html>
@@ -84,6 +88,7 @@ export default async function init() {
             ${helmet.title.toString()}
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width" />
+            <link rel="stylesheet" href="${mainCss}" />
             <script>window.REDUX_STATE = ${JSONstate}</script>
             ${helmet.meta.toString()}
             ${helmet.link.toString()}
@@ -92,7 +97,7 @@ export default async function init() {
           <body ${helmet.bodyAttributes.toString()}>
             <div id="app-root">${html}</div>
             ${helmet.script.toString()}
-            <script type="application/javascript" src="http://localhost:8080/public/main.js"></script>
+            <script type="application/javascript" src="${mainJs}"></script>
           </body>
         </html>
       `);

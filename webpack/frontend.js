@@ -20,8 +20,8 @@ const plugins = [
   new webpack.NamedModulesPlugin(),
   new SpriteLoaderPlugin(),
   new MiniCssExtractPlugin({
-    filename: '[name].[contenthash].css',
-    chunkFilename: '[name].[contenthash].css',
+    filename: isDevelopment ? '[name].css' : '[name].[contenthash].css',
+    chunkFilename: isDevelopment ? '[id].css' : '[id].[contenthash].css',
   }),
 ];
 const hmrEntry = [
@@ -37,11 +37,13 @@ if (isDevelopment) {
   plugins.unshift(new webpack.HotModuleReplacementPlugin())
 }
 
+const publicPath = isProduction ? '/' : `http://${process.env.STATIC_SERVER_HOST}:${process.env.STATIC_SERVER_PORT}/public/`;
+
 module.exports = {
   entry,
   output: {
     path: path.join(process.cwd(), 'dist/public/'),
-    publicPath: isProduction ? '/' : `http://${process.env.STATIC_SERVER_HOST}:${process.env.STATIC_SERVER_PORT}/public/`,
+    publicPath,
     filename: `[name]${isDevelopment ? '' : '-[contenthash]'}.js`
   },
   devServer: {
@@ -57,7 +59,11 @@ module.exports = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: { hmr: isDevelopment }
+            options: {
+              hmr: isDevelopment,
+              esModule: true,
+              publicPath
+            }
           },
           'css-loader',
           {
