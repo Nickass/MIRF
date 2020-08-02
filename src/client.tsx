@@ -1,12 +1,10 @@
 // modules
 import * as React from 'react';
 import { render, hydrate } from 'react-dom';
-import { AppContainer as HotProvider } from 'react-hot-loader';
 import { Provider as ReduxProvider } from 'react-redux';
 import { ConnectedRouter as RouterProvider } from 'connected-react-router';
 
 // system
-import Router from '~/system/components/Router';
 import configureStore, { history, isServer } from '~/system/store';
 import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
 import createEnvFacade from '~/system/env-facade/createClientFacade';
@@ -14,6 +12,9 @@ import createEnvFacade from '~/system/env-facade/createClientFacade';
 // assets
 import 'normalize.css/normalize.css';
 import '~/assets/base.scss';
+
+// system
+import Router from '~/system/components/Router';
 
 // assets
 import '~/assets/atomic.scss';
@@ -25,13 +26,11 @@ function main(Root = Router, hydrender = render) {
 
   hydrender(
     <EnvFacadeProvider value={facade}>
-      <HotProvider>
-        <ReduxProvider store={store}>
-          <RouterProvider history={history}>
-            <Root />
-          </RouterProvider>
-        </ReduxProvider>
-      </HotProvider>
+      <ReduxProvider store={store}>
+        <RouterProvider history={history}>
+          <Root />
+        </RouterProvider>
+      </ReduxProvider>
     </EnvFacadeProvider>
     , root
   );
@@ -40,7 +39,7 @@ function main(Root = Router, hydrender = render) {
 if (!isServer) {
   if (module.hot) {
     module.hot.accept('~/system/components/Router', () => {
-      main(require('~/system/components/Router').default, hydrate)
+      main(require('~/system/components/Router').default, render)
     });
   }
   main(Router, hydrate)

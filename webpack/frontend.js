@@ -26,8 +26,7 @@ const plugins = [
 ];
 const hmrEntry = [
   `webpack-dev-server/client?http://${process.env.STATIC_SERVER_HOST}:${process.env.STATIC_SERVER_PORT}`,
-  'webpack/hot/only-dev-server',
-  'react-hot-loader/patch',
+  'webpack/hot/dev-server'
 ];
 const entry = [
   '~/client.tsx',
