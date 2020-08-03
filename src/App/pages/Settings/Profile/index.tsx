@@ -8,11 +8,11 @@ import { Container, Title } from './assets/styles';
 
 interface ProfileProps extends RouteComponentProps {
   className?: string;
-  dispatch: any;
 };
 
 class Profile extends React.Component<ProfileProps> {
   render () {
+    console.log('profile', this.props)
     return (
       <Container>
         <Title>Profile page</Title>
@@ -22,4 +22,4 @@ class Profile extends React.Component<ProfileProps> {
   }
 }
 
-export default connect()(Profile);
+export default Profile;

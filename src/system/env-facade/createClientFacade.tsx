@@ -1,5 +1,5 @@
 import { Facade, EnvContext } from './createFacade';
-import getEnvPage from '../components/Page/client';
+import getEnvPageLoader from '../components/PageLoader/client';
 import getEnvErrorProtector from '../components/ErrorProtector/client';
 import { memoize } from 'lodash';
 
@@ -11,7 +11,7 @@ const createClientFacade = (ctx: ClientEnvContext): Facade => {
     middleware: middleware => async () => {
       await middleware(ctx);
     },
-    EnvPage: getEnvPage(ctx),
+    EnvPageLoader: getEnvPageLoader(ctx),
     EnvErrorProtector: memoize(getEnvErrorProtector)(ctx)
   })
 }

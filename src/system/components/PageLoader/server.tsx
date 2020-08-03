@@ -41,7 +41,7 @@ export default function(ctx: ServerEnvContext): Page {
           {scripts}
           {styles}
         </Helmet>
-        <Page {...props} />
+        <Page {...props} ctx={ctx} />
       </>
     );
   }
