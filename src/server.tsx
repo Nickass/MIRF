@@ -15,10 +15,6 @@ import { staticEndpoint } from '~/system/api'
 import axios from 'axios';
 import ServerWrapper from '~/server-wrapper';
 
-// TODO: It must be optimized, when will be implemented "mode: universal" in webpack.
-// We should pull the main client script to avoid creating extra scripts
-// import { Router, configureStore } from './client';
-
 
 export default async function init() {
   const Server = express();

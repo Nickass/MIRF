@@ -1,6 +1,6 @@
 import * as React from 'react'
-import AsyncPage from './AsyncPage';
 import { ClientEnvContext } from '~/system/env-facade/createClientFacade';
+import AsyncComponent from '~/system/components/AsyncComponent';
 
 type PageProps = { path: string; props: { [propName: string]: any } }
 type Page = React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>;
@@ -8,7 +8,8 @@ type Page = React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>
 export default function getPageLodader(ctx: ClientEnvContext): Page {
   return ({path, props}) => {
     const pageModuleName = `./App/${path}index.tsx`;
-    const all = "./App lazy recursive ^\\.\\/.*index$"; // TODO: bind this with AsyncPage
+    const all = "./App lazy recursive ^\\.\\/.*index$";
+    const asyncId = `request-page-${path}`;
 
     const SuccessComponent: any = React.useCallback(({ Page }: any) => {
       if (!Page || !Page.type) {
@@ -39,6 +40,16 @@ export default function getPageLodader(ctx: ClientEnvContext): Page {
 
       return <Page {...props} />
     }, []);
-    return <AsyncPage componentPath={path} SuccessComponent={SuccessComponent} />
+    
+    return (
+      <AsyncComponent id={asyncId} SuccessComponent={SuccessComponent}>
+        {async () => {
+          const { default: Page } = await import(/* webpackChunkName: "[request]" */ '~/App/' + path + 'index');
+          await new Promise(res => setTimeout(res, 300))
+
+          return { Page }
+        }}
+      </AsyncComponent>
+    );
   }
 }

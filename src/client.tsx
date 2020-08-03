@@ -36,13 +36,10 @@ function main(Root = Router, hydrender = render) {
   );
 }
 
-if (!isServer) {
-  if (module.hot) {
-    module.hot.accept('~/system/components/Router', () => {
-      main(require('~/system/components/Router').default, render)
-    });
-  }
-  main(Router, hydrate)
+if (module.hot) {
+  module.hot.accept('~/system/components/Router', () => {
+    main(require('~/system/components/Router').default, render)
+  });
 }
 
-export { Router, configureStore };
+main(Router, hydrate);

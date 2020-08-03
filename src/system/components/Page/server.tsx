@@ -1,5 +1,4 @@
 import * as React from 'react';
-import AsyncPage from './AsyncPage';
 import Helmet from 'react-helmet';
 import { ServerEnvContext } from '~/system/env-facade/createServerFacade';
 
@@ -29,8 +28,14 @@ export default function(ctx: ServerEnvContext): Page {
     const styles = assets.filter(item => item.endsWith('.css')).map(item => (
       <link rel="stylesheet" key={item} href={`http://localhost:8080/public/${item}`} />
     ));
+    const Page = require('~/App/' + path + 'index').default; // TODO: loading from client scripts
 
-    const SuccessComponent = ({ Page }: any) => (
+    ctx.store.dispatch({
+      type: 'UPSERT_ASYNC_COMPONENT_SUCCESS',
+      payload: { id: `request-page-${path}`, data: true }
+    });
+
+    return (
       <>
         <Helmet>
           {scripts}
@@ -39,7 +44,5 @@ export default function(ctx: ServerEnvContext): Page {
         <Page {...props} />
       </>
     );
-
-    return <AsyncPage componentPath={path} SuccessComponent={SuccessComponent} />
   }
 };
