@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router';
 import Helmet from 'react-helmet';
 
 // system
-import Page from '~/system/components/Page';
+import PageLoader from '~/system/components/PageLoader';
 import getPagesConfig, { config } from './getPagesConfig';
 
 type PagesProps = {
@@ -29,7 +29,7 @@ const getAllRedirectedPaths = (config: config): JSX.Element[] => {
 
 const getAllRoutes = (config: config, rootProps = {}, Parent: any = React.Fragment): JSX.Element[] => {
   const { id, name, path, dir, routes } = config;
-  const PageRouteComponent = (props: any) => {
+  const PageRoute = (props: any) => {
     const allProps = { ...rootProps, ...config.props, ...props };
 
     return (
@@ -37,15 +37,15 @@ const getAllRoutes = (config: config, rootProps = {}, Parent: any = React.Fragme
         <Helmet>
           <title>{name}</title>
         </Helmet>
-        <Page path={dir.replace(/\.\//, '')} props={allProps}/>
+        <PageLoader path={dir.replace(/\.\//, '')} props={allProps}/>
       </Parent>
     );
   }
   const innerRoutes = routes.reduce((acc, curr) => 
-    [...acc, ...getAllRoutes(curr, rootProps, PageRouteComponent)], [] as JSX.Element[]);
+    [...acc, ...getAllRoutes(curr, rootProps, PageRoute)], [] as JSX.Element[]);
 
 
-  return [...innerRoutes, <Route key={id} exact={true} path={path} component={PageRouteComponent} />]
+  return [...innerRoutes, <Route key={id} exact={true} path={path} component={PageRoute} />]
 }
 
 

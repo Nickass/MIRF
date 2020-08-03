@@ -38,7 +38,7 @@ export default function getPageLodader(ctx: ClientEnvContext): Page {
         Page = Component.Page;
       }
 
-      return <Page {...props} />
+      return <Page {...props} ctx={ctx} />
     }, []);
     
     return (
