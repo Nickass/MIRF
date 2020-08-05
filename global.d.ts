@@ -17,3 +17,5 @@ declare namespace Express {
     _reduxStore?: any;
   }
 }
+
+declare type asyncIdentity<T = any> = (a: T) => Promise<T>;

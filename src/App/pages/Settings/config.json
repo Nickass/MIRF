@@ -4,7 +4,8 @@
     {
       "id": "profile",
       "path": "/profile",
-      "dir": "Profile/"
+      "dir": "Profile/",
+      "middlewares": ["profile"]
     }
   ]
 }

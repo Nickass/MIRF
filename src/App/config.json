@@ -7,8 +7,14 @@
       "id": "home",
       "path": "/",
       "dir": "pages/Home/",
-      "middleware": ["auth"],
+      "middlewares": ["auth"],
       "props": {} 
+    },
+    {
+      "id": "settings-policy",
+      "path": "/settings/settings-policy",
+      "dir": "pages/SettingsPolicy/",
+      "props": {}
     },
     {
       "id": "settings",
@@ -20,12 +26,6 @@
       "id": "words",
       "path": "/words",
       "dir": "pages/Words/",
-      "props": {}
-    },
-    {
-      "id": "settings-policy",
-      "path": "/settings/settings-policy",
-      "dir": "pages/SettingsPolicy/",
       "props": {}
     },
     {

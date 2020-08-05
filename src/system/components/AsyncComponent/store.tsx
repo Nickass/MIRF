@@ -54,6 +54,18 @@ export const reducer: reducer = (upcomingState = state, action) => {
 
       break;
     }
+    case 'REMOVE_ASYNC_DATA': {
+      const { id } = action.payload;
+      newState.promises = { ...newState.promises }
+      newState.success = { ...newState.success }
+      newState.errors = { ...newState.errors }
+
+      delete newState.promises[id];
+      delete newState.success[id];
+      delete newState.errors[id];
+
+      break;
+    }
   }
 
   return newState;

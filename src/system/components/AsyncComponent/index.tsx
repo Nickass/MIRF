@@ -1,12 +1,9 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import store, { isServer, defaultState } from '~/system/store';
-import { state } from './store'
+import { defaultState } from '~/system/store';
 import { createStructuredSelector } from 'reselect';
-import { Dispatch } from 'redux';
-import { Consumer as EnvConsumer } from '~/system/env-facade/FacadeContext';
-import ErrorProtector from '~/system/components/ErrorProtector';
+import { default as ErrorProtector, ErrorDisplay } from '~/system/components/ErrorProtector';
 
 type LoadComponentProps = {
   id: string;
@@ -20,16 +17,11 @@ type ErrorComponentProps = {
   stack: string;
   message: string;
 }
-const DefaultErrorComponent: React.FunctionComponent<ErrorComponentProps> = props => (
-  <div className="error-component" style={{border: '2px solid red', textAlign: 'left'}}>
-    Error: {props.message} <br />
-    Stack: {props.stack}
-  </div>
-);
 
 export interface AsyncComponentOwnProps {
   id: string;
-  children: () => Promise<object | undefined>;
+  caching?: boolean;
+  children: () => Promise<any>;
   LoadComponent?: React.FunctionComponent<LoadComponentProps>;
   ErrorComponent?: React.FunctionComponent<ErrorComponentProps>;
   SuccessComponent: React.SFC<any>;
@@ -42,12 +34,13 @@ export interface AsyncComponentProps extends AsyncComponentOwnProps, AsyncCompon
 
 const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props) {
   const {
-    ErrorComponent = DefaultErrorComponent,
+    ErrorComponent = ErrorDisplay,
     LoadComponent = DefaultLoadComponent,
     children: waitFunc,
     SuccessComponent,
     dispatch,
     allData,
+    caching = true,
     id,
   } = props as any;
   const promise = allData.promises[id];
@@ -95,6 +88,16 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
     });
   }
 
+  React.useEffect(() => {
+    return () => {
+      if (!caching) {
+        dispatch({ // TODO: make it more bulletproof. Becouse sometimes it can use incorrect and than we can trap in an infinite loop.
+          type: 'REMOVE_ASYNC_DATA',
+          payload: { id }
+        });
+      }
+    }
+  }, [id, caching])
     
   if (errorData) {
     return <ErrorComponent id={id + '-error'} {...errorData} />;

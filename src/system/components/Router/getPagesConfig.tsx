@@ -28,6 +28,12 @@ export interface config extends Required<baseConfig>, Required<subConfig> {
 
 export const allConfigsCtx = require.context('~/App/', true, /config/);
 
+function reorderRoutes(routes: config[]) {
+  // TODO: reorder routes by more specific route
+  return routes;
+}
+
+// TODO: separate this function to two: 1. merge configs; 2. join paths
 export const getPagesConfig = ({ id, dir, path, props = {}, middlewares = [] }: subConfig): config => {
   dir = dir.replace(/\/+/gm, '/');
   path = path.replace(/\/+/gm, '/');
@@ -40,9 +46,11 @@ export const getPagesConfig = ({ id, dir, path, props = {}, middlewares = [] }: 
     const sub_dir = `${dir}${bind.dir}`;
     const sub_path = `${path}${params}${bind.path}`;
     return getPagesConfig({ ...bind, dir: sub_dir, path: sub_path });
-  }); // TODO: remove comment if this solution doesn't help -> .sort((a, b) => b.path.length - a.path.length);
+  });
 
-  return {
+  const rightOrderRoutes = reorderRoutes(mergedRoutes); 
+
+  return Object.freeze({
     ...baseConfig,
     id,
     name,
@@ -52,8 +60,8 @@ export const getPagesConfig = ({ id, dir, path, props = {}, middlewares = [] }: 
     props,
     path,
     dir,
-    routes: mergedRoutes
-  };
+    routes: rightOrderRoutes
+  });
 }
 
 export default getPagesConfig;

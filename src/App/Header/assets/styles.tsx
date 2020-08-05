@@ -19,10 +19,11 @@ export const Nav = sc.nav`
 `;
 
 export const NavList = sc.ul`
-  display: flex;
-  padding: 0;
+  display: inline-flex;
+  max-width: 100%;
   margin: 0;
-  justify-content: center;
+  padding: 0;
+  overflow: auto;
 `;
 
 export const NavItem = sc.li`

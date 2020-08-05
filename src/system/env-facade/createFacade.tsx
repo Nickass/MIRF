@@ -3,21 +3,19 @@ import { Store } from 'redux';
 
 type ReactComp = React.FunctionComponent<any> | React.ComponentClass<any>;
 
-type PageProps = { [propName: string]: any }
-type Page = ReactComp;
-type middleware = (ctx: object) => Promise<any>
 export interface Facade {
-  middleware: (middleware: middleware) => void;
-  EnvPageLoader: Page;
+  EnvMiddleware: ReactComp;
+  EnvPageLoader: ReactComp;
   EnvErrorProtector: ReactComp;
 }
 export type EnvContext = { store: Store, [propName: string]: any };
 export type createFacade = (ctx: EnvContext) => Facade;
+
 export const createFacade: createFacade = ctx => {
   // const ctx = createContext(ctx.store);
   
   return ({
-    middleware: md => {},
+    EnvMiddleware:  () => <div>Undefined getEnvMiddleware!</div>,
     EnvPageLoader: () => <div>Undefined getEnvPageLoader!</div>,
     EnvErrorProtector: () => <div>Undefined EnvErrorProtector!</div>
   })

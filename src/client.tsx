@@ -7,6 +7,7 @@ import { ConnectedRouter as RouterProvider } from 'connected-react-router';
 // system
 import configureStore, { history, isServer } from '~/system/store';
 import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
+import { Provider as MWProvider } from '~/system/components/Middleware/MWContext';
 import createEnvFacade from '~/system/env-facade/createClientFacade';
 
 // assets
@@ -23,12 +24,15 @@ function main(Root = Router, hydrender = render) {
   const store = configureStore(window.REDUX_STATE);
   const facade = createEnvFacade({store});
   const root = document.getElementById('app-root');
+  const mwares = {};
 
   hydrender(
     <EnvFacadeProvider value={facade}>
       <ReduxProvider store={store}>
         <RouterProvider history={history}>
-          <Root />
+          <MWProvider value={mwares}>
+            <Root />
+          </MWProvider>
         </RouterProvider>
       </ReduxProvider>
     </EnvFacadeProvider>

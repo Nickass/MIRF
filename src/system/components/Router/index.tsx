@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 
 // system
 import PageLoader from '~/system/components/PageLoader';
+import Middleware from '~/system/components/Middleware';
 import getPagesConfig, { config } from './getPagesConfig';
 
 type PagesProps = {
@@ -27,25 +28,31 @@ const getAllRedirectedPaths = (config: config): JSX.Element[] => {
   return [ ...routes, ...inner ];
 }
 
-const getAllRoutes = (config: config, rootProps = {}, Parent: any = React.Fragment): JSX.Element[] => {
+const getAllRoutes = (config: config, rootProps = {}): JSX.Element => {
   const { id, name, path, dir, routes } = config;
+  const innerRoutes = routes.map(route => getAllRoutes(route, rootProps));
+
   const PageRoute = (props: any) => {
     const allProps = { ...rootProps, ...config.props, ...props };
 
     return (
-      <Parent>
+      <Middleware config={config} props={allProps}>
         <Helmet>
           <title>{name}</title>
         </Helmet>
-        <PageLoader path={dir.replace(/\.\//, '')} props={allProps}/>
-      </Parent>
+        <PageLoader path={dir.replace(/\.\//, '')} props={allProps} />
+      </Middleware>
     );
-  }
-  const innerRoutes = routes.reduce((acc, curr) => 
-    [...acc, ...getAllRoutes(curr, rootProps, PageRoute)], [] as JSX.Element[]);
+  };
+
+  const REWRITE_IT = () => ( // TODO: REWRITE IT
+    <PageRoute>
+      <Switch>{innerRoutes}</Switch>
+    </PageRoute>
+  )
 
 
-  return [...innerRoutes, <Route key={id} exact={true} path={path} component={PageRoute} />]
+  return <Route key={id} path={path} exact={!innerRoutes.length} component={REWRITE_IT} />;
 }
 
 
