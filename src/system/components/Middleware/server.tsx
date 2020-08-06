@@ -13,17 +13,17 @@ type clientStats = {
     }
   }
 }
-type MiddlewareProps = { path: string; render: any; }
+type MiddlewareProps = { path: string; Component: any; }
 type Middleware = React.FunctionComponent<MiddlewareProps> | React.ComponentClass<MiddlewareProps>;
 
 
 export default function(ctx: ServerEnvContext): Middleware {
-  return ({ path, render }) => {
+  return function EnvMiddleware({ path, Component }) {
     const chunkName = path.replace(/\//g, '-') + 'middlewares-index';
     const clientStats: clientStats = ctx.clientStats;
     const chunk = clientStats.namedChunkGroups[chunkName];
     
-    if (!chunk) return render(null);
+    if (!chunk) return <Component middlewares={null} />;
 
     const scripts = chunk.assets.filter(item => item.endsWith('.js')).map(item => (
       <script type="text/javascript" key={item} src={`http://localhost:8080/public/${item}`} />
@@ -44,7 +44,7 @@ export default function(ctx: ServerEnvContext): Middleware {
           {scripts}
           {styles}
         </Helmet>
-        {render(middlewares)}
+        <Component middlewares={middlewares} />
       </>
     )
   }

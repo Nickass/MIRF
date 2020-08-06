@@ -2,11 +2,11 @@ import * as React from 'react'
 import { ClientEnvContext } from '~/system/env-facade/createClientFacade';
 import AsyncComponent from '~/system/components/AsyncComponent';
 
-type MiddlewareProps = { path: string; render: any; }
+type MiddlewareProps = { path: string; Component: any; }
 type Middleware = React.FunctionComponent<MiddlewareProps> | React.ComponentClass<MiddlewareProps>;
 
 export default function getMiddlewareLodader(ctx: ClientEnvContext): Middleware {
-  return ({ path, render }) => {
+  return function EnvMiddleware({ path, Component }) {
     const middlewareModuleName = `./App/${path}middlewares/index.tsx`;
     const all = "./App lazy recursive ^\\.\\/.*middlewares/index$";
     const asyncId = `middlewares-${path}`;
@@ -40,7 +40,7 @@ export default function getMiddlewareLodader(ctx: ClientEnvContext): Middleware 
         middlewares = mwstate.middlewares;
       }
 
-      return render(middlewares);
+      return <Component middlewares={middlewares} />;
     }, []);
     
     return (

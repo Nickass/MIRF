@@ -56,3 +56,5 @@ class App extends React.Component<AppProps, State> {
 }
 
 export default App;
+
+// export * as middlewares from './middlewares';
