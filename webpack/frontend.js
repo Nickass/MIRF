@@ -57,13 +57,9 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          {
+          isDevelopment ? 'style-loader' : { // TODO: make hmr client-server friendly
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: isDevelopment,
-              esModule: true,
-              publicPath
-            }
+            options: { publicPath }
           },
           'css-loader',
           {

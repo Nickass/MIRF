@@ -9,16 +9,10 @@ import configureStore, { history, isServer } from '~/system/store';
 import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
 import { Provider as MWProvider } from '~/system/components/Middleware/MWContext';
 import createEnvFacade from '~/system/env-facade/createClientFacade';
-
-// assets
-import 'normalize.css/normalize.css';
-import '~/assets/base.scss';
-
-// system
 import Router from '~/system/components/Router';
 
 // assets
-import '~/assets/atomic.scss';
+import 'normalize.css/normalize.css';
 
 function main(Root = Router, hydrender = render) {
   const store = configureStore(window.REDUX_STATE);

@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router';
 
 // assets
 import { Container, Title } from './assets/styles';
+import './assets/base.scss';
 
 interface HomeProps extends RouteComponentProps {
   className?: string;

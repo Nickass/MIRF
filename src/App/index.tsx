@@ -2,6 +2,10 @@
 import * as React from 'react';
 import sc, { css } from 'styled-components';
 
+// assets
+import './assets/base.scss';
+import './assets/atomic.scss';
+
 // custom
 import NakedHeader from './Header';
 import NakedFooter from './Footer';
