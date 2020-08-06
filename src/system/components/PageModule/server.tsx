@@ -13,12 +13,15 @@ type clientStats = {
     }
   }
 }
-type PageProps = { props: {[propName: string]: any;}; path: string; }
-type Page = React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>;
+type PageModuleProps = {
+  Component: any;
+  path: string;
+}
+type PageModule = React.FunctionComponent<PageModuleProps> | React.ComponentClass<PageModuleProps>;
 
 
-export default function(ctx: ServerEnvContext): Page {
-  return ({ path, props }) => {
+export default function getPageModule(ctx: ServerEnvContext): PageModule {
+  return ({ path, Component }) => {
     const chunkName = path.replace(/\//g, '-') + 'index';
     const clientStats: clientStats = ctx.clientStats;
     const { assets } = clientStats.namedChunkGroups[chunkName];
@@ -28,7 +31,7 @@ export default function(ctx: ServerEnvContext): Page {
     const styles = assets.filter(item => item.endsWith('.css')).map(item => (
       <link rel="stylesheet" key={item} href={`http://localhost:8080/public/${item}`} />
     ));
-    const Page = require('~/App/' + path + 'index').default; // TODO: loading from client scripts
+    const pageModule = require('~/App/' + path + 'index'); // TODO: loading from client scripts
 
     ctx.store.dispatch({
       type: 'UPSERT_ASYNC_COMPONENT_SUCCESS',
@@ -41,7 +44,7 @@ export default function(ctx: ServerEnvContext): Page {
           {scripts}
           {styles}
         </Helmet>
-        <Page {...props} ctx={ctx} />
+        <Component pageModule={pageModule} />
       </>
     );
   }
