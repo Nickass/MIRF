@@ -17,10 +17,12 @@ type MiddlewareProps = {
 const asyncIdentity: asyncIdentity = async a => a;
 
 export const Middleware: React.SFC<MiddlewareProps> = ({ config, props, children }) => {
-  const { EnvMiddleware } = React.useContext(ENVContext);
+  const { EnvPageModule } = React.useContext(ENVContext);
   const parentMiddlewares = React.useContext(MWContext);
-  
-  const MiddlewareComponent = React.useCallback(({middlewares = {}}) => {
+  const defaultMiddlewares = {};
+
+  const MiddlewareComponent = React.useCallback(({ pageModule }) => {
+    const { middlewares = defaultMiddlewares } = pageModule;
     const allMWares: MWContextValue = React.useMemo(
       () => ({ ...parentMiddlewares, ...middlewares })
       , [parentMiddlewares, middlewares]
@@ -45,7 +47,7 @@ export const Middleware: React.SFC<MiddlewareProps> = ({ config, props, children
     );
   }, []);
 
-  return <EnvMiddleware path={config.dir.replace(/\.\//, '')} Component={MiddlewareComponent} />;
+  return <EnvPageModule path={config.dir.replace(/\.\//, '')} Component={MiddlewareComponent} />;
 };
 
 export default Middleware;

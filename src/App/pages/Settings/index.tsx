@@ -22,4 +22,4 @@ class Settings extends React.Component<SettingsProps> {
   }
 }
 
-export default connect()(Settings);
+export default Settings;

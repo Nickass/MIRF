@@ -4,7 +4,6 @@ import { Store } from 'redux';
 type ReactComp = React.FunctionComponent<any> | React.ComponentClass<any>;
 
 export interface Facade {
-  EnvMiddleware: ReactComp;
   EnvPageModule: ReactComp;
   EnvErrorProtector: ReactComp;
 }
@@ -15,7 +14,6 @@ export const createFacade: createFacade = ctx => {
   // const ctx = createContext(ctx.store);
   
   return ({
-    EnvMiddleware:  () => <div>Undefined getEnvMiddleware!</div>,
     EnvPageModule: () => <div>Undefined getEnvPageModule!</div>,
     EnvErrorProtector: () => <div>Undefined EnvErrorProtector!</div>
   })

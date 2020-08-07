@@ -10,6 +10,9 @@ import './assets/atomic.scss';
 import NakedHeader from './Header';
 import NakedFooter from './Footer';
 
+import * as middlewares from './middlewares';
+export { middlewares };
+
 // assets
 const Container = sc.div`
   display: flex;
@@ -56,5 +59,3 @@ class App extends React.Component<AppProps, State> {
 }
 
 export default App;
-
-// export * as middlewares from './middlewares';
