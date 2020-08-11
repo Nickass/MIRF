@@ -42,16 +42,18 @@ export default function getPageModule(ctx: ClientEnvContext): PageModule {
       }
 
       return <Component pageModule={pageModule} />
-    }, []);
+    }, [all, pageModuleName]);
+
+    const awaitFunc = React.useCallback(async () => {
+      const pageModule = await import(/* webpackChunkName: "[request]" */ '~/App/' + path + 'index');
+      await new Promise(res => setTimeout(res, 300))
+
+      return { pageModule }
+    }, [path]);
     
     return (
       <AsyncComponent id={asyncId} SuccessComponent={SuccessComponent}>
-        {async () => {
-          const pageModule = await import(/* webpackChunkName: "[request]" */ '~/App/' + path + 'index');
-          await new Promise(res => setTimeout(res, 300))
-
-          return { pageModule }
-        }}
+        {awaitFunc}
       </AsyncComponent>
     );
   }

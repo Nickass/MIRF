@@ -1,6 +1,5 @@
 // modules
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 // assets
@@ -22,4 +21,4 @@ class Words extends React.Component<WordsProps> {
   }
 }
 
-export default connect()(Words);
+export default Words;

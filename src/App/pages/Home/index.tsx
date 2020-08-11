@@ -12,6 +12,12 @@ interface HomeProps extends RouteComponentProps {
   dispatch: any;
 };
 
+export async function init(props: any): Promise<HomeProps> {
+  console.log('home init data')
+
+  return ({} as any);
+}
+
 class Home extends React.Component<HomeProps> {
   render () {
     return (
@@ -23,4 +29,4 @@ class Home extends React.Component<HomeProps> {
   }
 }
 
-export default connect()(Home);
+export default Home;

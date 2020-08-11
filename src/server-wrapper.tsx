@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Provider as ReduxProvider } from 'react-redux';
 import { StaticRouter, StaticRouterContext } from 'react-router';
 import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
-import { Provider as MWProvider } from '~/system/components/Middleware/MWContext';
+import { Provider as MWProvider } from '~/system/components/Page/Middleware/MWContext';
 import createEnvFacade from '~/system/env-facade/createServerFacade'
 
 export type ServerWrapperProps = {

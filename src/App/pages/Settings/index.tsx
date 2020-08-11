@@ -6,9 +6,11 @@ import { RouteComponentProps } from 'react-router';
 // assets
 import { Container, Title } from './assets/styles';
 
+import * as middlewares from './middlewares';
+export { middlewares };
+
 interface SettingsProps extends RouteComponentProps {
   className?: string;
-  dispatch: any;
 };
 
 class Settings extends React.Component<SettingsProps> {

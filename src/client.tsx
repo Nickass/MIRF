@@ -7,7 +7,7 @@ import { ConnectedRouter as RouterProvider } from 'connected-react-router';
 // system
 import configureStore, { history, isServer } from '~/system/store';
 import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
-import { Provider as MWProvider } from '~/system/components/Middleware/MWContext';
+import { Provider as MWProvider } from '~/system/components/Page/Middleware/MWContext';
 import createEnvFacade from '~/system/env-facade/createClientFacade';
 import Router from '~/system/components/Router';
 

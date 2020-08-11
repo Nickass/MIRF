@@ -8,13 +8,15 @@
       "path": "/",
       "dir": "pages/Home/",
       "middlewares": ["auth"],
-      "props": {} 
+      "props": {},
+      "exact": true
     },
     {
       "id": "settings-policy",
-      "path": "/settings/settings-policy",
+      "path": "/settings/policy",
       "dir": "pages/SettingsPolicy/",
-      "props": {}
+      "props": {},
+      "exact": true
     },
     {
       "id": "settings",

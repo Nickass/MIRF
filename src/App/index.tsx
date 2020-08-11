@@ -39,11 +39,17 @@ const Footer = sc(NakedFooter)`
 // `;
 
 type AppProps = {
-  config: any
+  config: any;
 };
 type State = {
 
 };
+
+export async function init(props: any): Promise<AppProps> {
+  console.log('itntial App data')
+
+  return ({} as any);
+}
 
 class App extends React.Component<AppProps, State> {
   render () {

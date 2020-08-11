@@ -2,6 +2,7 @@ import * as React from 'react';
 import Helmet from 'react-helmet';
 import ENVContext from '~/system/env-facade/FacadeContext';
 import { config } from '~/system/components/Router/getPagesConfig';
+import Middleware from './Middleware';
 
 type PageProps = {
   config: config;
@@ -15,16 +16,16 @@ export const Page: React.SFC<PageProps> = ({ config, props, children }) => {
     const { default: Page } = pageModule;
 
     return (
-      <>
+      <Middleware config={config} props={props}>
         <Helmet>
           <title>{config.name}</title>
         </Helmet>
         <Page {...props}>
           {children}
         </Page>
-      </>
+      </Middleware>
     )
-  }, [config, props, children]);
+  }, []);
 
   return (
     <EnvPageModule path={config.dir.replace(/\.\//, '')} Component={PageComponent} />

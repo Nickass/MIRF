@@ -4,7 +4,6 @@ import { Switch, Route, Redirect } from 'react-router';
 
 // system
 import Page from '~/system/components/Page';
-import Middleware from '~/system/components/Middleware';
 import getPagesConfig, { config } from './getPagesConfig';
 
 type PagesProps = {
@@ -35,11 +34,9 @@ const getAllRoutes = (config: config, rootProps = {}): JSX.Element => {
     const allProps = { ...rootProps, ...config.props, ...props };
 
     return (
-      <Middleware config={config} props={allProps}>
-        <Page config={config} props={allProps}>
-          <Switch>{innerRoutes}</Switch>
-        </Page>
-      </Middleware>
+      <Page config={config} props={allProps}>
+         <Switch>{innerRoutes}</Switch>
+      </Page>
     );
   };
 
