@@ -39,13 +39,12 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
     children: waitFunc,
     SuccessComponent,
     dispatch,
-    allData,
-    caching = true,
+    promise,
+    errorData,
+    successData,
+    caching,
     id,
   } = props as any;
-  const promise = allData.promises[id];
-  const errorData = allData.errors[id];
-  const successData = allData.success[id];
 
   const resolver = async () => {
     try {
@@ -59,7 +58,7 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
       });
       return (
         <ErrorProtector id={'async-component-' + id}>
-          <SuccessComponent id={id + '-success'} {...data} />
+          <SuccessComponent {...data} />
         </ErrorProtector>
       )
     } catch (error) {
@@ -91,7 +90,7 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
   React.useEffect(() => {
     return () => {
       if (!caching) {
-        dispatch({ // TODO: make it more bulletproof. Becouse sometimes it can use incorrect and than we can trap in an infinite loop.
+        dispatch({
           type: 'REMOVE_ASYNC_DATA',
           payload: { id }
         });
@@ -104,7 +103,7 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
   } else if (successData) {
     return (
       <ErrorProtector id={'async-component-' + id}>
-        <SuccessComponent id={id + '-success'} {...successData} />
+        <SuccessComponent {...successData} />
       </ErrorProtector>
     );
   } else if (promise) {
@@ -115,5 +114,10 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
 }
 
 export default connect<any, AsyncComponentWithStore, AsyncComponentOwnProps, defaultState>(
-  createStructuredSelector({ allData: state => state.asyncComponent }),
+  (state, ownProps) => ({
+    promise: state.asyncComponent.promises[ownProps.id],
+    errorData: state.asyncComponent.errors[ownProps.id],
+    successData: state.asyncComponent.success[ownProps.id],
+  }),
+  // createStructuredSelector({ allData: (state) => state.asyncComponent }),
 )(AsyncComponent);

@@ -9,7 +9,7 @@ type PageModuleProps = {
 type PageModule = React.FunctionComponent<PageModuleProps> | React.ComponentClass<PageModuleProps>;
 
 export default function getPageModule(ctx: ClientEnvContext): PageModule {
-  return ({path, Component}) => {
+  return ({ path, Component }) => {
     const pageModuleName = `./App/${path}index.tsx`;
     const all = "./App lazy recursive ^\\.\\/.*index$";
     const asyncId = `request-page-${path}`;
@@ -21,13 +21,13 @@ export default function getPageModule(ctx: ClientEnvContext): PageModule {
 
       if (module.hot) {
         const [pageModuleState, setPageModuleState] = React.useState({ pageModule });
-  
+
         const acceptFunction = () => {
           const isCurrent = SuccessComponent._mounted;
           const pageModule = __webpack_require__(pageModuleName);
           if (isCurrent) setPageModuleState({ pageModule });
         };
-  
+
         React.useEffect(() => {
           const lazyModule = require.cache[all];
 
@@ -37,22 +37,19 @@ export default function getPageModule(ctx: ClientEnvContext): PageModule {
 
           return () => { SuccessComponent._mounted = false; }
         }, [pageModuleName]);
-  
+
         pageModule = pageModuleState.pageModule;
       }
 
       return <Component pageModule={pageModule} />
     }, [all, pageModuleName]);
 
-    const awaitFunc = React.useCallback(async () => {
-      const pageModule = await import(/* webpackChunkName: "[request]" */ '~/App/' + path + 'index');
-      await new Promise(res => setTimeout(res, 300))
+    const awaitFunc = React.useCallback(async () => 
+      await import(/* webpackChunkName: "[request]" */ '~/App/' + path + 'index')
+    , [path]);
 
-      return { pageModule }
-    }, [path]);
-    
     return (
-      <AsyncComponent id={asyncId} SuccessComponent={SuccessComponent}>
+      <AsyncComponent id={asyncId} SuccessComponent={SuccessComponent} caching={true}>
         {awaitFunc}
       </AsyncComponent>
     );

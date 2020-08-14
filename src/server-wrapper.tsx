@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Provider as ReduxProvider } from 'react-redux';
 import { StaticRouter, StaticRouterContext } from 'react-router';
 import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
-import { Provider as MWProvider } from '~/system/components/Page/Middleware/MWContext';
+import { Provider as CustomRouterProvider } from '~/system/components/Router/RouterContext';
 import createEnvFacade from '~/system/env-facade/createServerFacade'
 
 export type ServerWrapperProps = {
@@ -16,16 +16,16 @@ export type ServerWrapperProps = {
 }
 
 export const ServerWrapper: React.SFC<ServerWrapperProps> = function ({ children, store, clientStats, req, res, routerContext }) {
-  const envFacade = createEnvFacade({store, clientStats, req, res, routerContext});
-  const mwares = {};
+  const envFacade = createEnvFacade({ store, clientStats, req, res, routerContext });
+  const curtomRouterValue = { full_id: 'base', full_dir: '', full_path: '', middlewares: {} };
   
   return (
     <EnvFacadeProvider value={envFacade}>
       <ReduxProvider store={store}>
         <StaticRouter location={req.url} context={routerContext}>
-          <MWProvider value={mwares}>
+          <CustomRouterProvider value={curtomRouterValue}>
             {children}
-          </MWProvider>
+          </CustomRouterProvider>
         </StaticRouter>
       </ReduxProvider>
     </EnvFacadeProvider>

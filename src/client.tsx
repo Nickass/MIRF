@@ -7,26 +7,26 @@ import { ConnectedRouter as RouterProvider } from 'connected-react-router';
 // system
 import configureStore, { history, isServer } from '~/system/store';
 import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
-import { Provider as MWProvider } from '~/system/components/Page/Middleware/MWContext';
+import { Provider as CustomRouterProvider } from '~/system/components/Router/RouterContext';
 import createEnvFacade from '~/system/env-facade/createClientFacade';
-import Router from '~/system/components/Router';
+import App from '~/App';
 
 // assets
 import 'normalize.css/normalize.css';
 
-function main(Root = Router, hydrender = render) {
+function main(Root = App, hydrender = render) {
   const store = configureStore(window.REDUX_STATE);
   const facade = createEnvFacade({store});
   const root = document.getElementById('app-root');
-  const mwares = {};
+  const curtomRouterValue = { full_id: 'base', full_dir: '', full_path: '', middlewares: {} };
 
   hydrender(
     <EnvFacadeProvider value={facade}>
       <ReduxProvider store={store}>
         <RouterProvider history={history}>
-          <MWProvider value={mwares}>
+          <CustomRouterProvider value={curtomRouterValue}>
             <Root />
-          </MWProvider>
+          </CustomRouterProvider>
         </RouterProvider>
       </ReduxProvider>
     </EnvFacadeProvider>
@@ -35,9 +35,9 @@ function main(Root = Router, hydrender = render) {
 }
 
 if (module.hot) {
-  module.hot.accept('~/system/components/Router', () => {
-    main(require('~/system/components/Router').default, render)
+  module.hot.accept('~/App', () => {
+    main(require('~/App').default, render)
   });
 }
 
-main(Router, hydrate);
+main(App, hydrate);

@@ -18,7 +18,6 @@ import {
 
 interface HeaderProps {
   className?: any;
-  config: any;
 };
 
 function pullNav(config: any): any[] {
@@ -28,8 +27,34 @@ function pullNav(config: any): any[] {
 
 export default class extends React.Component<HeaderProps> {
   render () {
-    const { className, config } = this.props;
-    const nav = pullNav(config);
+    const { className } = this.props;
+    const nav = [
+      {
+        id: 'home',
+        name: 'Home',
+        path: '/'
+      },
+      {
+        id: 'settings-policy',
+        name: 'Settings Policy',
+        path: '/settings/policy',
+      },
+      {
+        id: 'settings',
+        name: 'Settings',
+        path: '/settings'
+      },
+      {
+        id: 'profile',
+        name: 'Profile',
+        path: '/settings/profile'
+      },
+      {
+        id: 'words',
+        name: 'Words',
+        path: '/words'
+      }
+    ];
 
     return (
       <ErrorProtector id="header">

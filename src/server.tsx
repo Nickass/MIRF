@@ -10,7 +10,7 @@ import * as ReactDom from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components'
 import Helmet from 'react-helmet';
 import configureStore from '~/system/store';
-import Router from '~/system/components/Router';
+import App from '~/App';
 import { staticEndpoint } from '~/system/api'
 import axios from 'axios';
 import ServerWrapper from '~/server-wrapper';
@@ -42,7 +42,7 @@ export default async function init() {
     
     try {
       const sheet = new ServerStyleSheet();
-      const jsx = wrappComponent(<Router />);
+      const jsx = wrappComponent(<App />);
 
       let html = ReactDom.renderToString(jsx);
       let state = store.getState();

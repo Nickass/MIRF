@@ -9,19 +9,18 @@ import './assets/base.scss';
 
 interface HomeProps extends RouteComponentProps {
   className?: string;
-  dispatch: any;
 };
 
 export async function init(props: any): Promise<HomeProps> {
-  console.log('home init data')
-
-  return ({} as any);
+  return props;
 }
 
 class Home extends React.Component<HomeProps> {
   render () {
+    const { className } = this.props;
+
     return (
-      <Container>
+      <Container className={className}>
         <Title>Home page</Title>
         {this.props.children}
       </Container>

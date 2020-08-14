@@ -1,58 +1,94 @@
 // modules
 import * as React from 'react';
-import { Switch, Route, Redirect } from 'react-router';
+import { Switch, Route } from 'react-router';
+import Helmet from 'react-helmet';
 
 // system
-import Page from '~/system/components/Page';
-import getPagesConfig, { config } from './getPagesConfig';
+import ENVContext from '~/system/env-facade/FacadeContext';
+import AsyncComponent from '~/system/components/AsyncComponent';
+import CustomRouterContext from './RouterContext';
 
-type PagesProps = {
-  className?: string;
-  id?: string;
-  path?: string;
-  dir?: string;
+const asyncIdentity: asyncIdentity = async a => a;
+
+export interface baseConfig {
+  name?: string;
+  params?: string;
+  redirected?: string[];
+  routes?: subConfig[];
+}
+
+export interface subConfig {
+  id: string;
+  path: string;
+  dir: string;
+  middlewares?: string[];
+  exact?: boolean;
   props?: { [propName: string]: any };
+}
+
+type RouterProps = {
+  routes: subConfig[];
+  [propName: string]: any
 };
 
-const getAllRedirectedPaths = (config: config): JSX.Element[] => {
-  const inner = config.routes.reduce((acc, curr) => ([ ...acc, ...getAllRedirectedPaths(curr) ]), [] as JSX.Element[]);
-  
-  const routes = config.redirected.map(from => (
-    <Route key={from} exact path={from}>
-      {console.log("from", from, config.path)}
-      <Redirect to={config.path} />
-    </Route>
-  ));
-  return [ ...routes, ...inner ];
-}
-
-const getAllRoutes = (config: config, rootProps = {}): JSX.Element => {
-  const { id, path, routes } = config;
-  const innerRoutes = routes.map(route => getAllRoutes(route, rootProps));
-
-  const PageRoute = (props: any) => {
-    const allProps = { ...rootProps, ...config.props, ...props };
-
-    return (
-      <Page config={config} props={allProps}>
-         <Switch>{innerRoutes}</Switch>
-      </Page>
-    );
-  };
-
-  return <Route key={id} path={path} exact={!innerRoutes.length} component={PageRoute} />;
-}
-
-
-export const Pages: React.SFC<PagesProps> = ({ id = 'baseRoute', path = '/', dir = './', props = {} }) => {
-  const config = getPagesConfig({ id, path, dir });
+export const Router: React.SFC<RouterProps> = ({ routes = [], ...rootProps }: RouterProps) => {
+  const { EnvPageModule } = React.useContext(ENVContext);
+  const baseRoute = React.useContext(CustomRouterContext);
+  const parentMiddlewares = baseRoute.middlewares;
 
   return (
     <Switch>
-      {getAllRedirectedPaths(config)}
-      {getAllRoutes(config, { ...props, config })}
+      {routes.map(route => {
+        const fullId = baseRoute.full_id + '_' + route.id;
+        const fullPath = baseRoute.full_path + route.path;
+        const fullDir = baseRoute.full_dir + route.dir;
+
+        return (
+          <Route key={fullId} path={fullPath} exact={route.exact} render={props => {
+            const middlewaresToInvoke = [...(route.middlewares || []), 'init'];
+            const allProps = { ...rootProps, ...route.props, ...props };
+
+            const ModuleComponent = ({ pageModule }: any) => {
+              const { default: Page, config = {}, middlewares = {}, init = asyncIdentity } = pageModule;
+              const allMWares = React.useMemo(
+                () => ({ ...parentMiddlewares, ...middlewares, init })
+                , [parentMiddlewares, middlewares, init]);
+              const callAllMwares = React.useMemo(() => middlewaresToInvoke.reduce((parentMW, name) => {
+                const mware = allMWares[name] || asyncIdentity;
+                return value => parentMW(value).then(mware);
+              }, asyncIdentity), [middlewaresToInvoke, allMWares]);
+              const title = config.name || route.id;
+              const newBaseRoute = React.useMemo(() => ({
+                full_id: fullId,
+                full_path: fullPath,
+                full_dir: fullDir,
+                middlewares: allMWares
+              }), [fullId, fullPath, fullDir, allMWares]);
+
+              const PageComponent = React.useCallback(props => {
+                return (
+                  <CustomRouterContext.Provider value={newBaseRoute}>
+                    <Helmet>
+                      <title>{title}</title>
+                    </Helmet>
+                    <Page {...props} />
+                  </CustomRouterContext.Provider>
+                );
+              }, [title, newBaseRoute]);
+
+              return (
+                <AsyncComponent id={'apply-middleware-' + route.id} SuccessComponent={PageComponent}>
+                  {async () => await callAllMwares(allProps)}
+                </AsyncComponent>
+              );
+            };
+
+            return <EnvPageModule path={fullDir.replace(/\.\//, '')} Component={ModuleComponent} />;
+          }} />
+        );
+      })}
     </Switch>
   )
 }
 
-export default Pages;
+export default Router;

@@ -1,7 +1,6 @@
 {
   "name": "Base route",
   "params": "",
-  "state": { "values": ["lala"] },
   "routes": [
     {
       "id": "home",
