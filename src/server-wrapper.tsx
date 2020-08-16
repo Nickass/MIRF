@@ -17,15 +17,12 @@ export type ServerWrapperProps = {
 
 export const ServerWrapper: React.SFC<ServerWrapperProps> = function ({ children, store, clientStats, req, res, routerContext }) {
   const envFacade = createEnvFacade({ store, clientStats, req, res, routerContext });
-  const curtomRouterValue = { full_id: 'base', full_dir: '', full_path: '', middlewares: {} };
   
   return (
     <EnvFacadeProvider value={envFacade}>
       <ReduxProvider store={store}>
         <StaticRouter location={req.url} context={routerContext}>
-          <CustomRouterProvider value={curtomRouterValue}>
-            {children}
-          </CustomRouterProvider>
+          {children}
         </StaticRouter>
       </ReduxProvider>
     </EnvFacadeProvider>

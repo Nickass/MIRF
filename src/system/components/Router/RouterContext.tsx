@@ -7,7 +7,7 @@ export type RouterContextValue = {
   middlewares: object;
 }
 
-const RouterContext = React.createContext<RouterContextValue>({ full_id: '', full_path: '', full_dir: '', middlewares: {} });
+const RouterContext = React.createContext<RouterContextValue>({ full_id: 'base', full_dir: '', full_path: '', middlewares: {} });
 RouterContext.displayName = 'RouterContext';
 
 export const { Consumer, Provider } = RouterContext;

@@ -18,15 +18,12 @@ function main(Root = App, hydrender = render) {
   const store = configureStore(window.REDUX_STATE);
   const facade = createEnvFacade({store});
   const root = document.getElementById('app-root');
-  const curtomRouterValue = { full_id: 'base', full_dir: '', full_path: '', middlewares: {} };
 
   hydrender(
     <EnvFacadeProvider value={facade}>
       <ReduxProvider store={store}>
         <RouterProvider history={history}>
-          <CustomRouterProvider value={curtomRouterValue}>
-            <Root />
-          </CustomRouterProvider>
+          <Root />
         </RouterProvider>
       </ReduxProvider>
     </EnvFacadeProvider>
