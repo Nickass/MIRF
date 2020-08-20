@@ -10,11 +10,12 @@ type PageModule = React.FunctionComponent<PageModuleProps> | React.ComponentClas
 
 export default function getPageModule(ctx: ClientEnvContext): PageModule {
   return ({ path, Component }) => {
-    const pageModuleName = `./App/${path}index.tsx`;
+    const pageModuleName = `../frontend/src/App/${path}index.tsx`;
     const all = "./App lazy recursive ^\\.\\/.*index$";
     const asyncId = `request-page-${path}`;
 
-    const SuccessComponent: any = React.useCallback(({ pageModule }: any) => {
+    const SuccessComponent: any = React.useCallback((props: any) => {
+      let { pageModule } = props;
       if (!pageModule) {
         pageModule = __webpack_require__(pageModuleName);
       }
@@ -45,7 +46,7 @@ export default function getPageModule(ctx: ClientEnvContext): PageModule {
     }, [all, pageModuleName]);
 
     const awaitFunc = React.useCallback(async () => 
-      await import(/* webpackChunkName: "[request]" */ '~/App/' + path + 'index')
+      ({ pageModule: await import(/* webpackChunkName: "[request]" */ '~/App/' + path + 'index') })
     , [path]);
 
     return (

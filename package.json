@@ -2,11 +2,11 @@
   "name": "whereareyou",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "frontend/index.js",
   "scripts": {
     "start": "npm run dev",
-    "build": "set NODE_ENV=production&& node index.js",
-    "dev": "set NODE_ENV=development&& node index.js"
+    "build": "set NODE_ENV=production&& node frontend/index.js",
+    "dev": "set NODE_ENV=development&& node frontend/index.js"
   },
   "author": "",
   "license": "ISC",

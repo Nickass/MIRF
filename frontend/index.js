@@ -1,4 +1,4 @@
-require('./env.js');
+require('../env.js');
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -36,7 +36,7 @@ if(process.env.NODE_ENV === 'development') {
   }).listen(process.env.STATIC_SERVER_PORT, process.env.STATIC_SERVER_HOST);
   
   webpack(backConf, webpackFunc);
-  nodemon({ script: './dist/main.js' });
+  nodemon({ script: path.join(__dirname, './dist/main.js') }).on('error', console.log.bind(console));
 } else {
   fs.copy(path.join(process.cwd(), './public'), path.join(process.cwd(), './dist/public'));
   webpack([backConf, frontConf], webpackFunc);
