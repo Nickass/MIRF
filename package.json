@@ -5,8 +5,9 @@
   "main": "frontend/index.js",
   "scripts": {
     "start": "npm run dev",
-    "build": "set NODE_ENV=production&& node frontend/index.js",
-    "dev": "set NODE_ENV=development&& node frontend/index.js"
+    "build": "set NODE_ENV=production&& cd ./root&& npm run build",
+    "dev": "set NODE_ENV=development&& cd ./root&& npm run dev",
+    "deploy": "cd app-cli && npm run deploy"
   },
   "author": "",
   "license": "ISC",
