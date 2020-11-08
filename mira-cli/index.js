@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 require('../env');
-process.env.NODE_ENV = 'development'
-const Path = require('path');
+
 const yargs = require('yargs');
 const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
 const componentConfig = require('./component');
-const liveServer = require("live-server");
 const express = require('express');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require("webpack-hot-middleware");
@@ -35,8 +32,8 @@ const runDevServer = async () => {
   app.listen(process.env.COMPONENT_SERVER_PORT);
 };
 const runRootServer = () => {
-  const rootServer = require('root');
-  rootServer.listen(process.env.SERVER_PORT, () => console.log('Server is runing!'));
+  const rootServer = require('mira');
+  rootServer(process.env.ROOT_COMPONENT).listen(process.env.SERVER_PORT, () => console.log('Server is runing!'));
 };
 
 

@@ -3,7 +3,6 @@ const path = require('path');
 // const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
-const { StatsWriterPlugin } = require("webpack-stats-plugin");
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const { camelCase } = require('change-case');
 
@@ -11,13 +10,6 @@ const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 const plugins = [
-  new StatsWriterPlugin({
-    stats: {
-      all: false,
-      chunkGroups: true,
-    },
-    filename: "stats.json" // Default
-  }),
   // new webpack.NamedModulesPlugin(),
   // new SpriteLoaderPlugin(),
   new MiniCssExtractPlugin({

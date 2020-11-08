@@ -8,15 +8,14 @@ import createEnvFacade from '~/system/env-facade/createServerFacade'
 
 export type ServerWrapperProps = {
   store: any;
-  clientStats: any;
   req: Request;
   res: Response;
   routerContext: StaticRouterContext;
   children: any;
 }
 
-export const ServerWrapper: React.SFC<ServerWrapperProps> = function ({ children, store, clientStats, req, res, routerContext }) {
-  const envFacade = createEnvFacade({ store, clientStats, req, res, routerContext });
+export const ServerWrapper: React.SFC<ServerWrapperProps> = function ({ children, store, req, res, routerContext }) {
+  const envFacade = createEnvFacade({ store, req, res, routerContext });
   
   return (
     <EnvFacadeProvider value={envFacade}>

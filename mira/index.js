@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'development') {
   }).listen(process.env.HOT_SERVER_PORT, process.env.HOT_SERVER_HOST);
   
   webpack(backConf, webpackFunc);
-  nodemon({ script: path.join(__dirname, './dist/server.js') }).on('error', console.log.bind(console));
+  nodemon({ script: path.join(__dirname, './dist/server.js'), args: [process.env.SERVER_PORT, process.env.ROOT_COMPONENT] }).on('error', console.log.bind(console));
 } else {
   webpack(frontConf, async () => {
     const file = await fs.readFile(path.join(__dirname, './dist/client.js'));

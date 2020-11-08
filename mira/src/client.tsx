@@ -7,7 +7,6 @@ import { ConnectedRouter as RouterProvider } from 'connected-react-router';
 // system
 import configureStore, { history, isServer } from '~/system/store';
 import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
-import { Provider as CustomRouterProvider } from '~/system/components/Router/RouterContext';
 import createEnvFacade from '~/system/env-facade/createClientFacade';
 import ExternalComponent from '~/system/components/ExternalComponent';
 

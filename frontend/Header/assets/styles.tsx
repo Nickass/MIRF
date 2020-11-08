@@ -38,7 +38,7 @@ export const NavLink = sc(Link)`
   color: inherit;
   padding: 10px 20px;
   text-decoration: none;
-  border-bottom: 2px solid rgba(pink, .6);
+  border-bottom: 2px solid transparent;
   transition: 400ms;
   font-weight: 600;
   font-size: 14px;

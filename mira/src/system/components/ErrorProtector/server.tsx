@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDom from 'react-dom/server';
-import ServerWrapper from '~/server-wrapper';
+import ServerWrapper from '~/system/server-wrapper';
 import parse from 'html-react-parser';
 import { ErrorDisplay, ErrorProtectorProps } from './index';
 import { ServerEnvContext } from '~/system/env-facade/createServerFacade';

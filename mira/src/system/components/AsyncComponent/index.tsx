@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { defaultState } from '~/system/store';
-import { createStructuredSelector } from 'reselect';
 import { default as ErrorProtector, ErrorDisplay } from '~/system/components/ErrorProtector';
 
 type LoadComponentProps = {

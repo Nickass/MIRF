@@ -7,7 +7,6 @@ import { memoize } from 'lodash';
 export type ServerEnvContext = EnvContext & {
   req: any;
   res: any;
-  clientStats: any;
   routerContext: any;
 }
 
