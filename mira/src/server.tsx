@@ -42,8 +42,9 @@ export default function init(rootUrl: string) {
     
     try {
       const sheet = new ServerStyleSheet();
+      const providedModules = { ExternalComponent };
       const jsx = wrappComponent(
-        <ExternalComponent url={rootUrl} />
+        <ExternalComponent url={rootUrl} provide={providedModules} />
       );
 
       let html = ReactDom.renderToString(jsx);

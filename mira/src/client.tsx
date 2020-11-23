@@ -17,12 +17,13 @@ function main(Root = ExternalComponent, hydrender = render) {
   const store = configureStore(window.REDUX_STATE);
   const facade = createEnvFacade({store});
   const root = document.getElementById('app-root');
+  const providedModules = { ExternalComponent };
 
   hydrender(
     <EnvFacadeProvider value={facade}>
       <ReduxProvider store={store}>
         <RouterProvider history={history}>
-          <Root url={process.env.COMPONENT_SERVER + '/index.js'} />
+          <Root url={process.env.COMPONENT_SERVER + '/index.js'} provide={providedModules} />
         </RouterProvider>
       </ReduxProvider>
     </EnvFacadeProvider>

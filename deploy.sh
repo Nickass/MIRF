@@ -1,3 +1,5 @@
+# IT IS JUST DRAFT!
+
 set -e
 
 git clone ...

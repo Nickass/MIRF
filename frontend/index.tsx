@@ -4,7 +4,7 @@ import sc, { css } from 'styled-components';
 
 // system
 // import Router from '~/system/components/Router';
-import ExternalComponent from '@mira/ExternalComponent'
+import ExternalComponent from '#external/ExternalComponent'
 
 // assets
 // import './assets/base.scss';
@@ -54,6 +54,10 @@ export async function init(props: any): Promise<AppProps> {
   return props;
 }
 
+const provide = {
+  Header
+}
+
 class App extends React.Component<AppProps, State> {
   render () {
     const { children } = this.props;
@@ -61,7 +65,7 @@ class App extends React.Component<AppProps, State> {
       <Container>
         <Header />
         Hello I'm a Page! 
-        <ExternalComponent url="http://localhost:8081/pages/Words/index.js" />
+        <ExternalComponent provide={provide} url="http://localhost:8081/pages/Words/index.js" />
         {/* <Pages routes={config.routes}>
           Hello! I'm children of the root
         </Pages> */}

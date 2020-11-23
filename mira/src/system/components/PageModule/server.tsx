@@ -6,13 +6,16 @@ import Axios from 'axios';
 type PageModuleProps = {
   path: string;
   Component: any;
+  provide?: {
+    [key: string]: any;
+  }
 }
 type PageModule = React.FunctionComponent<PageModuleProps> | React.ComponentClass<PageModuleProps>;
 
 export default function getPageModule(ctx: ServerEnvContext): PageModule {
   const externalCache: any = {};
 
-  return ({ path, Component }) => {
+  return ({ path, Component, provide = {} }) => {
     const asyncId = `request-page-${path}`;
     
     const SuccessComponent = React.useCallback((props) => {
@@ -22,7 +25,7 @@ export default function getPageModule(ctx: ServerEnvContext): PageModule {
         const { body } = props;
         (new Function('module', 'exports', 'require', `
           ${body};
-        `))(external, external.exports, (p: any) => PROVIDED_MODULES[p]);
+        `))(external, external.exports, (p: any) => provide[p.replace(/^#external\//, '')] || PROVIDED_MODULES[p]);
         externalCache[path] = external;
       }
       

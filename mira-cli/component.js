@@ -16,8 +16,6 @@ module.exports = ({ root, filePath }) => {
   const publicPath = (isProduction ? '/' : `http://${process.env.COMPONENT_SERVER_HOST}:${process.env.COMPONENT_SERVER_PORT}/`) + publicSrc;
   
   const plugins = [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(), 
     new webpack.DefinePlugin({ 
       'ENTRYMODULE': JSON.stringify(fullEntry),
       'process.env': { 
@@ -29,6 +27,8 @@ module.exports = ({ root, filePath }) => {
   ];
   
   if (isDevelopment) {
+    plugins.unshift(new webpack.HotModuleReplacementPlugin());
+    plugins.unshift(new webpack.NoEmitOnErrorsPlugin());
     entry.length = 0;
     entry.unshift(`webpack-hot-middleware/client?name=${publicSrc}&path=${process.env.COMPONENT_SERVER}/__webpack_hmr`);
     entry.push(Path.resolve(__dirname, 'Wrapper.js'))
@@ -47,6 +47,7 @@ module.exports = ({ root, filePath }) => {
       globalObject: 'globalThis',
     }, 
     externals: [
+      /^\#external\//,
       dependencies.reduce((acc, curr) => ({ ...acc, [curr]: 'commonjs ' + curr }))
     ],
     node: {

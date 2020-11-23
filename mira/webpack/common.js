@@ -46,10 +46,10 @@ module.exports = {
           options: {
             imports: dependencies.map(name => ({
               syntax: 'namespace',
-              moduleName: name.replace(/^\@mira\//, '~/system/components/'), // TODO: think about name and replace
-              name: camelCase(name.replace(/^\@mira\//, '_mira_')),
+              moduleName: name,
+              name: camelCase(name),
             })),
-            additionalCode: `var PROVIDED_MODULES = { ${dependencies.map(name => `'${name}': ${camelCase(name.replace(/^\@mira\//, '_mira_'))}` )} };\n`,
+            additionalCode: `var PROVIDED_MODULES = { ${dependencies.map(name => `'${name}': ${camelCase(name)}` )} };\n`,
           },
         }],
       },

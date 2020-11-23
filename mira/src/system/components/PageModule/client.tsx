@@ -6,13 +6,16 @@ import Axios from 'axios';
 type PageModuleProps = {
   path: string;
   Component: any;
+  provide?: {
+    [key: string]: any;
+  }
 }
 type PageModule = React.FunctionComponent<PageModuleProps> | React.ComponentClass<PageModuleProps>;
 
 export default function getPageModule(ctx: ClientEnvContext): PageModule {
-  const externalCache: any = {};
+  const externalCache: any = {}; // TODO: test with two imports the same module. The provided modules can be different and leads to bugs.
 
-  return ({ path, Component }) => {
+  return ({ path, Component, provide = {} }) => {
     const asyncId = `request-page-${path}`;
     
     const SuccessComponent = React.useCallback((props) => {
@@ -22,7 +25,7 @@ export default function getPageModule(ctx: ClientEnvContext): PageModule {
         const { body } = props;
         (new Function('module', 'exports', 'require', `
           ${body};
-        `))(external, external.exports, (p: any) => PROVIDED_MODULES[p]);
+        `))(external, external.exports, (p: any) => provide[p.replace(/^#external\//, '')] || PROVIDED_MODULES[p]);
         externalCache[path] = external;
       }
       

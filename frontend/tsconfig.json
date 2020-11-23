@@ -20,5 +20,5 @@
       "~/*": ["./*"],
     }
   },
-  "exclude": ["dist", "build", "node_modules", "@root"]
+  "exclude": ["dist", "build", "node_modules"]
 }

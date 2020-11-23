@@ -1,6 +1,5 @@
 {
   "dependencies": [
-    "@mira/ExternalComponent",
     "react",
     "react-dom",
     "react-router-dom",
