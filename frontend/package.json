@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run dev",
-    "dev": "set NODE_ENV=development&& app-cli dev-component",
+    "dev": "set NODE_ENV=development && app-cli dev-component",
     "build": "app-cli build",
     "publish": "app-cli publish",
     "deploy": "npm run build && npm run publish",

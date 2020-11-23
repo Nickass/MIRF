@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run dev",
     "build": "set NODE_ENV=production&& cd ./root&& npm run build",
-    "dev": "set NODE_ENV=development&& cd ./root&& npm run dev",
+    "dev": "bash ./dev.sh",
     "deploy": "cd app-cli && npm run deploy"
   },
   "author": "",

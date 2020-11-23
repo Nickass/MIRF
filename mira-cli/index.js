@@ -18,7 +18,7 @@ let webpackFunc = (err, stats) => {
   }));
 }
 
-const runDevServer = async () => {
+const runComponentDevServer = async () => {
   const app = express();
   const root = process.cwd();
   const files = glob.sync('{**/pages/*/,*}index.{tsx,js,jsx}', { root });
@@ -31,7 +31,7 @@ const runDevServer = async () => {
   
   app.listen(process.env.COMPONENT_SERVER_PORT);
 };
-const runRootServer = () => {
+const runRootDevServer = () => {
   const rootServer = require('mira');
   rootServer(process.env.ROOT_COMPONENT).listen(process.env.SERVER_PORT, () => console.log('Server is runing!'));
 };
@@ -40,23 +40,35 @@ const runRootServer = () => {
 yargs
 .completion()
 .command({
-  command: "root-server",
-  desc: "Run root server",
-  handler: runRootServer
+  command: "server dev",
+  desc: "Run root dev server",
+  handler: runRootDevServer
 })
 .command({
-  command: 'dev-component',
+  command: 'component dev',
   desc: 'Run dev server for component',
-  handler: runDevServer
+  handler: runComponentDevServer
 })
 .command({
   command: "dev",
   desc: "Component creator",
   handler: () => {
-    runRootServer();
-    runDevServer();
+    runRootDevServer();
+    runComponentDevServer();
   }
 });
 
 yargs.wrap(yargs.terminalWidth());
 yargs.showHelp();
+
+
+/*
+  mira-cli server dev
+  mira-cli server deploy
+
+  mira-cli component build
+  mira-cli component dev
+  mira-cli component publish
+
+  mira-cli dev
+*/
