@@ -2,7 +2,10 @@
   "dependencies": [
     "react",
     "react-dom",
+    "react-router",
     "react-router-dom",
-    "styled-components"
+    "react-helmet",
+    "styled-components",
+    "react-redux"
   ]
 }

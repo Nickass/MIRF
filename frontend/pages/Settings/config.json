@@ -5,7 +5,8 @@
       "id": "profile",
       "path": "/profile",
       "dir": "Profile/",
-      "middlewares": ["profile"]
+      "middlewares": ["profile"],
+      "module": "http://localhost:8081/pages/Settings/pages/Profile/index.js"
     }
   ]
 }

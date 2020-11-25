@@ -8,7 +8,11 @@ import * as ReactDom from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components'
 import Helmet from 'react-helmet';
 import configureStore from '~/system/store';
+import { Provider as RouterContextProvider } from '~/system/components/Router/RouterContext';
+import ExternalRouter from '~/system/components/Router';
 import ExternalComponent from '~/system/components/ExternalComponent';
+import ExternalModule from '~/system/components/PageModule';
+import AsyncComponent from '~/system/components/AsyncComponent';
 import ServerWrapper from '~/system/server-wrapper';
 
 export default function init(rootUrl: string) {
@@ -42,9 +46,11 @@ export default function init(rootUrl: string) {
     
     try {
       const sheet = new ServerStyleSheet();
-      const providedModules = { ExternalComponent };
+      const providedModules = { AsyncComponent, ExternalModule, ExternalComponent, ExternalRouter };
       const jsx = wrappComponent(
-        <ExternalComponent url={rootUrl} provide={providedModules} />
+        <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '', middlewares: {} }}>
+          <ExternalComponent url={rootUrl} provide={providedModules} />
+        </RouterContextProvider>
       );
 
       let html = ReactDom.renderToString(jsx);
@@ -94,7 +100,7 @@ export default function init(rootUrl: string) {
             ${sheet.getStyleTags()}
           </head>
           <body ${helmet.bodyAttributes.toString()}>
-            <div id="app-root">${html}</div>
+          <div id="app-root">${html}</div>
             ${helmet.script.toString()}
             <script type="application/javascript" src="${mainJs}"></script>
           </body>

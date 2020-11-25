@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 // system
-// import Router from '~/system/components/Router';
+import Router from '#external/Router';
 
 // assets
 import { Container, Title } from './assets/styles';
@@ -24,7 +24,7 @@ class Settings extends React.Component<SettingsProps> {
       <Container className={this.props.className}>
         <Title>Settings page</Title>
         {this.props.children}
-        {/* <Router routes={config.routes} /> */}
+        <Router routes={config.routes} />
       </Container>
     );
   }

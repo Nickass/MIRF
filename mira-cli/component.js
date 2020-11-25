@@ -30,6 +30,7 @@ module.exports = ({ root, filePath }) => {
     plugins.unshift(new webpack.HotModuleReplacementPlugin());
     plugins.unshift(new webpack.NoEmitOnErrorsPlugin());
     entry.length = 0;
+    entry.unshift(require.resolve('@babel/polyfill'));
     entry.unshift(`webpack-hot-middleware/client?name=${publicSrc}&path=${process.env.COMPONENT_SERVER}/__webpack_hmr`);
     entry.push(Path.resolve(__dirname, 'Wrapper.js'))
   }
@@ -48,7 +49,7 @@ module.exports = ({ root, filePath }) => {
     }, 
     externals: [
       /^\#external\//,
-      dependencies.reduce((acc, curr) => ({ ...acc, [curr]: 'commonjs ' + curr }))
+      dependencies.reduce((acc, curr) => ({ ...acc, [curr]: 'commonjs ' + curr }), {})
     ],
     node: {
       __dirname: false,
@@ -89,7 +90,6 @@ module.exports = ({ root, filePath }) => {
               ],
               plugins: [
                 [require.resolve('@babel/plugin-proposal-class-properties'), { loose: true }],
-                require.resolve('react-hot-loader/babel'),
               ],
             },
           }

@@ -4,10 +4,12 @@ import { Switch, Route } from 'react-router';
 import Helmet from 'react-helmet';
 
 // system
-import ENVContext from '~/system/env-facade/FacadeContext';
-import AsyncComponent from '~/system/components/AsyncComponent';
+import ExternalComponent from '~/system/components/ExternalComponent'
+import ExternalModule from '~/system/components/PageModule'
+import AsyncComponent from '~/system/components/AsyncComponent'
 import CustomRouterContext from './RouterContext';
 
+type asyncIdentity<T = any> = (a: T) => Promise<T>;
 const asyncIdentity: asyncIdentity = async a => a;
 
 export interface baseConfig {
@@ -24,6 +26,7 @@ export interface subConfig {
   middlewares?: string[];
   exact?: boolean;
   props?: { [propName: string]: any };
+  module: string;
 }
 
 type RouterProps = {
@@ -32,9 +35,9 @@ type RouterProps = {
 };
 
 export const Router: React.SFC<RouterProps> = ({ routes = [], ...rootProps }: RouterProps) => {
-  const { EnvPageModule } = React.useContext(ENVContext);
   const baseRoute = React.useContext(CustomRouterContext);
   const parentMiddlewares = baseRoute.middlewares;
+  const providedModules = { ExternalComponent, ExternalModule, AsyncComponent, Router };
 
   return (
     <Switch>
@@ -48,8 +51,8 @@ export const Router: React.SFC<RouterProps> = ({ routes = [], ...rootProps }: Ro
             const middlewaresToInvoke = [...(route.middlewares || []), 'init'];
             const allProps = { ...rootProps, ...route.props, ...props };
 
-            const ModuleComponent = ({ pageModule }: any) => {
-              const { default: Page, config = {}, middlewares = {}, init = asyncIdentity } = pageModule;
+            const ModuleComponent = (props: any) => {
+              const { default: Page, config = {}, middlewares = {}, init = asyncIdentity } = props;
               const allMWares = React.useMemo(
                 () => ({ ...parentMiddlewares, ...middlewares, init })
                 , [parentMiddlewares, middlewares, init]);
@@ -78,12 +81,12 @@ export const Router: React.SFC<RouterProps> = ({ routes = [], ...rootProps }: Ro
 
               return (
                 <AsyncComponent id={'apply-middleware-' + route.id} SuccessComponent={PageComponent}>
-                  {async () => await callAllMwares(allProps)}
+                  {() => callAllMwares(allProps)}
                 </AsyncComponent>
               );
             };
 
-            return <EnvPageModule path={fullDir.replace(/\.\//, '')} Component={ModuleComponent} />;
+            return <ExternalModule path={route.module} Component={ModuleComponent} provide={providedModules} />;
           }} />
         );
       })}
