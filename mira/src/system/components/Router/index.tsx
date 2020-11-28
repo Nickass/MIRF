@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 
 // system
 import ExternalComponent from '~/system/components/ExternalComponent'
-import ExternalModule from '~/system/components/PageModule'
+import ExternalModule from '~/system/components/ExternalModule'
 import AsyncComponent from '~/system/components/AsyncComponent'
 import CustomRouterContext from './RouterContext';
 

@@ -1,24 +1,24 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
 import { ServerEnvContext } from '~/system/env-facade/createServerFacade';
-import PageModule from '~/system/components/PageModule';
+import ExternalModule from '~/system/components/ExternalModule';
 
-type PageModuleProps = {
+type ExternalModuleProps = {
   url: string;
   provide?: {
     [key: string]: any;
   }
 }
-type PageModule = React.FunctionComponent<PageModuleProps> | React.ComponentClass<PageModuleProps>;
+type ExternalModule = React.FunctionComponent<ExternalModuleProps> | React.ComponentClass<ExternalModuleProps>;
 
 
-export default function getPageModule(ctx: ServerEnvContext): PageModule {
+export default function getExternalModule(ctx: ServerEnvContext): ExternalModule {
   return ({ url, provide = {} }) => {
     const SuccessComponent: any = React.useCallback((props: any) => {
       const { default: ExternalPage } = props;
       return <ExternalPage />
     }, []);
 
-    return <PageModule Component={SuccessComponent} path={url} provide={provide} />;
+    return <ExternalModule Component={SuccessComponent} path={url} provide={provide} />;
   }
 };

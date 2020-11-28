@@ -5,14 +5,12 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { ConnectedRouter as RouterProvider } from 'connected-react-router';
 
 // system
-import configureStore, { history, isServer } from '~/system/store';
-import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
-import createEnvFacade from '~/system/env-facade/createClientFacade';
+import configureStore, { history } from '~/system/store';
 import { Provider as RouterContextProvider } from '~/system/components/Router/RouterContext';
-import ExternalRouter from '~/system/components/Router';
+import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
 import ExternalComponent from '~/system/components/ExternalComponent';
-import ExternalModule from '~/system/components/PageModule';
-import AsyncComponent from '~/system/components/AsyncComponent';
+import createEnvFacade from '~/system/env-facade/createClientFacade';
+import * as providedModules from './system/provided';
 
 // assets
 import 'normalize.css/normalize.css';
@@ -21,8 +19,7 @@ function main(Root = ExternalComponent, hydrender = render) {
   const store = configureStore(window.REDUX_STATE);
   const facade = createEnvFacade({store});
   const root = document.getElementById('app-root');
-  const providedModules = { AsyncComponent, ExternalModule, ExternalComponent, ExternalRouter };
-
+  
   hydrender(
     <EnvFacadeProvider value={facade}>
       <ReduxProvider store={store}>

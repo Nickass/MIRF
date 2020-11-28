@@ -3,16 +3,16 @@ import { ServerEnvContext } from '~/system/env-facade/createServerFacade';
 import AsyncComponent from '~/system/components/AsyncComponent';
 import Axios from 'axios';
 
-type PageModuleProps = {
+type ExternalModuleProps = {
   path: string;
   Component: any;
   provide?: {
     [key: string]: any;
   }
 }
-type PageModule = React.FunctionComponent<PageModuleProps> | React.ComponentClass<PageModuleProps>;
+type ExternalModule = React.FunctionComponent<ExternalModuleProps> | React.ComponentClass<ExternalModuleProps>;
 
-export default function getPageModule(ctx: ServerEnvContext): PageModule {
+export default function getExternalModule(ctx: ServerEnvContext): ExternalModule {
   const externalCache: any = {};
 
   return ({ path, Component, provide = {} }) => {

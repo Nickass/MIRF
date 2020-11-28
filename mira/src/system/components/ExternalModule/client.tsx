@@ -3,16 +3,16 @@ import { ClientEnvContext } from '~/system/env-facade/createClientFacade';
 import AsyncComponent from '~/system/components/AsyncComponent';
 import Axios from 'axios';
 
-type PageModuleProps = {
+type ExternalModuleProps = {
   path: string;
   Component: any;
   provide?: {
     [key: string]: any;
   }
 }
-type PageModule = React.FunctionComponent<PageModuleProps> | React.ComponentClass<PageModuleProps>;
+type ExternalModule = React.FunctionComponent<ExternalModuleProps> | React.ComponentClass<ExternalModuleProps>;
 
-export default function getPageModule(ctx: ClientEnvContext): PageModule {
+export default function getExternalModule(ctx: ClientEnvContext): ExternalModule {
   const externalCache: any = {}; // TODO: test with two imports the same module. The provided modules can be different and leads to bugs.
 
   return ({ path, Component, provide = {} }) => {

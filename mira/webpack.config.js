@@ -1,11 +1,12 @@
-var webpack = require('webpack');
-var _ = require('lodash');
-var common = require('./webpack/common.js');
-var backend = require('./webpack/backend.js');
-var frontend = require('./webpack/frontend.js');
+const webpack = require('webpack');
+const _ = require('lodash');
+const merge = require('webpack-merge');
+const common = require('./webpack/common.js');
+const backend = require('./webpack/backend.js');
+const frontend = require('./webpack/frontend.js');
 
 
 module.exports = [
-    Object.assign({} , common, backend),
-    Object.assign({} , common, frontend)
+  merge({} , common, backend),
+  merge({} , common, frontend)
 ];

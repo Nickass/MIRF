@@ -5,7 +5,7 @@ type ReactComp = React.FunctionComponent<any> | React.ComponentClass<any>;
 
 export interface Facade {
   EnvExternalComponent: ReactComp,
-  EnvPageModule: ReactComp;
+  EnvExternalModule: ReactComp;
   EnvErrorProtector: ReactComp;
 }
 export type EnvContext = { store: Store, [propName: string]: any };
@@ -16,7 +16,7 @@ export const createFacade: createFacade = ctx => {
   
   return ({
     EnvExternalComponent: () => <div>Undefined getEnvExternalComponent!</div>,
-    EnvPageModule: () => <div>Undefined getEnvPageModule!</div>,
+    EnvExternalModule: () => <div>Undefined getEnvExternalModule!</div>,
     EnvErrorProtector: () => <div>Undefined EnvErrorProtector!</div>
   })
 }

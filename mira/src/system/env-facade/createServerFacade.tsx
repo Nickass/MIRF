@@ -1,6 +1,6 @@
 import { Facade, EnvContext } from './createFacade';
 import getEnvExternalComponent from '../components/ExternalComponent/server';
-import getEnvPageModule from '../components/PageModule/server';
+import getEnvExternalModule from '../components/ExternalModule/server';
 import getEnvErrorProtector from '../components/ErrorProtector/server';
 import { memoize } from 'lodash';
 
@@ -13,7 +13,7 @@ export type ServerEnvContext = EnvContext & {
 const createServerFacade = (ctx: ServerEnvContext): Facade => {
   return ({
     EnvExternalComponent: getEnvExternalComponent(ctx),
-    EnvPageModule: getEnvPageModule(ctx),
+    EnvExternalModule: getEnvExternalModule(ctx),
     EnvErrorProtector: memoize(getEnvErrorProtector)(ctx)
   })
 }

@@ -1,19 +1,16 @@
 import * as express from 'express';
-import * as path from 'path';
 import * as React from 'react';
 import * as bodyParser from 'body-parser';
 
 import { StaticRouterContext } from 'react-router';
 import * as ReactDom from 'react-dom/server';
-import { ServerStyleSheet } from 'styled-components'
 import Helmet from 'react-helmet';
+import { ServerStyleSheet } from 'styled-components'
 import configureStore from '~/system/store';
 import { Provider as RouterContextProvider } from '~/system/components/Router/RouterContext';
-import ExternalRouter from '~/system/components/Router';
 import ExternalComponent from '~/system/components/ExternalComponent';
-import ExternalModule from '~/system/components/PageModule';
-import AsyncComponent from '~/system/components/AsyncComponent';
 import ServerWrapper from '~/system/server-wrapper';
+import * as providedModules from './system/provided';
 
 export default function init(rootUrl: string) {
   const hashSuffix = process.env.NODE_ENV === 'development' ? '' : '-' + __webpack_hash__;
@@ -37,16 +34,16 @@ export default function init(rootUrl: string) {
   Server.all('*', async function(req, res, next) {
     const store = req._reduxStore;
     const routerContext: StaticRouterContext = {};
+    const envContext = { store, req, res, routerContext };
 
     const wrappComponent = (el: React.ReactElement ) => (
-      <ServerWrapper {...{store, req, res, routerContext}}>
+      <ServerWrapper {...envContext}>
         {el}
       </ServerWrapper>
     );
     
     try {
       const sheet = new ServerStyleSheet();
-      const providedModules = { AsyncComponent, ExternalModule, ExternalComponent, ExternalRouter };
       const jsx = wrappComponent(
         <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '', middlewares: {} }}>
           <ExternalComponent url={rootUrl} provide={providedModules} />
