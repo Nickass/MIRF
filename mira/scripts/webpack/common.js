@@ -4,7 +4,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
-const { dependencies = [] } = require('../../mira-cli/config.json');
+const { dependencies = [] } = require('../../../mira-cli/config.json');
 const { camelCase } = require('change-case');
 
 module.exports = {
@@ -32,8 +32,7 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".jsx", ".scss", ".css"],
     alias: {
-      '~': path.resolve(__dirname, '../src/'),
-      '~~': path.resolve(__dirname, '../'),
+      '~': path.resolve(__dirname, '../../src/'),
     }
   },
   module: {

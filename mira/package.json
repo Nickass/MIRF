@@ -11,8 +11,9 @@
   },
   "scripts": {
     "start": "npm run dev",
-    "dev": "bash ./dev.sh",
-    "build": "set NODE_ENV=production&& node index.js",
+    "dev": "bash ./scripts/dev.sh",
+    "build": "bash ./scripts/build.sh",
+    "serve": "bash ./scripts/serve.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

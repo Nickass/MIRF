@@ -1,4 +1,4 @@
-require('../env.js');
+require('../../../env.js');
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -29,15 +29,19 @@ if (process.env.NODE_ENV === 'development') {
   
   webpack(backConf, webpackFunc);
   nodemon({
-    script: path.join(__dirname, './dist/server.js'),
+    script: path.join(__dirname, '../../dist/server.js'),
     args: [process.env.SERVER_PORT, process.env.ROOT_COMPONENT]
   }).on('error', console.log.bind(console));
 } else {
-  webpack(frontConf, async () => {
-    const file = await fs.readFile(path.join(__dirname, './dist/client.js'));
+  webpack(frontConf, async (err, stats) => {
+    if (err) throw err;
+    const jsfile = await fs.readFile(path.join(__dirname, '../../dist/client.js')); // TODO: resolve this hack
+    const cssfile = await fs.readFile(path.join(__dirname, '../../dist/client.css'));
+
     backConf.plugins.push(
       new webpack.DefinePlugin({ 
-        CLIENT_JS_FILE_CONTENTS: JSON.stringify(file.toString()),
+        CLIENT_JS_FILE_CONTENTS: JSON.stringify(jsfile.toString()),
+        CLIENT_CSS_FILE_CONTENTS: JSON.stringify(cssfile.toString()),
       })
     );
     webpack(backConf, webpackFunc);

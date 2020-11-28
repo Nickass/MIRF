@@ -16,12 +16,18 @@ export default function init(rootUrl: string) {
   const hashSuffix = process.env.NODE_ENV === 'development' ? '' : '-' + __webpack_hash__;
   const Server = express();
 
-  if (process.env.NODE_ENV !== 'development' && typeof CLIENT_JS_FILE_CONTENTS === 'string') {
-    const f = CLIENT_JS_FILE_CONTENTS;
+  if (process.env.NODE_ENV !== 'development') {
+    const jscontent = CLIENT_JS_FILE_CONTENTS;
+    const csscontent = CLIENT_CSS_FILE_CONTENTS;
     Server.use(`/client${hashSuffix}.js`, (req, res, next) => {
       res.header('Content-Type', 'application/javascript; charset=UTF-8');
-      res.header('Content-Length', Buffer.byteLength(f, 'utf8').toString())
-      res.send(f);
+      res.header('Content-Length', Buffer.byteLength(jscontent, 'utf8').toString())
+      res.send(jscontent);
+    });
+    Server.use(`/client${hashSuffix}.css`, (req, res, next) => {
+      res.header('Content-Type', 'text/css; charset=UTF-8');
+      res.header('Content-Length', Buffer.byteLength(csscontent, 'utf8').toString())
+      res.send(csscontent);
     });
   }
 
