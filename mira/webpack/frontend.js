@@ -12,10 +12,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const plugins = [
   // new webpack.NamedModulesPlugin(),
   // new SpriteLoaderPlugin(),
-  new MiniCssExtractPlugin({
-    filename: isDevelopment ? '[name].css' : '[name].[contenthash].css',
-    chunkFilename: isDevelopment ? '[id].css' : '[id].[contenthash].css',
-  }),
+  new MiniCssExtractPlugin({ filename: 'client.css'  }),
 ];
 const hmrEntry = [
   `webpack-dev-server/client?${process.env.HOT_SERVER}`,
@@ -40,18 +37,13 @@ module.exports = {
     filename: `client.js`
     // filename: `client${isDevelopment ? '' : '-[contenthash]'}.js`
   },
-  devServer: {
-    historyApiFallback: true,
-    contentBase: path.resolve(process.cwd(), '/public/'),
-    hot: isDevelopment
-  },
   plugins,
   module: {
     rules: [
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          isDevelopment ? 'style-loader' : { // TODO: make hmr client-server friendly
+          {
             loader: MiniCssExtractPlugin.loader,
             options: { publicPath }
           },
@@ -75,19 +67,19 @@ module.exports = {
         ],
       },
       {
-          test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-          use: [{
-              loader: 'file-loader',
-          }]
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{
+          loader: 'file-loader',
+        }]
       },
       {
-          test: /\.mp4$/,
-          use: {
-              loader: 'file-loader',
-              options: {
-                  name: '[path][name].[ext]'
-              },
+        test: /\.mp4$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[path][name].[ext]'
           },
+        },
       },
       // {
       //   test: /[\\\/]ic-.*?\.(png|svg|gif|jpe?g)$/i,
