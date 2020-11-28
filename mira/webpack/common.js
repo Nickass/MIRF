@@ -39,7 +39,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /PageModule[\/\\](client|server)\.(j|t)sx?$/,
+        test: /ExternalModule[\/\\](client|server)\.(j|t)sx?$/,
         exclude: /node_modules/,
         use: [{
           loader: 'imports-loader',
