@@ -7,9 +7,9 @@ import { ConnectedRouter as RouterProvider } from 'connected-react-router';
 // system
 import configureStore, { history } from '~/system/store';
 import { Provider as RouterContextProvider } from '~/system/components/Router/RouterContext';
-import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
+import { Provider as EnvFacadeProvider } from '~/system/env-facade';
+import createEnvFacade from '~/system/env-facade/client';
 import ExternalComponent from '~/system/components/ExternalComponent';
-import createEnvFacade from '~/system/env-facade/createClientFacade';
 import * as providedModules from './system/provided';
 
 // assets
@@ -25,7 +25,7 @@ function main(Root = ExternalComponent, hydrender = render) {
       <ReduxProvider store={store}>
         <RouterProvider history={history}>
           <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '', middlewares: {} }}>
-            <Root url={process.env.COMPONENT_SERVER + '/index.js'} provide={providedModules} />
+            <Root url={window.ROOT_COMPONENT} provide={providedModules} />
           </RouterContextProvider>
         </RouterProvider>
       </ReduxProvider>

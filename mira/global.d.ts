@@ -18,6 +18,7 @@ declare var styledComponents: any;
 declare interface Window {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
   REDUX_STATE: any;
+  ROOT_COMPONENT: string;
 }
 
 declare namespace Express {

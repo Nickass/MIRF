@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Request, Response } from 'express';
 import { Provider as ReduxProvider } from 'react-redux';
 import { StaticRouter, StaticRouterContext } from 'react-router';
-import { Provider as EnvFacadeProvider } from '~/system/env-facade/FacadeContext';
-import createEnvFacade from '~/system/env-facade/createServerFacade'
+import { Provider as EnvFacadeProvider } from '~/system/env-facade';
+import createEnvFacade from '~/system/env-facade/server'
 
 export type ServerWrapperProps = {
   store: any;

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ErrorDisplay, ErrorProtectorProps } from './index';
-import { ClientEnvContext } from '~/system/env-facade/createClientFacade';
+import { ClientEnvContext } from '~/system/env-facade/client';
 
 export type EnvErrorProtectorProps = ErrorProtectorProps & {
   ErrorDisplay: ErrorDisplay;

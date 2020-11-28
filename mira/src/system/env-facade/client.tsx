@@ -1,4 +1,4 @@
-import { Facade, EnvContext } from './createFacade';
+import { Facade, EnvContext } from '.';
 import getEnvExternalComponent from '../components/ExternalComponent/client';
 import getEnvExternalModule from '../components/ExternalModule/client';
 import getEnvErrorProtector from '../components/ErrorProtector/client';

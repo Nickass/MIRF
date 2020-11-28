@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ClientEnvContext } from '~/system/env-facade/createClientFacade';
+import { ClientEnvContext } from '~/system/env-facade/client';
 import AsyncComponent from '~/system/components/AsyncComponent';
 import Axios from 'axios';
 

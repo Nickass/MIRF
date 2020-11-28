@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // system
-import { Consumer as EnvConsumer } from '~/system/env-facade/FacadeContext'
+import { Consumer as EnvConsumer } from '~/system/env-facade'
 
 // assets
 import {

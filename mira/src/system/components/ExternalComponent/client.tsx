@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ClientEnvContext } from '~/system/env-facade/createClientFacade';
+import { ClientEnvContext } from '~/system/env-facade/client';
 import ExternalModule from '~/system/components/ExternalModule';
 
 type ExternalModuleProps = {

@@ -97,7 +97,10 @@ export default function init(rootUrl: string) {
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width" />
             <link rel="stylesheet" href="${mainCss}" />
-            <script>window.REDUX_STATE = ${JSONstate}</script>
+            <script>
+              window.REDUX_STATE = ${JSONstate};
+              window.ROOT_COMPONENT = '${rootUrl}';
+            </script>
             ${helmet.meta.toString()}
             ${helmet.link.toString()}
             ${sheet.getStyleTags()}

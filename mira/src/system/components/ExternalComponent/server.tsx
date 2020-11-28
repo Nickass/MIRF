@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
-import { ServerEnvContext } from '~/system/env-facade/createServerFacade';
+import { ServerEnvContext } from '~/system/env-facade/server';
 import ExternalModule from '~/system/components/ExternalModule';
 
 type ExternalModuleProps = {

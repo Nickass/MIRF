@@ -21,4 +21,8 @@ export const createFacade: createFacade = ctx => {
   })
 }
 
-export default createFacade;
+const EnvFacadeContext = React.createContext<Facade>(createFacade({ store: {} as any }));
+EnvFacadeContext.displayName = 'EnvFacade';
+
+export const { Consumer, Provider } = EnvFacadeContext;
+export default EnvFacadeContext;
