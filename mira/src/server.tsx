@@ -1,6 +1,8 @@
 import * as express from 'express';
 import * as React from 'react';
 import * as bodyParser from 'body-parser';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import { StaticRouterContext } from 'react-router';
 import * as ReactDom from 'react-dom/server';
@@ -12,23 +14,14 @@ import ExternalComponent from '~/system/components/ExternalComponent';
 import ServerWrapper from '~/system/server-wrapper';
 import * as providedModules from './system/provided';
 
-export default function init(rootUrl: string) {
-  const hashSuffix = process.env.NODE_ENV === 'development' ? '' : '-' + __webpack_hash__;
+export default function init(rootUrl: string, share: string = '') {
+  const clientUrl = process.env.NODE_ENV === 'development' ? process.env.HOT_SERVER : '';
   const Server = express();
 
-  if (process.env.NODE_ENV !== 'development') {
-    const jscontent = CLIENT_JS_FILE_CONTENTS;
-    const csscontent = CLIENT_CSS_FILE_CONTENTS;
-    Server.use(`/client${hashSuffix}.js`, (req, res, next) => {
-      res.header('Content-Type', 'application/javascript; charset=UTF-8');
-      res.header('Content-Length', Buffer.byteLength(jscontent, 'utf8').toString())
-      res.send(jscontent);
-    });
-    Server.use(`/client${hashSuffix}.css`, (req, res, next) => {
-      res.header('Content-Type', 'text/css; charset=UTF-8');
-      res.header('Content-Length', Buffer.byteLength(csscontent, 'utf8').toString())
-      res.send(csscontent);
-    });
+  if (!clientUrl) { // TODO: and if (fs && path) or if (isNotSandbox)
+    const hashSuffix = process.env.NODE_ENV === 'development' ? '' : '-' + __webpack_hash__; // TODO: add suffix for cache static
+    Server.use(express.static(path.join(eval('__dirname'), `./public/`))); // TODO: make prefix (subpath) for static files 
+    share.split(',').filter(item => item).forEach(fp => Server.use(express.static(share)));
   }
 
   Server.all('*', async (req, res, next) => {
@@ -85,9 +78,6 @@ export default function init(rootUrl: string) {
       const JSONstate = JSON.stringify(state);
       const helmet = Helmet.renderStatic();
 
-      const clientUrl = process.env.NODE_ENV === 'development' ? process.env.HOT_SERVER : '';
-      const mainJs = `${clientUrl}/client${hashSuffix}.js`
-      const mainCss = `${clientUrl}/client${hashSuffix}.css`
 
       return res.end(`
         <!DOCTYPE html>
@@ -96,7 +86,7 @@ export default function init(rootUrl: string) {
             ${helmet.title.toString()}
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width" />
-            <link rel="stylesheet" href="${mainCss}" />
+            <link rel="stylesheet" href="${clientUrl}/client.css" />
             <script>
               window.REDUX_STATE = ${JSONstate};
               window.ROOT_COMPONENT = '${rootUrl}';
@@ -108,7 +98,7 @@ export default function init(rootUrl: string) {
           <body ${helmet.bodyAttributes.toString()}>
           <div id="app-root">${html}</div>
             ${helmet.script.toString()}
-            <script type="application/javascript" src="${mainJs}"></script>
+            <script type="application/javascript" src="${clientUrl}/client.js"></script>
           </body>
         </html>
       `);
@@ -132,7 +122,7 @@ export default function init(rootUrl: string) {
 if (eval('!module.parent')) {
   const host = process.argv[2] || 'localhost';
   const port = process.argv[3] || '3000';
-  const rootUrl = process.argv[4] || 'http://locahost:8080/index.js';
+  const rootUrl = process.argv[4] || 'http://localhost:8080/index.js';
 
   init(rootUrl).listen(+port, host, () => console.log('Server is runing!'));
 }

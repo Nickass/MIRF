@@ -14,7 +14,7 @@ module.exports = merge(common, {
     __dirname: false,
     __filename: false,
   },
-  entry: ['~/server.tsx'],
+  entry: [require.resolve('@babel/polyfill'), '~/server.tsx'],
   output: {
     path: path.join(__dirname, '../../dist/'),
     filename: 'server.js',

@@ -71,6 +71,7 @@
     "device-detector-js": "^2.0.5",
     "express": "^4.16.4",
     "fs-extra": "^7.0.1",
+    "glob2base": "0.0.12",
     "google-translate-api": "^2.3.0",
     "history": "^4.7.2",
     "html-react-parser": "^0.13.0",

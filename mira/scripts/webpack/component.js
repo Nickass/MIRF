@@ -4,17 +4,19 @@ const { camelCase } = require('change-case');
 const { dependencies = [] } = require('../../config.json');
 
 
-module.exports = ({ root, filePath, componentHost, componentPort }) => {
+module.exports = params => {
+  const { base, root, filePath, host, port } = params;
   const { dir: src, base: entryFile, name: fileName } = Path.parse(filePath);
-  const entryDir = Path.join(root, src);
+  const bundleName =  Path.join(src, fileName).replace(/[\\\/]/gm, '-');
+  const entryDir = Path.join(root, base, src);
   const outputPath = Path.join(root, './dist/', src);
   const isProduction = process.env.NODE_ENV === 'production';
   const isDevelopment = process.env.NODE_ENV === 'development';
   const fullEntry = '~/' + entryFile;
   const entry = [fullEntry];
-  const publicSrc = (src.replace('\\', '/') || 'ia') + '/';
-  const componentServer = `http://${componentHost}:${componentPort}`;
-  const publicPath = (isProduction ? '/' : `${componentServer}/`) + publicSrc;
+  const publicSrc = (src.replace('\\', '/')) + '/';
+  const publicBase = `http://${host}:${port}`;
+  const publicPath = (isProduction ? '/' : `${publicBase}/`) + publicSrc;
   
   const plugins = [
     new webpack.DefinePlugin({ 
@@ -29,13 +31,12 @@ module.exports = ({ root, filePath, componentHost, componentPort }) => {
     plugins.unshift(new webpack.HotModuleReplacementPlugin());
     plugins.unshift(new webpack.NoEmitOnErrorsPlugin());
     entry.length = 0;
-    entry.unshift(require.resolve('@babel/polyfill'));
-    entry.unshift(`webpack-hot-middleware/client?name=${publicSrc}&path=${componentServer}/__webpack_hmr`);
+    entry.unshift(`webpack-hot-middleware/client?name=${publicSrc}&path=${publicBase}/__webpack_hmr`);
     entry.push(Path.resolve(__dirname, 'Wrapper.js'))
   }
 
   return {
-    name: publicSrc,
+    name: bundleName,
     entry,
     plugins,
     output: {

@@ -6,7 +6,7 @@
       "id": "home",
       "path": "/",
       "dir": "pages/Home/",
-      "module": "http://localhost:8080/pages/Home/index.js",
+      "module": "http://localhost:3000/pages/Home/index.js",
       "middlewares": ["auth"],
       "props": {},
       "exact": true
@@ -15,7 +15,7 @@
       "id": "settings-policy",
       "path": "/settings/policy",
       "dir": "pages/SettingsPolicy/",
-      "module": "http://localhost:8080/pages/SettingsPolicy/index.js",
+      "module": "http://localhost:3000/pages/SettingsPolicy/index.js",
       "props": {},
       "exact": true
     },
@@ -23,21 +23,21 @@
       "id": "settings",
       "path": "/settings",
       "dir": "pages/Settings/",
-      "module": "http://localhost:8080/pages/Settings/index.js",
+      "module": "http://localhost:3000/pages/Settings/index.js",
       "props": {}
     },
     {
       "id": "words",
       "path": "/words",
       "dir": "pages/Words/",
-      "module": "http://localhost:8080/pages/Words/index.js",
+      "module": "http://localhost:3000/pages/Words/index.js",
       "props": {}
     },
     {
       "id": "not-found",
       "path": "*",
       "dir": "pages/NotFound/",
-      "module": "http://localhost:8080/pages/NotFound/index.js",
+      "module": "http://localhost:3000/pages/NotFound/index.js",
       "props": {}
     }
   ]

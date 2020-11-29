@@ -21,6 +21,7 @@ const hmrEntry = [
   'webpack/hot/dev-server'
 ];
 const entry = [
+  require.resolve('@babel/polyfill'),
   '~/client.tsx',
 ];
 
@@ -34,10 +35,9 @@ const publicPath = isProduction ? '/' : process.env.HOT_SERVER;
 module.exports = merge(common, {
   entry,
   output: {
-    path: path.join(process.cwd(), 'dist/'),
+    path: path.join(__dirname, '../../dist/public'),
     publicPath,
     filename: `client.js`
-    // filename: `client${isDevelopment ? '' : '-[contenthash]'}.js`
   },
   devServer: {
     headers: { 'Access-Control-Allow-Origin': '*' },
