@@ -129,9 +129,10 @@ export default function init(rootUrl: string) {
   return Server;
 }
 
-if (!module.parent) {
-  const port = process.argv[2];
-  const rootUrl = process.argv[3];
+if (eval('!module.parent')) {
+  const host = process.argv[2] || 'localhost';
+  const port = process.argv[3] || '3000';
+  const rootUrl = process.argv[4] || 'http://locahost:8080/index.js';
 
-  init(rootUrl).listen(port, () => console.log('Server is runing!'));
+  init(rootUrl).listen(+port, host, () => console.log('Server is runing!'));
 }

@@ -35,3 +35,10 @@ function main(Root = ExternalComponent, hydrender = render) {
 }
 
 main(ExternalComponent, hydrate);
+
+// if (module.hot) {
+//   module.hot.accept(function() {
+//     console.log('accept')
+//     main(ExternalComponent, render); // TODO: make it work
+//   });
+// }

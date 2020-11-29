@@ -2,11 +2,13 @@ const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
 const nodeExternals = require('webpack-node-externals');
+const merge = require('webpack-merge');
+const common = require('./common.js');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
-module.exports = {
+module.exports = merge(common, {
   target: 'node',
   node: {
     __dirname: false,
@@ -16,6 +18,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, '../../dist/'),
     filename: 'server.js',
+    library: 'mira',
+    libraryTarget: 'umd',
   },
   plugins: [
     new webpack.BannerPlugin({
@@ -54,5 +58,5 @@ module.exports = {
       }
     ]
   },
-};
+});
   

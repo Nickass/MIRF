@@ -11,29 +11,30 @@ npm publish
 
 cd ..
 
-cd mira-cli
-npm publish
-
-cd ..
-
-npx mira start --port=80 # just run package in a lambda
+npx mira start --host=0.0.0.0 --port=80 --root=$ROOT_COMPONENT
 npx static-server start # or we can use google-bucket or amazon-s3
 
 cd ..
 
 cd frontend
 npm ci
-mira-cli build --recursively
-mira-cli publish --recursively
+mira build --recursively
+mira publish --recursively
 
 
 
 # for frontend development
 cd frontend
-mira-cli dev --port=8080
-mira start --port=3000 --root=http://localhost:8080/index.js
+mira component dev --port=8080
+mira start --port=3000 --root=$ROOT_COMPONENT
 # for full development
 cd frontend
-mira-cli dev --port=8080
+mira dev --port=8080
 cd ../mira
-npm run dev --port=3000 --root=http://localhost:8080/index.js
+npm run dev --port=3000 --root=$ROOT_COMPONENT
+
+
+# new
+npx mira-cli component build
+npx serve dist --port=8080
+npx mira-server --port=3000 --root=$ROOT_COMPONENT

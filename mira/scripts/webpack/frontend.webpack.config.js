@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const { camelCase } = require('change-case');
+const merge = require('webpack-merge');
+const common = require('./common.js');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -29,13 +31,24 @@ if (isDevelopment) {
 
 const publicPath = isProduction ? '/' : process.env.HOT_SERVER;
 
-module.exports = {
+module.exports = merge(common, {
   entry,
   output: {
     path: path.join(process.cwd(), 'dist/'),
     publicPath,
     filename: `client.js`
     // filename: `client${isDevelopment ? '' : '-[contenthash]'}.js`
+  },
+  devServer: {
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    stats: 'errors-only',
+    historyApiFallback: true,
+    port: process.env.HOT_SERVER_PORT,
+    hot: true,
+    inline: true,
+    stats: 'errors-only',
+    historyApiFallback: true,
+    publicPath: process.env.HOT_SERVER,
   },
   plugins,
   module: {
@@ -127,4 +140,4 @@ module.exports = {
       }
     ]
   },
-};
+});

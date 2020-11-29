@@ -1,10 +1,4 @@
-const merge = require('webpack-merge');
-const common = require('./common.js');
-const backend = require('./backend.js');
-const frontend = require('./frontend.js');
+const backend = require('./backend.webpack.config.js');
+const frontend = require('./frontend.webpack.config.js');
 
-
-module.exports = [
-  merge({} , common, backend),
-  merge({} , common, frontend)
-];
+module.exports = [backend,frontend];

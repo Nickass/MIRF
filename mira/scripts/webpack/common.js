@@ -4,7 +4,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
-const { dependencies = [] } = require('../../../mira-cli/config.json');
+const { dependencies = [] } = require('../../config.json');
 const { camelCase } = require('change-case');
 
 module.exports = {
@@ -17,11 +17,6 @@ module.exports = {
         HOT_SERVER_PORT: JSON.stringify(process.env.HOT_SERVER_PORT),
         HOT_SERVER_HOST: JSON.stringify(process.env.HOT_SERVER_HOST),
         HOT_SERVER: JSON.stringify(process.env.HOT_SERVER),
-        SERVER_PORT: JSON.stringify(process.env.SERVER_PORT),
-        SERVER_HOST: JSON.stringify(process.env.SERVER_HOST),
-        COMPONENT_SERVER_HOST: JSON.stringify(process.env.COMPONENT_SERVER_HOST),
-        COMPONENT_SERVER_PORT: JSON.stringify(process.env.COMPONENT_SERVER_PORT),
-        COMPONENT_SERVER: JSON.stringify(process.env.COMPONENT_SERVER),
       }
     }),
     // new BundleAnalyzerPlugin()
