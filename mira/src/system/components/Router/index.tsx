@@ -27,10 +27,12 @@ export interface subConfig {
   exact?: boolean;
   props?: { [propName: string]: any };
   module: string;
+  timeout?: number;
 }
 
 type RouterProps = {
   routes: subConfig[];
+  timeout?: number;
   [propName: string]: any
 };
 
@@ -86,7 +88,7 @@ export const Router: React.SFC<RouterProps> = ({ routes = [], ...rootProps }: Ro
               );
             };
 
-            return <ExternalModule path={route.module} Component={ModuleComponent} provide={providedModules} />;
+            return <ExternalModule path={route.module} Component={ModuleComponent} provide={providedModules} timeout={allProps.timeout} />;
           }} />
         );
       })}

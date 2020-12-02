@@ -16,7 +16,7 @@ module.exports = params => {
   const entry = [fullEntry];
   const publicSrc = (src.replace('\\', '/')) + '/';
   const publicBase = `http://${host}:${port}`;
-  const publicPath = (isProduction ? '/' : `${publicBase}/`) + publicSrc;
+  const publicPath = `${publicBase}/public/${publicSrc}`; // TODO: should update whether use external static server; use pablicPath in ExternalModule
   
   const plugins = [
     new webpack.DefinePlugin({ 
@@ -31,7 +31,7 @@ module.exports = params => {
     plugins.unshift(new webpack.HotModuleReplacementPlugin());
     plugins.unshift(new webpack.NoEmitOnErrorsPlugin());
     entry.length = 0;
-    entry.unshift(`webpack-hot-middleware/client?name=${publicSrc}&path=${publicBase}/__webpack_hmr`);
+    entry.unshift(`webpack-hot-middleware/client?name=${bundleName}&path=${publicBase}/__webpack_hmr`);
     entry.push(Path.resolve(__dirname, 'Wrapper.js'))
   }
 
@@ -43,10 +43,10 @@ module.exports = params => {
       path: outputPath,
       publicPath,
       filename: fileName + '.js',
-      library: publicSrc,
+      library: bundleName,
       libraryTarget: 'umd',
       globalObject: 'globalThis',
-    }, 
+    },
     externals: [
       /^\#external\//,
       dependencies.reduce((acc, curr) => ({ ...acc, [curr]: 'commonjs ' + curr }), {})

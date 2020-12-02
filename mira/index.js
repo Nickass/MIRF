@@ -23,8 +23,8 @@ const devCommand = yargs => yargs
       const baseGlob = glob2base(globInstance);
       const files = glob.sync(entry, { root });
       const { name } = parsePath(files[0]);
-      const rootUrl = rootComponent || `http://${host}:${port}/${name}.js`
-      const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item)).join(',');
+      const rootUrl = rootComponent || `http://${host}:${port}/public/${name}.js`
+      const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item));
       const configs = files.map(filePath => componentConfig({
         root,
         base: baseGlob,
@@ -36,8 +36,8 @@ const devCommand = yargs => yargs
       const app = express();
 
       app.use(cors())
-      app.use(webpackDevMiddleware(frontCompiler));
-      app.use(webpackHotMiddleware(frontCompiler));
+      app.use(webpackDevMiddleware(frontCompiler, { publicPath: '/public/' }));
+      app.use(webpackHotMiddleware(frontCompiler, { publicPath: '/public/' }));
       app.use(rootServer(rootUrl, sharedPaths));
 
       app.listen(port, host, () => console.log('Server is runing!'));

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import EntryModule from "ENTRYMODULE";
 
+__webpack_public_path__ = __home_public_path__;
 
 const componentState = {};
 

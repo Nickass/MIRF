@@ -20,6 +20,7 @@ type ErrorComponentProps = {
 export interface AsyncComponentOwnProps {
   id: string;
   caching?: boolean;
+  timeout?: number;
   children: () => Promise<any>;
   LoadComponent?: React.FunctionComponent<LoadComponentProps>;
   ErrorComponent?: React.FunctionComponent<ErrorComponentProps>;
@@ -42,12 +43,19 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
     errorData,
     successData,
     caching,
+    timeout = 10000,
     id,
   } = props as any;
 
   const resolver = async () => {
     try {
-      const data = await waitFunc() || {};
+      const timeoutPromise = (time: number) => new Promise((res, rej) => setTimeout(() => rej(new Error('Timeout')), time));
+      const promises = [
+        timeoutPromise(timeout),
+        waitFunc()
+      ];
+
+      const data = await Promise.race(promises) || {};
       dispatch({
         type: 'UPSERT_ASYNC_COMPONENT_SUCCESS',
         payload: {

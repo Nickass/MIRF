@@ -58,7 +58,7 @@ class App extends React.Component<AppProps, State> {
       <Container>
         <Header />
         Hello I'm a Page! 
-        <Pages routes={config.routes}>
+        <Pages routes={config.routes} timeout={200}>
           Hello! I'm children of the root
         </Pages>
         <Footer />

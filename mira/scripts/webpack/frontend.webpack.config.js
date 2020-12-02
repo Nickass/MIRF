@@ -30,7 +30,7 @@ if (isDevelopment) {
   plugins.unshift(new webpack.HotModuleReplacementPlugin())
 }
 
-const publicPath = isProduction ? '/' : process.env.HOT_SERVER;
+const publicPath = isProduction ? '/public' : process.env.HOT_SERVER;
 
 module.exports = merge(common, {
   entry,
@@ -46,7 +46,6 @@ module.exports = merge(common, {
     port: process.env.HOT_SERVER_PORT,
     hot: true,
     inline: true,
-    stats: 'errors-only',
     historyApiFallback: true,
     publicPath: process.env.HOT_SERVER,
   },

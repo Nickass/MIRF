@@ -10,7 +10,5 @@ cd ./mira &&
 cd ./frontend &&
   npm run dev -- \
     --serverless \
-    --serverHost=$SERVER_HOST \
-    --serverPort=$SERVER_PORT \
-    --componentHost=$COMPONENT_SERVER_HOST \
-    --componentPort=$COMPONENT_SERVER_PORT \
+    --host=$COMPONENT_SERVER_HOST \
+    --port=$COMPONENT_SERVER_PORT \

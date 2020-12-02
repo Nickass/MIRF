@@ -14,23 +14,23 @@ import ExternalComponent from '~/system/components/ExternalComponent';
 import ServerWrapper from '~/system/server-wrapper';
 import * as providedModules from './system/provided';
 
-export default function init(rootUrl: string, share: string = '') {
-  const clientUrl = process.env.NODE_ENV === 'development' ? process.env.HOT_SERVER : '';
+export default function init(rootUrl: string, share: string[] = []) {
+  const clientUrl = process.env.NODE_ENV === 'development' ? process.env.HOT_SERVER : '/public';
   const Server = express();
 
-  if (!clientUrl) { // TODO: and if (fs && path) or if (isNotSandbox)
+  if (true) { // TODO: if (itIsSandbox) skip static server
     const hashSuffix = process.env.NODE_ENV === 'development' ? '' : '-' + __webpack_hash__; // TODO: add suffix for cache static
-    Server.use(express.static(path.join(eval('__dirname'), `./public/`))); // TODO: make prefix (subpath) for static files 
-    share.split(',').filter(item => item).forEach(fp => Server.use(express.static(share)));
+    Server.use('/public/', express.static(path.join(eval('__dirname'), `./public/`)));
+    share.forEach(fp => Server.use('/public/', express.static(fp)));
   }
 
-  Server.all('*', async (req, res, next) => {
+  Server.all(/^\/(?!public\/)/, async (req, res, next) => {
     const store = configureStore();
     req._reduxStore = store;
     next();
   });
-  Server.all('/*', bodyParser.json());
-  Server.all('*', async function(req, res, next) {
+  Server.all(/^\/(?!public\/)/, bodyParser.json());
+  Server.all(/^\/(?!public\/)/, async function(req, res, next) {
     const store = req._reduxStore;
     const routerContext: StaticRouterContext = {};
     const envContext = { store, req, res, routerContext };

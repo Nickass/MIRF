@@ -6,6 +6,7 @@ import Axios from 'axios';
 type ExternalModuleProps = {
   path: string;
   Component: any;
+  timeout?: number;
   provide?: {
     [key: string]: any;
   }
@@ -15,15 +16,17 @@ type ExternalModule = React.FunctionComponent<ExternalModuleProps> | React.Compo
 export default function getExternalModule(ctx: ServerEnvContext): ExternalModule {
   const externalCache: any = {};
 
-  return ({ path, Component, provide = {} }) => {
+  return ({ path, Component, provide = {}, timeout }) => {
     const asyncId = `request-page-${path}`;
-    
+
     const SuccessComponent = React.useCallback((props) => {
       const external: any = { exports: {} };
+      const publicPath = path.split('/').slice(0, -1).join('/').replace(/\/$/, '') + '/';
 
       if (!externalCache[path]) {
         const { body } = props;
         (new Function('module', 'exports', 'require', `
+          var __home_public_path__ = '${publicPath}';
           ${body};
         `))(external, external.exports, (p: any) => provide[p.replace(/^#external\//, '')] || PROVIDED_MODULES[p]);
         externalCache[path] = external;
@@ -45,7 +48,7 @@ export default function getExternalModule(ctx: ServerEnvContext): ExternalModule
     }, [path]);
 
     return (
-      <AsyncComponent id={asyncId} SuccessComponent={SuccessComponent} caching={true}>
+      <AsyncComponent id={asyncId} SuccessComponent={SuccessComponent} caching={true} timeout={timeout}>
         {awaitFunc}
       </AsyncComponent>
     );
