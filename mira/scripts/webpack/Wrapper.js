@@ -5,7 +5,7 @@ __webpack_public_path__ = __home_public_path__;
 
 const componentState = {};
 
-function HotModule(props) {
+function WrapperModule(props) {
   const [Component, setComponent] = React.useState(() => EntryModule);
 
   componentState[ENTRYMODULE] = setComponent;
@@ -14,7 +14,7 @@ function HotModule(props) {
 }
 
 export * from "ENTRYMODULE";
-export default HotModule;
+export default WrapperModule;
 
 if (module.hot) {
   module.hot.accept('ENTRYMODULE', function() {

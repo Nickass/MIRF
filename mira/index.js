@@ -13,26 +13,42 @@ const componentConfig = require('./scripts/webpack/component');
 const { default: rootServer } = require('./dist/server.js');
 const packageJson = require('./package.json');
 
+const makeConfigs = ({ root, entry, host, port }) => {
+  const globInstance = new glob.Glob(entry);
+  const baseGlob = glob2base(globInstance);
+  const files = glob.sync(entry, { root });
+
+  return files.map(filePath => {
+    const relPath = relativePath(baseGlob, filePath);
+    const { dir: src, name: fileName } = parsePath(relPath);
+    const entryDir = joinPath(root, baseGlob, src);
+    const outputPath = joinPath(root, './dist/', src);
+    const publicSrc = src.replace(/\\/gm, '/').replace(/\/$/gm, '') + '/';
+    const publicBase = `http://${host}:${port}`;
+    const publicPath = `${publicBase}/public/${publicSrc}`;
+    const bundleName = joinPath(src, fileName).replace(/[\\\/]/gm, '-');
+
+    return componentConfig({
+      entryDir,
+      outputPath,
+      publicBase,
+      publicPath,
+      bundleName,
+      fileName,
+    });
+  })
+};
+
 const devCommand = yargs => yargs
   .command({
     command: "*",
     desc: "Start developing",
     handler: argv => {
       const { root, port, host, entry, share, rootComponent } = argv;
-      const globInstance = new glob.Glob(entry);
-      const baseGlob = glob2base(globInstance);
-      const files = glob.sync(entry, { root });
-      const { name } = parsePath(files[0]);
-      const rootUrl = rootComponent || `http://${host}:${port}/public/${name}.js`
-      const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item));
-      const configs = files.map(filePath => componentConfig({
-        root,
-        base: baseGlob,
-        filePath: relativePath(baseGlob, filePath),
-        host,
-        port
-      }));
+      const configs = makeConfigs(argv);
       const frontCompiler = webpack(configs);
+      const rootUrl = rootComponent || `http://${host}:${port}/public/index.js`
+      const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item));
       const app = express();
 
       app.use(cors())
@@ -49,17 +65,7 @@ const buildCommand = yargs => yargs
     command: "*",
     desc: "Building components for the app",
     handler: argv => {
-      const { root, entry, host, port } = argv;
-      const globInstance = new glob.Glob(entry);
-      const baseGlob = glob2base(globInstance);
-      const files = glob.sync(entry, { root });
-      const configs = files.map(filePath => componentConfig({
-        root,
-        base: baseGlob,
-        filePath: relativePath(baseGlob, filePath),
-        host,
-        port
-      }));
+      const configs = makeConfigs(argv);
       const frontCompiler = webpack(configs);
       
       frontCompiler.run((err, stats) => {
@@ -77,10 +83,8 @@ const serveCommand = yargs => yargs
     command: "*",
     desc: "Start server",
     handler: argv => {
-      const { port, host, root, entry, share, rootComponent } = argv;
-      const files = glob.sync(entry, { root });
-      const { name } = parsePath(files[0]);
-      const rootUrl = rootComponent || `http://${host}:${port}/${name}.js`
+      const { port, host, root, share, rootComponent } = argv;
+      const rootUrl = rootComponent || `http://${host}:${port}/public/index.js`
       const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item)).join(',');
 
       rootServer(rootUrl, sharedPaths).listen(port, host, () => console.log('Server is runing!'));
