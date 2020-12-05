@@ -72,15 +72,7 @@ module.exports = merge(common, {
             loader: 'postcss-loader',
             options: {
               sourceMap: true,
-              plugins: [
-                autoprefixer({
-                  browsers: [
-                    'last 2 versions',
-                    'not ie <= 11',
-                    'not ie_mob <= 11',
-                  ],
-                }),
-              ],
+              plugins: [autoprefixer()],
             },
           },
           'sass-loader',
