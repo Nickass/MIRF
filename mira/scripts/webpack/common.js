@@ -53,9 +53,7 @@ module.exports = {
         resolve: {
           extensions: [".tsx", ".ts", ".js", ".jsx"]
         },
-        use: [
-          'ts-loader'
-        ],
+        use: require.resolve("babel-loader")
       },
     ]
   }

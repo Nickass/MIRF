@@ -21,12 +21,6 @@ module.exports = merge(common, {
     library: 'mira',
     libraryTarget: 'umd',
   },
-  plugins: [
-    new webpack.BannerPlugin({
-      banner: '#!/usr/bin/env node',
-      raw: true,
-    }),
-  ],
   externals: nodeExternals({
     whitelist: [
       /\.(?!(?:jsx?|json)$).{1,5}$/i,
