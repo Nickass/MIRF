@@ -1,8 +1,8 @@
 {
-  "name": "frontend",
+  "name": "demo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "mira start --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}' --share='dist/,public/'",
     "dev": "set NODE_ENV=development&& mira --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}' --share='dist/,public/'",

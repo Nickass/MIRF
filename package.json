@@ -2,7 +2,7 @@
   "name": "whereareyou",
   "version": "1.0.0",
   "description": "",
-  "main": "frontend/index.js",
+  "main": "demo/index.js",
   "scripts": {
     "start": "npm run dev",
     "build": "set NODE_ENV=production&& cd ./root&& npm run build",

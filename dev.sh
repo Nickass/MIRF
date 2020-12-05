@@ -7,5 +7,5 @@ export NODE_ENV=development
 
 cd ./mira &&
   npm run dev $SERVER_HOST $SERVER_PORT $ROOT_COMPONENT &
-cd ./frontend &&
+cd ./demo &&
   npm run dev -- --host=$COMPONENT_SERVER_HOST --port=$COMPONENT_SERVER_PORT
