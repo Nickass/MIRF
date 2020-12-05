@@ -71,18 +71,7 @@ module.exports = params => {
             loader: require.resolve("babel-loader"),
             options: {
               cacheDirectory: true,
-              babelrc: false,
-              presets: [
-                [
-                  require.resolve('@babel/preset-env'),
-                  { targets: { browsers: 'last 2 versions' } }, // or whatever your project requires
-                ],
-                require.resolve('@babel/preset-typescript'),
-                require.resolve('@babel/preset-react'),
-              ],
-              plugins: [
-                [require.resolve('@babel/plugin-proposal-class-properties'), { loose: true }],
-              ],
+              extends: require.resolve("../../.babelrc"),
             },
           }
         },
