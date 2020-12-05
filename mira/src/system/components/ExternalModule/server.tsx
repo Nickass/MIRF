@@ -29,7 +29,7 @@ export default function getExternalModule(ctx: ServerEnvContext): ExternalModule
           var __home_public_path__ = '${publicPath}';
           ${body};
         `))(external, external.exports, (p: any) => provide[p.replace(/^#external\//, '')] || PROVIDED_MODULES[p]);
-        externalCache[path] = external;
+        externalCache[path] = external; // TODO: check when script has syntax errors
       }
       
       return (

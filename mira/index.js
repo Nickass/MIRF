@@ -25,7 +25,7 @@ const makeConfigs = ({ root, entry, host, port }) => {
     const outputPath = joinPath(root, './dist/', src);
     const publicSrc = src.replace(/\\/gm, '/').replace(/\/$/gm, '') + '/';
     const publicBase = `http://${host}:${port}`;
-    const publicPath = `${publicBase}/public/${publicSrc}`;
+    const publicPath = `${publicBase}/${publicSrc}`;
     const bundleName = joinPath(src, fileName).replace(/[\\\/]/gm, '-');
 
     return componentConfig({
@@ -47,13 +47,13 @@ const devCommand = yargs => yargs
       const { root, port, host, entry, share, rootComponent } = argv;
       const configs = makeConfigs(argv);
       const frontCompiler = webpack(configs);
-      const rootUrl = rootComponent || `http://${host}:${port}/public/index.js`
+      const rootUrl = rootComponent || `http://${host}:${port}/index.js`
       const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item));
       const app = express();
 
       app.use(cors())
-      app.use(webpackDevMiddleware(frontCompiler, { publicPath: '/public/' }));
-      app.use(webpackHotMiddleware(frontCompiler, { publicPath: '/public/' }));
+      app.use(webpackDevMiddleware(frontCompiler));
+      app.use(webpackHotMiddleware(frontCompiler));
       app.use(rootServer(rootUrl, sharedPaths));
 
       app.listen(port, host, () => console.log('Server is runing!'));
@@ -84,8 +84,8 @@ const serveCommand = yargs => yargs
     desc: "Start server",
     handler: argv => {
       const { port, host, root, share, rootComponent } = argv;
-      const rootUrl = rootComponent || `http://${host}:${port}/public/index.js`
-      const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item)).join(',');
+      const rootUrl = rootComponent || `http://${host}:${port}/index.js`
+      const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item));
 
       rootServer(rootUrl, sharedPaths).listen(port, host, () => console.log('Server is runing!'));
     }

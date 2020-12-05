@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "mira start --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}'",
-    "dev": "set NODE_ENV=development&& mira --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}'",
-    "dev-component": "npm run dev -- --serverless",
+    "start": "mira start --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}' --share='dist/,public/'",
+    "dev": "set NODE_ENV=development&& mira --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}' --share='dist/,public/'",
     "build": "set NODE_ENV=production&& mira build --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}'",
-    "publish": "app-cli publish",
+    "publish": "echo published",
     "deploy": "npm run build && npm run publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

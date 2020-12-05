@@ -58,7 +58,7 @@ class App extends React.Component<AppProps, State> {
       <Container>
         <Header />
         Hello I'm a Page! 
-        <Pages routes={config.routes} timeout={200}>
+        <Pages routes={config.routes} base={`http://localhost:${process.env.NODE_ENV==='development' ? '8080' : '3000'}`} timeout={5000}>
           Hello! I'm children of the root
         </Pages>
         <Footer />

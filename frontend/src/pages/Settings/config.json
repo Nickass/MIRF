@@ -6,7 +6,7 @@
       "path": "/profile",
       "dir": "Profile/",
       "middlewares": ["profile"],
-      "module": "http://localhost:8080/public/pages/Settings/pages/Profile/index.js"
+      "module": "/pages/Settings/pages/Profile/index.js"
     }
   ]
 }

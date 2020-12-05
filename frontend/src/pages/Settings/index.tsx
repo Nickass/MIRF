@@ -24,7 +24,7 @@ class Settings extends React.Component<SettingsProps> {
       <Container className={this.props.className}>
         <Title>Settings page</Title>
         {this.props.children}
-        <Router routes={config.routes} />
+        <Router routes={config.routes} base={`http://localhost:${process.env.NODE_ENV==='development' ? '8080' : '3000'}`} />
       </Container>
     );
   }

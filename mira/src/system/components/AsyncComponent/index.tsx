@@ -49,7 +49,9 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
 
   const resolver = async () => {
     try {
-      const timeoutPromise = (time: number) => new Promise((res, rej) => setTimeout(() => rej(new Error('Timeout')), time));
+      const timeoutPromise = (time: number) => new Promise((res, rej) => 
+        setTimeout(() => rej(new Error('Timeout')), timeout)
+      );
       const promises = [
         timeoutPromise(timeout),
         waitFunc()
@@ -58,40 +60,31 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
       const data = await Promise.race(promises) || {};
       dispatch({
         type: 'UPSERT_ASYNC_COMPONENT_SUCCESS',
-        payload: {
-          id,
-          data
-        }
+        payload: { id, data }
       });
       return (
         <ErrorProtector id={'async-component-' + id}>
           <SuccessComponent {...data} />
         </ErrorProtector>
       )
-    } catch (error) {
-      const data = {
-        message: error.message,
-        stack: error.stack,
+    } catch (err) {
+      const error = {
+        message: err.message,
+        stack: err.stack,
       };
-      console.error(`\nAsyncComponentError:\n${error.stack}\n\n`);
+      console.error(`\nAsyncComponentError:\n${err.stack}\n\n`);
       dispatch({
         type: 'UPSERT_ASYNC_COMPONENT_ERROR',
-        payload: {
-          id,
-          error: data
-        }
+        payload: { id, error }
       });
-      return <ErrorComponent id={id} {...data} />
+      return <ErrorComponent id={id} {...error} />
     }
   }
-  
+
   if (!promise && !errorData && !successData) {
     dispatch({
       type: 'UPSERT_ASYNC_COMPONENT_PROMISE',
-      payload: {
-        id,
-        promise: resolver()
-      }
+      payload: { id, promise: resolver() }
     });
   }
 
@@ -105,7 +98,7 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
       }
     }
   }, [id, caching])
-    
+
   if (errorData) {
     return <ErrorComponent id={id + '-error'} {...errorData} />;
   } else if (successData) {
@@ -126,5 +119,5 @@ export default connect<any, AsyncComponentWithStore, AsyncComponentOwnProps, def
     promise: state.asyncComponent.promises[ownProps.id],
     errorData: state.asyncComponent.errors[ownProps.id],
     successData: state.asyncComponent.success[ownProps.id],
-  }),0
+  })
 )(AsyncComponent);

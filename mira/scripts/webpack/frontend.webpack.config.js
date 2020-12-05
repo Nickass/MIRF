@@ -5,16 +5,24 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const { camelCase } = require('change-case');
+const CopyPlugin = require("copy-webpack-plugin");
 const merge = require('webpack-merge');
 const common = require('./common.js');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
+const publicDir = path.join(__dirname, '../../dist/public');
+
 const plugins = [
   // new webpack.NamedModulesPlugin(),
   // new SpriteLoaderPlugin(),
-  new MiniCssExtractPlugin({ filename: 'client.css'  }),
+  new MiniCssExtractPlugin({ filename: 'client.css' }),
+  new CopyPlugin({
+    patterns: [
+      { from: path.join(__dirname, '../../public'), to: publicDir },
+    ],
+  }),
 ];
 const hmrEntry = [
   `webpack-dev-server/client?${process.env.HOT_SERVER}`,
@@ -30,12 +38,12 @@ if (isDevelopment) {
   plugins.unshift(new webpack.HotModuleReplacementPlugin())
 }
 
-const publicPath = isProduction ? '/public' : process.env.HOT_SERVER;
+const publicPath = isProduction ? '/' : process.env.HOT_SERVER;
 
 module.exports = merge(common, {
   entry,
   output: {
-    path: path.join(__dirname, '../../dist/public'),
+    path: publicDir,
     publicPath,
     filename: `client.js`
   },

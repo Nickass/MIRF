@@ -7,7 +7,7 @@ import * as path from 'path';
 import { StaticRouterContext } from 'react-router';
 import * as ReactDom from 'react-dom/server';
 import Helmet from 'react-helmet';
-import { ServerStyleSheet } from 'styled-components'
+import { StyleSheetManager, ServerStyleSheet } from 'styled-components'
 import configureStore from '~/system/store';
 import { Provider as RouterContextProvider } from '~/system/components/Router/RouterContext';
 import ExternalComponent from '~/system/components/ExternalComponent';
@@ -15,25 +15,22 @@ import ServerWrapper from '~/system/server-wrapper';
 import * as providedModules from './system/provided';
 
 export default function init(rootUrl: string, share: string[] = []) {
-  const clientUrl = process.env.NODE_ENV === 'development' ? process.env.HOT_SERVER : '/public';
+  const clientUrl = process.env.NODE_ENV === 'development' ? process.env.HOT_SERVER : '';
   const Server = express();
 
   if (true) { // TODO: if (itIsSandbox) skip static server
     const hashSuffix = process.env.NODE_ENV === 'development' ? '' : '-' + __webpack_hash__; // TODO: add suffix for cache static
-    Server.use('/public/', express.static(path.join(eval('__dirname'), `./public/`)));
-    share.forEach(fp => Server.use('/public/', express.static(fp)));
+
+    share.forEach(fp => Server.use(express.static(fp)));
+    Server.use(express.static(path.join(eval('__dirname'), `./public/`)));
   }
 
-  Server.all(/^\/(?!public\/)/, async (req, res, next) => {
+  Server.use(bodyParser.json());
+  Server.use(async function(req, res, next) {
     const store = configureStore();
-    req._reduxStore = store;
-    next();
-  });
-  Server.all(/^\/(?!public\/)/, bodyParser.json());
-  Server.all(/^\/(?!public\/)/, async function(req, res, next) {
-    const store = req._reduxStore;
     const routerContext: StaticRouterContext = {};
     const envContext = { store, req, res, routerContext };
+    const sheet = new ServerStyleSheet();
 
     const wrappComponent = (el: React.ReactElement ) => (
       <ServerWrapper {...envContext}>
@@ -42,11 +39,12 @@ export default function init(rootUrl: string, share: string[] = []) {
     );
     
     try {
-      const sheet = new ServerStyleSheet();
       const jsx = wrappComponent(
-        <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '', middlewares: {} }}>
-          <ExternalComponent url={rootUrl} provide={providedModules} />
-        </RouterContextProvider>
+        <StyleSheetManager sheet={sheet.instance}>
+          <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '', middlewares: {} }}>
+            <ExternalComponent url={rootUrl} provide={providedModules} />
+          </RouterContextProvider>
+        </StyleSheetManager>
       );
 
       let html = ReactDom.renderToString(jsx);
@@ -113,6 +111,8 @@ export default function init(rootUrl: string, share: string[] = []) {
           </body>
         </html>
       `);
+    } finally {
+      sheet.seal()
     }
   });
 
