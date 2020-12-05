@@ -31,7 +31,7 @@ export default function init(rootUrl: string, share: string[] = []) {
     const routerContext: StaticRouterContext = {};
     const envContext = { store, req, res, routerContext };
     const sheet = new ServerStyleSheet();
-
+    
     const wrappComponent = (el: React.ReactElement ) => (
       <ServerWrapper {...envContext}>
         {el}

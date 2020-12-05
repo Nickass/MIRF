@@ -23,7 +23,7 @@ module.exports = params => {
     plugins.unshift(new webpack.HotModuleReplacementPlugin());
     plugins.unshift(new webpack.NoEmitOnErrorsPlugin());
     entry.length = 0;
-    entry.unshift(`webpack-hot-middleware/client?name=${bundleName}&path=${publicBase}/__webpack_hmr`);
+    entry.unshift(`${require.resolve('webpack-hot-middleware/client')}?name=${bundleName}&path=${publicBase}/__webpack_hmr`);
   }
   entry.push(Path.resolve(__dirname, 'Wrapper.js'))
 
@@ -88,24 +88,24 @@ module.exports = params => {
         },
         {
           test: /\.(sa|sc|c)ss$/,
-          use: 'ignore-loader',
+          use: require.resolve('ignore-loader'),
         },
         {
           test: /\.css$/,
-          use: 'ignore-loader',
+          use: require.resolve('ignore-loader'),
         },
         {
           test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-          use: 'ignore-loader'
+          use: require.resolve('ignore-loader')
         },
         {
           test: /\.mp4$/,
-          use: 'ignore-loader',
+          use: require.resolve('ignore-loader'),
         },
         {
           test: /\.(png|svg|gif|jpe?g)$/i,
           exclude: /[\\\/]ic-.*\.(png|svg|gif|jpe?g)$/i,
-          use: 'ignore-loader',
+          use: require.resolve('ignore-loader'),
         }
       ]
     }

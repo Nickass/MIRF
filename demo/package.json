@@ -1,18 +1,18 @@
 {
-  "name": "demo",
+  "name": "mira-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "The demo for the mira",
   "main": "dist/index.js",
   "scripts": {
-    "start": "mira start --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}' --share='dist/,public/'",
+    "start": "mira start --share='dist/,public/'",
     "dev": "set NODE_ENV=development&& mira --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}' --share='dist/,public/'",
     "build": "set NODE_ENV=production&& mira build --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}'",
-    "publish": "echo published",
-    "deploy": "npm run build && npm run publish",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "npm run build && echo 'deployed'"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@types/styled-components": "^5.1.4"
   }
 }

@@ -6,6 +6,7 @@
     "react-router-dom",
     "react-helmet",
     "react-redux",
-    "styled-components"
+    "styled-components",
+    "classnames"
   ]
 }
