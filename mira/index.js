@@ -44,17 +44,16 @@ const devCommand = yargs => yargs
     command: "*",
     desc: "Start developing",
     handler: argv => {
-      const { root, port, host, entry, share, rootComponent } = argv;
+      const { root, port, host, share, rootComponent } = argv;
       const configs = makeConfigs(argv);
       const frontCompiler = webpack(configs);
-      const rootUrl = rootComponent || `http://${host}:${port}/index.js`
       const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item));
       const app = express();
 
       app.use(cors())
       app.use(webpackDevMiddleware(frontCompiler));
       app.use(webpackHotMiddleware(frontCompiler));
-      app.use(rootServer(rootUrl, sharedPaths));
+      app.use(rootServer(rootComponent, sharedPaths));
 
       app.listen(port, host, () => console.log('Server is runing!'));
     }
@@ -83,11 +82,10 @@ const serveCommand = yargs => yargs
     command: "*",
     desc: "Start server",
     handler: argv => {
-      const { port, host, root, share, rootComponent } = argv;
-      const rootUrl = rootComponent || `http://${host}:${port}/index.js`
+      const { root, host, port, share, rootComponent } = argv;
       const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item));
 
-      rootServer(rootUrl, sharedPaths).listen(port, host, () => console.log('Server is runing!'));
+      rootServer(rootComponent, sharedPaths).listen(port, host, () => console.log('Server is runing!'));
     }
   });
 
@@ -116,6 +114,7 @@ yargs
   rootComponent: {
     alias: 'rc',
     describe: 'URI to the root component',
+    default: 'http://localhost:3000/index.js'
   },
   share: {
     alias: 'sh',

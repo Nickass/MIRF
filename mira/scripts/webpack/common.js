@@ -16,7 +16,7 @@ module.exports = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         HOT_SERVER_PORT: JSON.stringify(process.env.HOT_SERVER_PORT),
         HOT_SERVER_HOST: JSON.stringify(process.env.HOT_SERVER_HOST),
-        HOT_SERVER: JSON.stringify(process.env.HOT_SERVER),
+        PUBLIC_PATH: JSON.stringify(process.env.PUBLIC_PATH),
       }
     }),
     // new BundleAnalyzerPlugin()

@@ -13,6 +13,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 const publicDir = path.join(__dirname, '../../dist/public');
+const publicPath = process.env.PUBLIC_PATH || '/';
 
 const plugins = [
   // new webpack.NamedModulesPlugin(),
@@ -25,7 +26,7 @@ const plugins = [
   }),
 ];
 const hmrEntry = [
-  `webpack-dev-server/client?${process.env.HOT_SERVER}`,
+  `webpack-dev-server/client?${publicPath}`,
   'webpack/hot/dev-server'
 ];
 const entry = [
@@ -38,7 +39,6 @@ if (isDevelopment) {
   plugins.unshift(new webpack.HotModuleReplacementPlugin())
 }
 
-const publicPath = isProduction ? '/' : process.env.HOT_SERVER;
 
 module.exports = merge(common, {
   entry,
@@ -52,10 +52,11 @@ module.exports = merge(common, {
     stats: 'errors-only',
     historyApiFallback: true,
     port: process.env.HOT_SERVER_PORT,
+    host: process.env.HOT_SERVER_HOST,
     hot: true,
     inline: true,
     historyApiFallback: true,
-    publicPath: process.env.HOT_SERVER,
+    publicPath,
   },
   plugins,
   module: {

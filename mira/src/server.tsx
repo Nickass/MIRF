@@ -15,7 +15,7 @@ import ServerWrapper from '~/system/server-wrapper';
 import * as providedModules from './system/provided';
 
 export default function init(rootUrl: string, share: string[] = []) {
-  const clientUrl = process.env.NODE_ENV === 'development' ? process.env.HOT_SERVER : '';
+  const publicPath = process.env.PUBLIC_PATH || '/';
   const Server = express();
 
   if (true) { // TODO: if (itIsSandbox) skip static server
@@ -84,7 +84,7 @@ export default function init(rootUrl: string, share: string[] = []) {
             ${helmet.title.toString()}
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width" />
-            <link rel="stylesheet" href="${clientUrl}/client.css" />
+            <link rel="stylesheet" href="${publicPath}client.css" />
             <script>
               window.REDUX_STATE = ${JSONstate};
               window.ROOT_COMPONENT = '${rootUrl}';
@@ -96,7 +96,7 @@ export default function init(rootUrl: string, share: string[] = []) {
           <body ${helmet.bodyAttributes.toString()}>
           <div id="app-root">${html}</div>
             ${helmet.script.toString()}
-            <script type="application/javascript" src="${clientUrl}/client.js"></script>
+            <script type="application/javascript" src="${publicPath}client.js"></script>
           </body>
         </html>
       `);
@@ -120,8 +120,8 @@ export default function init(rootUrl: string, share: string[] = []) {
 }
 
 if (eval('!module.parent')) {
-  const host = process.argv[2] || 'localhost';
-  const port = process.argv[3] || '3000';
+  const host = process.argv[2] || '0.0.0.0';
+  const port = process.argv[3] || '8080';
   const rootUrl = process.argv[4] || 'http://localhost:8080/index.js';
 
   init(rootUrl).listen(+port, host, () => console.log('Server is runing!'));
