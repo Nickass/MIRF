@@ -1,12 +1,12 @@
 {
-  "name": "mira-demo",
+  "name": "mirf-demo",
   "version": "1.0.0",
-  "description": "The demo for the mira",
+  "description": "The demo for the mirf",
   "main": "dist/index.js",
   "scripts": {
-    "start": "mira start --share='dist/,public/'",
-    "dev": "set NODE_ENV=development&& mira --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}' --share='dist/,public/'",
-    "build": "set NODE_ENV=production&& mira build --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}'",
+    "start": "mirf start --share='dist/,public/'",
+    "dev": "set NODE_ENV=development&& mirf --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}' --share='dist/,public/'",
+    "build": "set NODE_ENV=production&& mirf build --entry='src/{**/pages/*/,*}index.{tsx,js,jsx}'",
     "deploy": "npm run build && echo 'deployed'"
   },
   "author": "",

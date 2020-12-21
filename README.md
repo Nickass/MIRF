@@ -1,4 +1,4 @@
-# Mira
+# Micro isomorphic react framework
 ------------------------
 ## To start you have to:
 1. install latest version of nodejs

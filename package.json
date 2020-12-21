@@ -1,13 +1,13 @@
 {
-  "name": "mira-root",
+  "name": "mirf-root",
   "version": "1.0.0",
   "description": "",
   "main": "demo/index.js",
   "scripts": {
     "start": "npm run dev",
-    "build": "cd ./mira && npm run build & cd ./demo && npm run build",
+    "build": "cd ./mirf && npm run build & cd ./demo && npm run build",
     "dev": "bash ./dev.sh",
-    "deploy": "cd ./mira && npm run deploy & cd ./demo && npm run deploy"
+    "deploy": "cd ./mirf && npm run deploy & cd ./demo && npm run deploy"
   },
   "author": "Mykola Nazaryshyn <nazaryshyn91@gmail.com>",
   "license": "ISC"

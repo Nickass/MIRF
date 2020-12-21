@@ -1,12 +1,11 @@
 // modules
 import * as React from 'react';
-import ExternalComponent from '@mira/ExternalComponent'
-import { RouteComponentProps } from 'react-router';
+import ExternalComponent from '#external/ExternalComponent'
 
 // assets
 import { Container, Title } from './assets/styles';
 
-interface WordsProps extends RouteComponentProps {
+interface WordsProps {
   className?: string;
   dispatch: any;
 };

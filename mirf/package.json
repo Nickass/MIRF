@@ -1,9 +1,9 @@
 {
-  "name": "mira",
+  "name": "mirf",
   "version": "1.0.0",
   "description": "Moduled isomorphic react app",
   "bin": {
-    "mira": "index.js"
+    "mirf": "index.js"
   },
   "main": "dist/server.js",
   "browser": {

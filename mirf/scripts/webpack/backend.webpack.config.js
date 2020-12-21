@@ -18,7 +18,7 @@ module.exports = merge(common, {
   output: {
     path: path.join(__dirname, '../../dist/'),
     filename: 'server.js',
-    library: 'mira',
+    library: 'mirf',
     libraryTarget: 'umd',
   },
   externals: nodeExternals({
