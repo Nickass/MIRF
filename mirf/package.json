@@ -1,6 +1,6 @@
 {
   "name": "mirf",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Moduled isomorphic react app",
   "bin": {
     "mirf": "index.js"

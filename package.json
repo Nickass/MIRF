@@ -1,6 +1,6 @@
 {
-  "name": "mirf-root",
-  "version": "1.0.0",
+  "name": "mirp",
+  "version": "0.1.0",
   "description": "",
   "main": "demo/index.js",
   "scripts": {
