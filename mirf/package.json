@@ -13,7 +13,9 @@
     "start": "npm run dev",
     "dev": "bash ./scripts/dev.sh",
     "build": "bash ./scripts/build.sh",
-    "deploy": "npm run build && echo 'deployed'",
+    "deploy": "bash ./scripts/deploy.sh",
+    "demo": "npm run build && node ./index.js start",
+    "e2e": "npm run build && npm run start && jest",
     "test": "jest"
   },
   "author": "Mykola Nazaryshyn <nazaryshyn91@gmail.com>",

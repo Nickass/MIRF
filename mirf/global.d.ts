@@ -3,6 +3,7 @@ declare module '*.png';
 declare module '*.jpg';
 declare module '*.css';
 declare module '*.scss';
+declare module '#external/*';
 
 declare var CLIENT_JS_FILE_CONTENTS: string;
 declare var CLIENT_CSS_FILE_CONTENTS: string;

@@ -13,16 +13,16 @@ const componentConfig = require('./scripts/webpack/component');
 const { default: rootServer } = require('./dist/server.js');
 const packageJson = require('./package.json');
 
-const makeConfigs = ({ root, entry, host, port }) => {
+const makeConfigs = ({ cwd, entry, output, host, port }) => {
   const globInstance = new glob.Glob(entry);
   const baseGlob = glob2base(globInstance);
-  const files = glob.sync(entry, { root });
+  const files = glob.sync(entry, { cwd });
 
   return files.map(filePath => {
     const relPath = relativePath(baseGlob, filePath);
     const { dir: src, name: fileName } = parsePath(relPath);
-    const entryDir = joinPath(root, baseGlob, src);
-    const outputPath = joinPath(root, './dist/', src);
+    const entryDir = joinPath(cwd, baseGlob, src);
+    const outputPath = joinPath(cwd, output, src);
     const publicSrc = src.replace(/\\/gm, '/').replace(/\/$/gm, '') + '/';
     const publicBase = `http://${host}:${port}`;
     const publicPath = `${publicBase}/${publicSrc}`;
@@ -44,10 +44,10 @@ const devCommand = yargs => yargs
     command: "*",
     desc: "Start developing",
     handler: argv => {
-      const { root, port, host, share, rootComponent } = argv;
+      const { cwd, port, host, share, rootComponent } = argv;
       const configs = makeConfigs(argv);
       const frontCompiler = webpack(configs);
-      const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item));
+      const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(cwd, item));
       const app = express();
 
       app.use(cors())
@@ -82,8 +82,8 @@ const serveCommand = yargs => yargs
     command: "*",
     desc: "Start server",
     handler: argv => {
-      const { root, host, port, share, rootComponent } = argv;
-      const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(root, item));
+      const { cwd, host, port, share, rootComponent } = argv;
+      const sharedPaths = share.split(',').filter(item => item).map(item => joinPath(cwd, item));
 
       rootServer(rootComponent, sharedPaths).listen(port, host, () => console.log('Server is runing!'));
     }
@@ -92,7 +92,7 @@ const serveCommand = yargs => yargs
 yargs
 .scriptName(packageJson.name)
 .options({
-  root: {
+  cwd: {
     describe: 'The cwd of the process',
     default: process.cwd()
   },
@@ -110,6 +110,11 @@ yargs
     alias: 'e',
     describe: 'A glob of the components',
     default: 'index.{tsx,js,jsx}'
+  },
+  output: {
+    alias: 'o',
+    describe: 'The path to place bundled modules',
+    default: 'dist/'
   },
   rootComponent: {
     alias: 'rc',
