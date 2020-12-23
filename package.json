@@ -5,9 +5,9 @@
   "main": "demo/index.js",
   "scripts": {
     "start": "npm run dev",
-    "build": "cd ./mirf && npm run build & cd ./demo && npm run build",
-    "dev": "bash ./dev.sh",
-    "deploy": "cd ./mirf && npm run deploy & cd ./demo && npm run deploy"
+    "build": "cd ./mirf && npm run build",
+    "dev": "cd ./mirf && npm run dev",
+    "deploy": "cd ./mirf && npm run deploy"
   },
   "author": "Mykola Nazaryshyn <nazaryshyn91@gmail.com>",
   "license": "ISC"
