@@ -74,6 +74,7 @@ dev_demo() {
   ROOT_COMPONENT=${3:-"http://$HOST:$PORT/index.js"}
 
   export NODE_ENV="${NODE_ENV:-development}"
+  export SERVER_URL="http://$HOST:$PORT"
   
   echo "Starting developing demo..."
 
@@ -110,6 +111,7 @@ demo() {
   ROOT_COMPONENT=${3:-"http://$HOST:$PORT/index.js"}
 
   export NODE_ENV="${NODE_ENV:-production}"
+  export SERVER_URL="http://$HOST:$PORT"
 
   clean_dist
   build
@@ -133,6 +135,7 @@ deploy() {
 e2e() {
   HOST="${HOST:-localhost}"
   PORT="${PORT:-3000}"
+  
   export SERVER_URL="http://$HOST:$PORT"
 
   demo $HOST $PORT &

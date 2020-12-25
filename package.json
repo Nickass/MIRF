@@ -7,7 +7,9 @@
     "start": "npm run dev",
     "build": "cd ./mirf && npm run build",
     "dev": "cd ./mirf && npm run dev",
-    "deploy": "cd ./mirf && npm run deploy"
+    "deploy": "cd ./mirf && npm run deploy",
+    "demo": "cd ./mirf && npm run demo",
+    "e2e": "cd ./mirf && npm run e2e"
   },
   "author": "Mykola Nazaryshyn <nazaryshyn91@gmail.com>",
   "license": "ISC"
