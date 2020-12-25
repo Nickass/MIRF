@@ -16,7 +16,7 @@ module.exports = merge(common, {
   },
   entry: [require.resolve('@babel/polyfill'), '~/server.tsx'],
   output: {
-    path: path.join(__dirname, '../../dist/'),
+    path: path.join(__dirname, '../dist/'),
     filename: 'server.js',
     library: 'mirf',
     libraryTarget: 'umd',

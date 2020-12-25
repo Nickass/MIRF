@@ -12,7 +12,7 @@ const common = require('./common.js');
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
-const publicDir = path.join(__dirname, '../../dist/public');
+const publicDir = path.join(__dirname, '../dist/public');
 const publicPath = process.env.PUBLIC_PATH || '/';
 
 const plugins = [
@@ -21,7 +21,7 @@ const plugins = [
   new MiniCssExtractPlugin({ filename: 'client.css' }),
   new CopyPlugin({
     patterns: [
-      { from: path.join(__dirname, '../../public'), to: publicDir },
+      { from: path.join(__dirname, '../public'), to: publicDir },
     ],
   }),
 ];
@@ -51,8 +51,6 @@ module.exports = merge(common, {
     headers: { 'Access-Control-Allow-Origin': '*' },
     stats: 'errors-only',
     historyApiFallback: true,
-    port: process.env.HOT_SERVER_PORT,
-    host: process.env.HOT_SERVER_HOST,
     hot: true,
     inline: true,
     historyApiFallback: true,

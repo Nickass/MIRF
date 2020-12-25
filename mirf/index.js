@@ -9,7 +9,7 @@ const glob2base = require('glob2base');
 const express = require('express');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require("webpack-hot-middleware");
-const componentConfig = require('./scripts/webpack/component');
+const componentConfig = require('./webpack/component');
 const { default: rootServer } = require('./dist/server.js');
 const packageJson = require('./package.json');
 
@@ -141,4 +141,4 @@ yargs
 })
 
 yargs.wrap(yargs.terminalWidth());
-yargs.showHelp();
+yargs.argv;

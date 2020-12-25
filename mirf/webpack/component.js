@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const Path = require('path');
 const { camelCase } = require('change-case');
-const { dependencies = [] } = require('../../config.json');
+const { dependencies = [] } = require('../config.json');
 
 
 module.exports = params => {
@@ -71,7 +71,7 @@ module.exports = params => {
             loader: require.resolve("babel-loader"),
             options: {
               cacheDirectory: true,
-              extends: require.resolve("../../.babelrc"),
+              extends: require.resolve("../.babelrc"),
             },
           }
         },
