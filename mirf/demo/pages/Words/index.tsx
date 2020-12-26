@@ -13,7 +13,7 @@ interface WordsProps {
 export default class Words extends React.Component<WordsProps> {
   render () {
     return (
-      <Container>
+      <Container className={this.props.className}>
         <Title>Words page</Title>
         {this.props.children}
       </Container>

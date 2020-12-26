@@ -4,8 +4,8 @@ import sc, { css } from 'styled-components';
 import Router from '#external/ExternalRouter';
 
 // assets
-// import './assets/base.scss';
-// import './assets/atomic.scss';
+import './assets/base.scss';
+import './assets/atomic.scss';
 
 // custom
 import NakedHeader from './Header';

@@ -29,3 +29,10 @@ declare namespace Express {
 }
 
 declare type asyncIdentity<T = any> = (a: T) => Promise<T>;
+
+declare namespace NodeJS {
+  export interface ProcessEnv {
+    NODE_ENV: 'development' | 'production';
+    SERVER_URL: string;
+  }
+}

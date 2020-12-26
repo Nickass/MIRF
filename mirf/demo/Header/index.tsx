@@ -14,16 +14,11 @@ import {
   NavList,
   NavItem,
   NavLink
-} from './assets/styles';
+} from './styles';
 
 interface HeaderProps {
   className?: any;
 };
-
-function pullNav(config: any): any[] {
-  const { routes = [] } = config as { routes: any[] };
-  return [ config, ...routes.reduce((acc, curr) => ([ ...acc, ...pullNav(curr) ]), []) ]
-}
 
 export default class extends React.Component<HeaderProps> {
   render () {
@@ -59,7 +54,7 @@ export default class extends React.Component<HeaderProps> {
     return (
         <Header className={className}>
           <Logo to={'/'}>
-            Hi! Welcome to english cards!
+            Hello! Welcome to the MIRF demo!
           </Logo>
           <Nav>
             <NavList>
