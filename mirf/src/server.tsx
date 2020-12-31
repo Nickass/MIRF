@@ -1,14 +1,13 @@
 import * as express from 'express';
 import * as React from 'react';
 import * as bodyParser from 'body-parser';
-import * as fs from 'fs';
 import * as path from 'path';
 
 import { StaticRouterContext } from 'react-router';
 import * as ReactDom from 'react-dom/server';
 import Helmet from 'react-helmet';
-import { StyleSheetManager, ServerStyleSheet } from 'styled-components'
-import configureStore from '~/system/store';
+import { StyleSheetManager, ServerStyleSheet } from 'styled-components';
+import configureStore from './system/store';
 import { Provider as RouterContextProvider } from '~/system/components/Router/RouterContext';
 import ExternalComponent from '~/system/components/ExternalComponent';
 import ServerWrapper from '~/system/server-wrapper';
@@ -19,25 +18,25 @@ export default function init(rootUrl: string, share: string[] = []) {
   const Server = express();
 
   if (true) { // TODO: if (itIsSandbox) skip static server
-    const hashSuffix = process.env.NODE_ENV === 'development' ? '' : '-' + __webpack_hash__; // TODO: add suffix for cache static
+    // const hashSuffix = process.env.NODE_ENV === 'development' ? '' : '-' + __webpack_hash__; // TODO: add suffix for cache static
 
     share.forEach(fp => Server.use(express.static(fp)));
-    Server.use(express.static(path.join(eval('__dirname'), `./public/`)));
+    Server.use(express.static(path.join(eval('__dirname'), './public/'))); // eslint-disable-line no-eval
   }
 
   Server.use(bodyParser.json());
-  Server.use(async function(req, res, next) {
+  Server.use(async (req, res, next) => {
     const store = configureStore();
     const routerContext: StaticRouterContext = {};
     const envContext = { store, req, res, routerContext };
     const sheet = new ServerStyleSheet();
-    
+
     const wrappComponent = (el: React.ReactElement ) => (
       <ServerWrapper {...envContext}>
         {el}
       </ServerWrapper>
     );
-    
+
     try {
       const jsx = wrappComponent(
         <StyleSheetManager sheet={sheet.instance}>
@@ -53,6 +52,7 @@ export default function init(rootUrl: string, share: string[] = []) {
       let promisesEntries = Object.entries(promises);
 
       do {
+        // eslint-disable-next-line no-loop-func
         const wrappedPromises = promisesEntries.map(async ([id, promise]) => {
           const chunk = await promise;
           const wrappedChunk = wrappComponent(chunk);
@@ -61,14 +61,14 @@ export default function init(rootUrl: string, share: string[] = []) {
           html = html.replace(new RegExp(`<div\\sdata-async-id="${id}.*?<\\/div>`, 'mi'), strChunk);
           store.dispatch({ type: 'REMOVE_ASYNC_COMPONENT_PROMISE', payload: { id } });
         });
-        await Promise.all(wrappedPromises);
-        
+        await Promise.all(wrappedPromises); // eslint-disable-line no-await-in-loop
+
         state = store.getState();
         promises = state.asyncComponent.promises;
         promisesEntries = Object.entries(promises);
-        
+
         if (routerContext.url) {
-          res.redirect(302, routerContext.url)
+          res.redirect(302, routerContext.url);
           next();
         }
       } while (promisesEntries.length);
@@ -76,11 +76,10 @@ export default function init(rootUrl: string, share: string[] = []) {
       const JSONstate = JSON.stringify(state);
       const helmet = Helmet.renderStatic();
 
-
       return res.end(`
         <!DOCTYPE html>
-        <html ${helmet.htmlAttributes.toString()}> 
-          <head> 
+        <html ${helmet.htmlAttributes.toString()}>
+          <head>
             ${helmet.title.toString()}
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width" />
@@ -100,8 +99,8 @@ export default function init(rootUrl: string, share: string[] = []) {
           </body>
         </html>
       `);
-    } catch(e) {
-      console.error('Critical server error:\n', e) 
+    } catch (e) {
+      console.error('Critical server error:\n', e)
       return res.status(500).end(`
         <!DOCTYPE html>
         <html>
@@ -112,7 +111,7 @@ export default function init(rootUrl: string, share: string[] = []) {
         </html>
       `);
     } finally {
-      sheet.seal()
+      sheet.seal();
     }
   });
 

@@ -17,9 +17,9 @@ import 'normalize.css/normalize.css';
 
 function main(Root = ExternalComponent, hydrender = render) {
   const store = configureStore(window.REDUX_STATE);
-  const facade = createEnvFacade({store});
+  const facade = createEnvFacade({ store });
   const root = document.getElementById('app-root');
-  
+
   hydrender(
     <EnvFacadeProvider value={facade}>
       <ReduxProvider store={store}>
