@@ -7,13 +7,12 @@ import * as React from 'react';
 // custom
 
 // assets
+import { description } from '../../package.json';
 import {
   Container,
-  Logo,
-  Nav,
-  NavList,
-  NavItem,
-  NavLink
+  Title,
+  LogoLink,
+  ThemeBtn
 } from './styles';
 
 interface HeaderProps {
@@ -22,49 +21,19 @@ interface HeaderProps {
 
 const Header: React.FunctionComponent<HeaderProps> = props => {
   const { className } = props;
+  const [theme, setTheme] = React.useState('light');
 
-  const nav = [
-    {
-      id: 'home',
-      name: 'Home',
-      path: '/'
-    },
-    {
-      id: 'settings-policy',
-      name: 'Settings Policy',
-      path: '/settings/policy',
-    },
-    {
-      id: 'settings',
-      name: 'Settings',
-      path: '/settings'
-    },
-    {
-      id: 'profile',
-      name: 'Profile',
-      path: '/settings/profile'
-    },
-    {
-      id: 'words',
-      name: 'Words',
-      path: '/words'
-    }
-  ];
+  const handleClick = React.useCallback(() => {
+    setTheme(theme => (theme === 'light' ? 'dark' : 'light'));
+  }, []);
 
   return (
     <Container className={className}>
-      <Logo to="/"> Hello! Welcome to the MIRF demo!</Logo>
-      <Nav>
-        <NavList>
-          {nav.map(item => (
-            <NavItem key={item.id + item.name}>
-              <NavLink to={item.path} exact>
-                {item.name || item.id}
-              </NavLink>
-            </NavItem>
-          ))}
-        </NavList>
-      </Nav>
+      <LogoLink to="/">
+        <img src={`${process.env.SERVER_URL}/logo.png`} alt="logo" />
+      </LogoLink>
+      <Title>{description}</Title>
+      <ThemeBtn type="button" className={theme} onClick={handleClick} />
     </Container>
   );
 };

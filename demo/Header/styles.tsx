@@ -1,60 +1,76 @@
 import sc from 'styled-components';
 import { NavLink as Link } from 'react-router-dom';
 
-export const Container = sc.header`
-  border-bottom: 2px solid #b44;
+export const ThemeBtn = sc.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 4px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 200ms;
+
+  &.light {
+    background: black;
+    color: yellow;
+
+    &:hover {
+      background: yellow;
+      color: black;
+    }
+    &:focus { outline-color: yellow }
+    &:after { content: '☀' }
+  }
+
+  &.dark {
+    background: yellow;
+    color: black;
+
+    &:hover {
+      background: black;
+      color: yellow;
+    }
+    &:focus { outline-color: black }
+    &:after { content: '🌙' }
+  }
 `;
 
-export const Logo = sc(Link)`
+export const LogoLink = sc(Link)`
   display: block;
-  max-width: 400px;
-  margin: 0 auto 1em;
-  font-size: 34px;
+  height: 100%;
+  margin-right: 20px;
+  font-size: 14px;
   color: #540101;
   text-decoration: none;
-  font-family: "Arial";
   border-radius: 8px;
   background: rgba(0,0,0,0.05);
-  padding: 20px 10px;
-  border: 1px solid #BBB;
+  padding: 4px;
+  border: 1px solid white;
+
+  > img { max-height: 100%; max-width: none; }
 `;
 
-export const Nav = sc.nav`
-  font-family: "Arial";
-`;
-
-export const NavList = sc.ul`
-  display: inline-flex;
-  max-width: 100%;
+export const Title = sc.h1`
   margin: 0;
-  padding: 0;
-  overflow: auto;
+  font-size: 24px;
+  font-family: monospace;
+  text-transform: capitalize;
 `;
 
-export const NavItem = sc.li`
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  margin-right: 10px;
-`;
+export const Container = sc.header`
+  display: flex;
+  height: 60px;
+  padding: 10px;
+  border-bottom: 2px solid #b088f9;
+  align-items: center;
+  background: #bedcfa;
 
-export const NavLink = sc(Link)`
-  display: block;
-  color: inherit;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-  transition: 400ms;
-  font-weight: 600;
-  font-size: 14px;
-  color: #a11;
-  text-transform: uppercase;
-
-  &.active,
-  &:hover {
-    border-bottom: 2px solid red;
-  }
-  &.active {
-    color: black;
+  > .${ThemeBtn.styledComponentId} {
+    margin-left: auto;
   }
 `;
