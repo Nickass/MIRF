@@ -14,7 +14,7 @@
     "ecmaFeatures": { "jsx": true },
     "ecmaVersion": 12,
     "sourceType": "module",
-    "project": "./mirf/tsconfig.json"
+    "project": "./tsconfig.json"
   },
   "plugins": [
     "react",
@@ -23,7 +23,7 @@
   "settings": {
     "import/resolver": {
       "alias": {
-        "map": [["~", "./mirf/src/"]],
+        "map": [["~", "./src/"]],
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }

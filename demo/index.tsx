@@ -1,8 +1,16 @@
+// modules
 import * as React from 'react';
 import sc, { css } from 'styled-components';
 import Router from '#external/ExternalRouter';
 
+// assets
+import './assets/base.scss';
+import './assets/atomic.scss';
+
+// custom
 import NakedHeader from './Header';
+
+// module
 import * as config from './config.json';
 import * as middlewares from './middlewares';
 export { config, middlewares };
@@ -28,21 +36,27 @@ const Pages = sc(Router)`
 
 type AppProps = {
 };
-
-const basePath = `http://localhost:3000`;
+type State = {
+};
 
 export async function init(props: any): Promise<AppProps> {
   return props;
 }
 
-export default function App(props: AppProps) {
-  return (
-    <Container>
-      <Header />
-      Hello I'm a Page! 
-      <Pages routes={config.routes} base={basePath} timeout={5000}>
-        Hello! I'm children of the root
-      </Pages>
-    </Container>
-  )
+class App extends React.Component<AppProps, State> {
+  render () {
+    const { children } = this.props;
+
+    return (
+      <Container>
+        <Header />
+        Hello I'm a Page!
+        <Pages routes={config.routes} base={process.env.SERVER_URL} timeout={5000}>
+          Hello! I'm children of the root
+        </Pages>
+      </Container>
+    )
+  }
 }
+
+export default App;

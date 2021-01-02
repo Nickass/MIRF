@@ -25,7 +25,7 @@ const makeConfigs = ({ cwd, entry, output, host, port }) => {
     const outputPath = joinPath(cwd, output, src);
     const publicSrc = src.replace(/\\/gm, '/').replace(/\/$/gm, '') + '/';
     const publicBase = `http://${host}:${port}`;
-    const publicPath = `${publicBase}/${publicSrc}`;
+    const publicPath = `${publicSrc}`;
     const bundleName = joinPath(src, fileName).replace(/[\\\/]/gm, '-');
 
     return componentConfig({
@@ -66,7 +66,7 @@ const buildCommand = yargs => yargs
     handler: argv => {
       const configs = makeConfigs(argv);
       const frontCompiler = webpack(configs);
-      
+
       frontCompiler.run((err, stats) => {
         if(err) throw err;
         else console.log(stats.toString({

@@ -52,10 +52,10 @@ dev_main() {
 
   export PUBLIC_PATH="http://$HOT_SERVER_HOST:$HOT_SERVER_PORT/"
   export NODE_ENV="${NODE_ENV:-development}"
-  
+
   echo "Starting developing main script..."
 
-  # run webpack-server for client script 
+  # run webpack-server for client script
   webpack serve \
     --config "$CWD/webpack/frontend.webpack.config.js" \
     --host=$HOT_SERVER_HOST \
@@ -75,7 +75,7 @@ dev_demo() {
 
   export NODE_ENV="${NODE_ENV:-development}"
   export SERVER_URL="http://$HOST:$PORT"
-  
+
   echo "Starting developing demo..."
 
   node "$CWD/index.js" \
@@ -100,7 +100,7 @@ develop() {
 
   clean_dist
   build
-  wait_link $SERVER_URL && browser $SERVER_URL & 
+  wait_link $SERVER_URL && browser $SERVER_URL &
   dev_main $SERVER_HOST $SERVER_PORT $ROOT_COMPONENT &
   dev_demo $COMPONENT_SERVER_HOST $COMPONENT_SERVER_PORT $ROOT_COMPONENT
 }
@@ -135,7 +135,7 @@ deploy() {
 e2e() {
   HOST="${HOST:-localhost}"
   PORT="${PORT:-3000}"
-  
+
   export SERVER_URL="http://$HOST:$PORT"
 
   demo $HOST $PORT &
@@ -147,3 +147,5 @@ e2e() {
 }
 
 $@;
+
+

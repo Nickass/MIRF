@@ -31,8 +31,7 @@ describe('Check the demo loads', () => {
   });
 
   test('header renders correctly', async () => {
-    await new Promise(res => setTimeout(res, 50000))
-    const header = await page.$eval("header", el => el);
+    const header = await page.$eval('header', el => !!el);
     expect(header).toBeDefined();
-  }, 60000)
-})
+  }, 60000);
+});

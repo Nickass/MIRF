@@ -9,17 +9,17 @@ module.exports = params => {
   const isDevelopment = process.env.NODE_ENV === 'development';
   const fullEntry = '~/' + fileName;
   const entry = [fullEntry];
-  
+
   const plugins = [
-    new webpack.DefinePlugin({ 
+    new webpack.DefinePlugin({
       'ENTRYMODULE': JSON.stringify(fullEntry),
-      'process.env': { 
+      'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         SERVER_URL: JSON.stringify(process.env.SERVER_URL)
       }
     }),
   ];
-  
+
   if (isDevelopment) {
     plugins.unshift(new webpack.HotModuleReplacementPlugin());
     plugins.unshift(new webpack.NoEmitOnErrorsPlugin());
@@ -100,4 +100,4 @@ module.exports = params => {
       ]
     }
   };
-} 
+}
