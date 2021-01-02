@@ -1,6 +1,6 @@
 // modules
 import * as React from 'react';
-import sc, { css } from 'styled-components';
+import sc from 'styled-components';
 import Router from '#external/ExternalRouter';
 
 // assets
@@ -13,6 +13,7 @@ import NakedHeader from './Header';
 // module
 import * as config from './config.json';
 import * as middlewares from './middlewares';
+
 export { config, middlewares };
 
 // assets
@@ -36,27 +37,30 @@ const Pages = sc(Router)`
 
 type AppProps = {
 };
-type State = {
-};
 
-export async function init(props: any): Promise<AppProps> {
+export async function init(props: AppProps): Promise<AppProps> {
   return props;
 }
 
-class App extends React.Component<AppProps, State> {
-  render () {
-    const { children } = this.props;
+const App: React.FunctionComponent<AppProps> = props => {
+  const { children } = props;
+  const [isOpen, setIsOpen] = React.useState(false);
 
-    return (
-      <Container>
-        <Header />
-        Hello I'm a Page!
+  return (
+    <Container>
+      <Header />
+      Hello I'm a Page!
+      <br />
+      {!isOpen ? (
+        <button type="button" onClick={() => setIsOpen(true)}>Open routes</button>
+      ) : (
         <Pages routes={config.routes} base={process.env.SERVER_URL} timeout={5000}>
           Hello! I'm children of the root
+          {children}
         </Pages>
-      </Container>
-    )
-  }
-}
+      )}
+    </Container>
+  );
+};
 
 export default App;

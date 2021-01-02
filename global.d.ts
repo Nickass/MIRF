@@ -1,3 +1,4 @@
+/* eslint-disable */
 declare module '*.svg';
 declare module '*.png';
 declare module '*.jpg';
@@ -15,6 +16,8 @@ declare let __webpack_require__: any;
 declare let react: any;
 declare let reactDom: any;
 declare let styledComponents: any;
+
+declare type ReactComponent<Props = {}> = React.Component<Props> | React.FunctionComponent<Props>;
 
 declare interface Window {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;

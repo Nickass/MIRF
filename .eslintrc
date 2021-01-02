@@ -15,6 +15,7 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": { "jsx": true },
+    "createDefaultProgram": true,
     "ecmaVersion": 12,
     "sourceType": "module",
     "project": "./tsconfig.json"
@@ -27,7 +28,7 @@
     "import/resolver": {
       "alias": {
         "map": [["~", "./src/"]],
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
       }
     }
   },
@@ -35,15 +36,19 @@
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": [2],
     "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
-    "import/extensions": [2, "never"],
+    "import/extensions": [2, "never", { "json": "ignorePackages" }],
     "react/jsx-props-no-spreading": [2, { "custom": "ignore" }],
     "max-len": [2, {
       "code": 120,
       "ignoreComments": true
     }],
+    "react/require-default-props": [0],
+    "react/no-unescaped-entities": [0],
+    "react/prop-types": [0],
     "arrow-parens": [0],
     "comma-style": [0],
     "comma-dangle": [0],
-    "object-curly-newline": [0]
+    "object-curly-newline": [0],
+    "no-undef": [0]
   }
 }

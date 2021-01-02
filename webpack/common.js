@@ -10,9 +10,9 @@ const { camelCase } = require('change-case');
 module.exports = {
   mode: process.env.NODE_ENV,
   plugins: [
-    new webpack.NoEmitOnErrorsPlugin(), 
-    new webpack.DefinePlugin({ 
-      'process.env': { 
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         SERVER_URL: JSON.stringify(process.env.SERVER_URL),
         PUBLIC_PATH: JSON.stringify(process.env.PUBLIC_PATH),
@@ -56,4 +56,3 @@ module.exports = {
     ]
   }
 };
-  

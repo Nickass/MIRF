@@ -6,7 +6,7 @@ import * as path from 'path';
 import { StaticRouterContext } from 'react-router';
 import * as ReactDom from 'react-dom/server';
 import Helmet from 'react-helmet';
-import { StyleSheetManager, ServerStyleSheet } from 'styled-components';
+import { ServerStyleSheet } from 'styled-components';
 import configureStore from './store';
 import { Provider as RouterContextProvider } from '~/components/Router/RouterContext';
 import ExternalComponent from '~/components/ExternalComponent';
@@ -31,20 +31,18 @@ export default function init(rootUrl: string, share: string[] = []) {
     const envContext = { store, req, res, routerContext };
     const sheet = new ServerStyleSheet();
 
-    const wrappComponent = (el: React.ReactElement ) => (
+    const wrappComponent = (el: React.ReactElement) => (
       <ServerWrapper {...envContext}>
         {el}
       </ServerWrapper>
     );
 
     try {
-      const jsx = wrappComponent(
-        <StyleSheetManager sheet={sheet.instance}>
-          <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '', middlewares: {} }}>
-            <ExternalComponent url={rootUrl} provide={providedModules} />
-          </RouterContextProvider>
-        </StyleSheetManager>
-      );
+      const jsx = sheet.collectStyles(wrappComponent(
+        <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '', middlewares: {} }}>
+          <ExternalComponent url={rootUrl} provide={providedModules} />
+        </RouterContextProvider>
+      ));
 
       let html = ReactDom.renderToString(jsx);
       let state = store.getState();

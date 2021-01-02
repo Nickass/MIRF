@@ -1,8 +1,8 @@
 import sc from 'styled-components';
 import { NavLink as Link } from 'react-router-dom';
 
-export const Header = sc.header`
-
+export const Container = sc.header`
+  border-bottom: 2px solid #b44;
 `;
 
 export const Logo = sc(Link)`
@@ -39,7 +39,7 @@ export const NavItem = sc.li`
 `;
 
 export const NavLink = sc(Link)`
-  display: block;    
+  display: block;
   color: inherit;
   padding: 10px 20px;
   text-decoration: none;
