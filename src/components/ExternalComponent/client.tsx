@@ -8,9 +8,8 @@ type ExternalModuleProps = {
     [key: string]: any;
   }
 }
-type ExternalModule = React.FunctionComponent<ExternalModuleProps> | React.ComponentClass<ExternalModuleProps>;
 
-export default function getExternalModule(ctx: ClientEnvContext): ExternalModule {
+export default function getExternalModule(ctx: ClientEnvContext): ReactComponent<ExternalModuleProps> {
   return ({ url, provide = {} }) => {
     const SuccessComponent: any = React.useCallback((props: any) => {
       const { default: ExternalPage } = props;

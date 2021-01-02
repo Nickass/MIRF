@@ -70,16 +70,14 @@ export const Router: React.SFC<RouterProps> = ({ routes = [], base, ...rootProps
                 middlewares: allMWares
               }), [fullId, fullPath, fullDir, allMWares]);
 
-              const PageComponent = React.useCallback(props => {
-                return (
-                  <CustomRouterContext.Provider value={newBaseRoute}>
-                    <Helmet>
-                      <title>{title}</title>
-                    </Helmet>
-                    <Page {...props} />
-                  </CustomRouterContext.Provider>
-                );
-              }, [title, newBaseRoute]);
+              const PageComponent = React.useCallback(props => (
+                <CustomRouterContext.Provider value={newBaseRoute}>
+                  <Helmet>
+                    <title>{title}</title>
+                  </Helmet>
+                  <Page {...props} />
+                </CustomRouterContext.Provider>
+              ), [title, newBaseRoute]);
 
               return (
                 <AsyncComponent id={'apply-middleware-' + route.id} SuccessComponent={PageComponent}>

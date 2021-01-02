@@ -1,7 +1,7 @@
 import * as React from 'react'
+import Axios from 'axios';
 import { ClientEnvContext } from '~/env-facade/client';
 import AsyncComponent from '~/components/AsyncComponent';
-import Axios from 'axios';
 
 type ExternalModuleProps = {
   path: string;
@@ -25,6 +25,7 @@ export default function getExternalModule(ctx: ClientEnvContext): ExternalModule
 
       if (!externalCache[path]) {
         const { body } = props;
+        // eslint-disable-next-line no-new-func
         (new Function('module', 'exports', 'require', `
           var __home_public_path__ = '${publicPath}';
           ${body};

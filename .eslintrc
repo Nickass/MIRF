@@ -35,6 +35,7 @@
   "rules": {
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": [2],
+    "@typescript-eslint/explicit-module-boundary-types": [0],
     "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
     "import/extensions": [2, "never", { "json": "ignorePackages" }],
     "react/jsx-props-no-spreading": [2, { "custom": "ignore" }],

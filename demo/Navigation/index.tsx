@@ -2,8 +2,8 @@
 import * as React from 'react';
 
 // system
-// import ErrorProtector from '~/system/components/ErrorProtector';
-
+import ErrorProtector from '#external/ErrorProtector';
+console.log('ErrorProtector', ErrorProtector)
 // custom
 
 // assets
