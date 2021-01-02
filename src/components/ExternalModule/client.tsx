@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ClientEnvContext } from '~/system/env-facade/client';
-import AsyncComponent from '~/system/components/AsyncComponent';
+import { ClientEnvContext } from '~/env-facade/client';
+import AsyncComponent from '~/components/AsyncComponent';
 import Axios from 'axios';
 
 type ExternalModuleProps = {
@@ -18,7 +18,7 @@ export default function getExternalModule(ctx: ClientEnvContext): ExternalModule
 
   return ({ path, Component, provide = {}, timeout }) => {
     const asyncId = `request-page-${path}`;
-    
+
     const SuccessComponent = React.useCallback((props) => {
       const external: any = { exports: {} };
       const publicPath = path.split('/').slice(0, -1).join('/').replace(/\/$/, '') + '/';
@@ -31,13 +31,13 @@ export default function getExternalModule(ctx: ClientEnvContext): ExternalModule
         `))(external, external.exports, (p: any) => provide[p.replace(/^#external\//, '')] || PROVIDED_MODULES[p]);
         externalCache[path] = external;
       }
-      
+
       return (
         <Component {...externalCache[path].exports} />
       )
     }, [Component])
 
-    
+
     const awaitFunc = React.useCallback(async () => {
       try {
         const { data: body } = await Axios.get(path);

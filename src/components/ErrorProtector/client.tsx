@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ErrorDisplay, ErrorProtectorProps } from './index';
-import { ClientEnvContext } from '~/system/env-facade/client';
+import { ClientEnvContext } from '~/env-facade/client';
 
 export type EnvErrorProtectorProps = ErrorProtectorProps & {
   ErrorDisplay: ErrorDisplay;
@@ -33,7 +33,7 @@ export default function getEnvErrorProtector(ctx: ClientEnvContext) {
         stack: info.componentStack
       });
     }
-  
+
     render () {
       const { id, className, ErrorDisplay, children } = this.props;
       const { message, stack } = this.state;

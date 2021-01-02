@@ -2,7 +2,7 @@
 import { Reducer } from 'redux';
 
 // custom
-import { action as commmonAction } from '~/system/store';
+import { action as commmonAction } from '~/store';
 
 export type state = {
   [propName: string]: {
@@ -36,7 +36,7 @@ export const reducer: reducer = (upcomingState = state, action) => {
     case 'REMOVE_ERROR_BUS': {
       const { id } = action.payload;
       delete newState[id];
-      
+
       break;
     }
   }

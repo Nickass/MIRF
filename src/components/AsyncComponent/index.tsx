@@ -1,8 +1,8 @@
 // modules
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { defaultState } from '~/system/store';
-import { default as ErrorProtector, ErrorDisplay } from '~/system/components/ErrorProtector';
+import { defaultState } from '~/store';
+import { default as ErrorProtector, ErrorDisplay } from '~/components/ErrorProtector';
 
 type LoadComponentProps = {
   id: string;
@@ -49,7 +49,7 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
 
   const resolver = async () => {
     try {
-      const timeoutPromise = (time: number) => new Promise((res, rej) => 
+      const timeoutPromise = (time: number) => new Promise((res, rej) =>
         setTimeout(() => rej(new Error('Timeout')), timeout)
       );
       const promises = [

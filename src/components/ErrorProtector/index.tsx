@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // system
-import { Consumer as EnvConsumer } from '~/system/env-facade'
+import { Consumer as EnvConsumer } from '~/env-facade'
 
 // assets
 import {
@@ -43,7 +43,7 @@ export type ErrorProtectorProps = {
 };
 
 export const ErrorProtector: React.SFC<ErrorProtectorProps> = props => (
-  <EnvConsumer>{env => 
+  <EnvConsumer>{env =>
     <env.EnvErrorProtector
       id={props.id}
       className={props.className}

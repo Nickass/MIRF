@@ -2,8 +2,8 @@ import { combineReducers, createStore, applyMiddleware, compose, Reducer, Store 
 import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { connectRouter, routerMiddleware, RouterState } from 'connected-react-router';
 
-import { reducer as asyncComponentReducer, state as asyncComponentState } from '~/system/components/AsyncComponent/store';
-import { reducer as errorProtectorReducer, state as errorProtectorState } from '~/system/components/ErrorProtector/store';
+import { reducer as asyncComponentReducer, state as asyncComponentState } from '~/components/AsyncComponent/store';
+import { reducer as errorProtectorReducer, state as errorProtectorState } from '~/components/ErrorProtector/store';
 
 export type action<T = any> = { type: string; payload: T; };
 export const isServer = !(

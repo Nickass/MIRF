@@ -5,16 +5,16 @@ declare module '*.css';
 declare module '*.scss';
 declare module '#external/*';
 
-declare var CLIENT_JS_FILE_CONTENTS: string;
-declare var CLIENT_CSS_FILE_CONTENTS: string;
-declare var PROVIDED_MODULES: any;
-declare var __webpack_init_sharing__: any;
-declare var __webpack_share_scopes__: any;
-declare var __webpack_exports__: any;
-declare var __webpack_require__: any;
-declare var react: any;
-declare var reactDom: any;
-declare var styledComponents: any;
+declare let CLIENT_JS_FILE_CONTENTS: string;
+declare let CLIENT_CSS_FILE_CONTENTS: string;
+declare let PROVIDED_MODULES: any;
+declare let __webpack_init_sharing__: any;
+declare let __webpack_share_scopes__: any;
+declare let __webpack_exports__: any;
+declare let __webpack_require__: any;
+declare let react: any;
+declare let reactDom: any;
+declare let styledComponents: any;
 
 declare interface Window {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;

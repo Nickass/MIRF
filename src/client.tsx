@@ -5,12 +5,12 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { ConnectedRouter as RouterProvider } from 'connected-react-router';
 
 // system
-import configureStore, { history } from '~/system/store';
-import { Provider as RouterContextProvider } from '~/system/components/Router/RouterContext';
-import { Provider as EnvFacadeProvider } from '~/system/env-facade';
-import createEnvFacade from '~/system/env-facade/client';
-import ExternalComponent from '~/system/components/ExternalComponent';
-import * as providedModules from './system/provided';
+import configureStore, { history } from '~/store';
+import { Provider as RouterContextProvider } from '~/components/Router/RouterContext';
+import { Provider as EnvFacadeProvider } from '~/env-facade';
+import createEnvFacade from '~/env-facade/client';
+import ExternalComponent from '~/components/ExternalComponent';
+import * as providedModules from './provided';
 
 // assets
 import 'normalize.css/normalize.css';

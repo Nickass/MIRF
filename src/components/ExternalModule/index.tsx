@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ENVContext from '~/system/env-facade';
+import ENVContext from '~/env-facade';
 
 type ExternalModuleProps = {
   path: string;

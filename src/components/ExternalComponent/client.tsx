@@ -1,7 +1,6 @@
-import * as React from 'react';
-import Helmet from 'react-helmet';
-import { ServerEnvContext } from '~/system/env-facade/server';
-import ExternalModule from '~/system/components/ExternalModule';
+import * as React from 'react'
+import { ClientEnvContext } from '~/env-facade/client';
+import ExternalModule from '~/components/ExternalModule';
 
 type ExternalModuleProps = {
   url: string;
@@ -11,8 +10,7 @@ type ExternalModuleProps = {
 }
 type ExternalModule = React.FunctionComponent<ExternalModuleProps> | React.ComponentClass<ExternalModuleProps>;
 
-
-export default function getExternalModule(ctx: ServerEnvContext): ExternalModule {
+export default function getExternalModule(ctx: ClientEnvContext): ExternalModule {
   return ({ url, provide = {} }) => {
     const SuccessComponent: any = React.useCallback((props: any) => {
       const { default: ExternalPage } = props;
@@ -21,4 +19,4 @@ export default function getExternalModule(ctx: ServerEnvContext): ExternalModule
 
     return <ExternalModule Component={SuccessComponent} path={url} provide={provide} />;
   }
-};
+}

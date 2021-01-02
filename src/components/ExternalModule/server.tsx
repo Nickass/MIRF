@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ServerEnvContext } from '~/system/env-facade/server';
-import AsyncComponent from '~/system/components/AsyncComponent';
+import { ServerEnvContext } from '~/env-facade/server';
+import AsyncComponent from '~/components/AsyncComponent';
 import Axios from 'axios';
 
 type ExternalModuleProps = {
@@ -31,13 +31,13 @@ export default function getExternalModule(ctx: ServerEnvContext): ExternalModule
         `))(external, external.exports, (p: any) => provide[p.replace(/^#external\//, '')] || PROVIDED_MODULES[p]);
         externalCache[path] = external; // TODO: check when script has syntax errors
       }
-      
+
       return (
         <Component {...externalCache[path].exports} />
       )
     }, [Component])
 
-    
+
     const awaitFunc = React.useCallback(async () => {
       try {
         const { data: body } = await Axios.get(path);
@@ -54,3 +54,4 @@ export default function getExternalModule(ctx: ServerEnvContext): ExternalModule
     );
   }
 }
+

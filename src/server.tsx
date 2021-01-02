@@ -7,11 +7,11 @@ import { StaticRouterContext } from 'react-router';
 import * as ReactDom from 'react-dom/server';
 import Helmet from 'react-helmet';
 import { StyleSheetManager, ServerStyleSheet } from 'styled-components';
-import configureStore from './system/store';
-import { Provider as RouterContextProvider } from '~/system/components/Router/RouterContext';
-import ExternalComponent from '~/system/components/ExternalComponent';
-import ServerWrapper from '~/system/server-wrapper';
-import * as providedModules from './system/provided';
+import configureStore from './store';
+import { Provider as RouterContextProvider } from '~/components/Router/RouterContext';
+import ExternalComponent from '~/components/ExternalComponent';
+import ServerWrapper from '~/server-wrapper';
+import * as providedModules from './provided';
 
 export default function init(rootUrl: string, share: string[] = []) {
   const publicPath = process.env.PUBLIC_PATH || '/';

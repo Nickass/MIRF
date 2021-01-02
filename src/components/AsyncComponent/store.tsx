@@ -2,7 +2,7 @@
 import { Reducer } from 'redux';
 
 // custom
-import { action } from '~/system/store';
+import { action } from '~/store';
 
 export type state = {
   promises: {
@@ -44,7 +44,7 @@ export const reducer: reducer = (upcomingState = state, action) => {
       newState.promises = { ...newState.promises }
       const { id, promise } = action.payload;
       newState.promises[id] = promise;
-      
+
       break;
     }
     case 'REMOVE_ASYNC_COMPONENT_PROMISE': {

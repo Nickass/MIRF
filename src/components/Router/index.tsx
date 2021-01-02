@@ -4,9 +4,9 @@ import { Switch, Route } from 'react-router';
 import Helmet from 'react-helmet';
 
 // system
-import ExternalComponent from '~/system/components/ExternalComponent'
-import ExternalModule from '~/system/components/ExternalModule'
-import AsyncComponent from '~/system/components/AsyncComponent'
+import ExternalComponent from '~/components/ExternalComponent'
+import ExternalModule from '~/components/ExternalModule'
+import AsyncComponent from '~/components/AsyncComponent'
 import CustomRouterContext from './RouterContext';
 
 type asyncIdentity<T = any> = (a: T) => Promise<T>;
