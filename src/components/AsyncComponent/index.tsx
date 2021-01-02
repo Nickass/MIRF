@@ -24,7 +24,7 @@ export interface AsyncComponentOwnProps {
   children: () => Promise<any>;
   LoadComponent?: React.FunctionComponent<LoadComponentProps>;
   ErrorComponent?: React.FunctionComponent<ErrorComponentProps>;
-  SuccessComponent: React.SFC<any>;
+  SuccessComponent: ReactComponent<any>;
 };
 export interface AsyncComponentWithStore {
   // allData: state;

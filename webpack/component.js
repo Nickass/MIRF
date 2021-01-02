@@ -26,7 +26,7 @@ module.exports = params => {
     entry.length = 0;
     entry.unshift(`${require.resolve('webpack-hot-middleware/client')}?name=${bundleName}&path=${publicBase}/__webpack_hmr`);
   }
-  entry.push(Path.resolve(__dirname, 'Wrapper.js'))
+  entry.push(Path.resolve(__dirname, 'Wrapper.tsx'))
 
   return {
     name: bundleName,

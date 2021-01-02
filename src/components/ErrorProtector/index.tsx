@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // system
-import { Consumer as EnvConsumer } from '~/env-facade'
+import { Consumer as EnvConsumer } from '~/env-facade';
 
 // assets
 import {
@@ -20,7 +20,7 @@ export type ErrorDisplayProps = {
   stack: string;
 };
 
-export type ErrorDisplay = React.SFC<ErrorDisplayProps>;
+export type ErrorDisplay = ReactComponent<ErrorDisplayProps>;
 export const ErrorDisplay: ErrorDisplay = props => (
   <Error className={props.className}>
     <ErrorTitle>Something bad happend...</ErrorTitle>
@@ -34,7 +34,6 @@ export const ErrorDisplay: ErrorDisplay = props => (
   </Error>
 );
 
-
 export type ErrorProtectorProps = {
   id: string;
   className?: string;
@@ -42,15 +41,17 @@ export type ErrorProtectorProps = {
   ErrorDisplay?: ErrorDisplay;
 };
 
-export const ErrorProtector: React.SFC<ErrorProtectorProps> = props => (
-  <EnvConsumer>{env =>
-    <env.EnvErrorProtector
-      id={props.id}
-      className={props.className}
-      children={props.children}
-      ErrorDisplay={props.ErrorDisplay || ErrorDisplay}
-    />
-  }</EnvConsumer>
+export const ErrorProtector: ReactComponent<ErrorProtectorProps> = props => (
+  <EnvConsumer>
+    {env => (
+      <env.EnvErrorProtector
+        id={props.id}
+        className={props.className}
+        children={props.children}
+        ErrorDisplay={props.ErrorDisplay || ErrorDisplay}
+      />
+    )}
+  </EnvConsumer>
 );
 
 export default ErrorProtector;

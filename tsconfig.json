@@ -7,6 +7,10 @@
     "moduleResolution": "node",
     "experimentalDecorators": false,
     "declaration": true,
+    "noEmit": false,
+    "allowJs": true,
+    "checkJs": true,
+    "emitDeclarationOnly": true,
     "removeComments": false,
     "noImplicitReturns": true,
     "noUnusedLocals": false,
@@ -20,5 +24,6 @@
       "~/*": ["./src/*"]
     }
   },
+  "include": ["src/**/*", "global.d.ts"],
   "exclude": ["dist", "build", "node_modules"]
 }

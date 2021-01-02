@@ -10,7 +10,7 @@ type ExternalModuleProps = {
   }
 }
 
-export const ExternalModule: React.SFC<ExternalModuleProps> = ({ path, Component, provide = {}, timeout }) => {
+export const ExternalModule: ReactComponent<ExternalModuleProps> = ({ path, Component, provide = {}, timeout }) => {
   const { EnvExternalModule } = React.useContext(ENVContext);
 
   return <EnvExternalModule path={path} Component={Component} provide={provide} timeout={timeout} />;

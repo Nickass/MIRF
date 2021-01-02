@@ -12,13 +12,18 @@ declare let PROVIDED_MODULES: any;
 declare let __webpack_init_sharing__: any;
 declare let __webpack_share_scopes__: any;
 declare let __webpack_exports__: any;
-declare let __webpack_require__: any;
+declare let __home_public_path__: string;
 declare let react: any;
 declare let reactDom: any;
 declare let styledComponents: any;
 
-declare type ReactComponent<Props = {}> = React.Component<Props> | React.FunctionComponent<Props>;
+declare type ReactComponent<Props = {}> = React.ComponentClass<Props> | React.FunctionComponent<Props>;
 
+declare let ENTRYMODULE: string;
+declare module 'ENTRYMODULE' {
+  const any: any;
+  export default any;
+}
 declare interface Window {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
   REDUX_STATE: any;

@@ -13,7 +13,7 @@ export type ServerWrapperProps = {
   children: any;
 }
 
-export const ServerWrapper: React.SFC<ServerWrapperProps> = function ({ children, store, req, res, routerContext }) {
+export const ServerWrapper: ReactComponent<ServerWrapperProps> = function ({ children, store, req, res, routerContext }) {
   const envFacade = createEnvFacade({ store, req, res, routerContext });
 
   return (

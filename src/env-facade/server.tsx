@@ -1,8 +1,8 @@
+import { memoize } from 'lodash';
 import { Facade, EnvContext } from '.';
 import getEnvExternalComponent from '../components/ExternalComponent/server';
 import getEnvExternalModule from '../components/ExternalModule/server';
 import getEnvErrorProtector from '../components/ErrorProtector/server';
-import { memoize } from 'lodash';
 
 export type ServerEnvContext = EnvContext & {
   req: any;

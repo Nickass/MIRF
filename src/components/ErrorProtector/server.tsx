@@ -9,7 +9,7 @@ export type EnvErrorProtectorProps = ErrorProtectorProps & {
   ErrorDisplay: ErrorDisplay;
 };
 
-export default function getEnvErrorProtector(ctx: ServerEnvContext): React.SFC<EnvErrorProtectorProps> {
+export default function getEnvErrorProtector(ctx: ServerEnvContext): ReactComponent<EnvErrorProtectorProps> {
   return ({ id, className, children, ErrorDisplay }) => {
     try {
       const __html = ReactDom.renderToString(

@@ -39,6 +39,7 @@
     "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
     "import/extensions": [2, "never", { "json": "ignorePackages" }],
     "react/jsx-props-no-spreading": [2, { "custom": "ignore" }],
+    "react/no-children-prop": [0],
     "max-len": [2, {
       "code": 120,
       "ignoreComments": true
@@ -51,6 +52,8 @@
     "comma-dangle": [0],
     "object-curly-newline": [0],
     "no-undef": [0],
-    "no-shadow": [0]
+    "no-shadow": [0],
+    "camelcase": [0],
+    "no-redeclare": [0]
   }
 }

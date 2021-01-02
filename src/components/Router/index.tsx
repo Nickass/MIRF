@@ -36,7 +36,7 @@ type RouterProps = {
   [propName: string]: any
 };
 
-export const Router: React.SFC<RouterProps> = ({ routes = [], base, ...rootProps }: RouterProps) => {
+export const Router: ReactComponent<RouterProps> = ({ routes = [], base, ...rootProps }: RouterProps) => {
   const baseRoute = React.useContext(CustomRouterContext);
   const parentMiddlewares = baseRoute.middlewares;
   const providedModules = { ExternalComponent, ExternalModule, AsyncComponent, Router };

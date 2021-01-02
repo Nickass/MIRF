@@ -3,7 +3,6 @@ import * as React from 'react';
 
 // system
 import ErrorProtector from '#external/ErrorProtector';
-console.log('ErrorProtector', ErrorProtector)
 // custom
 
 // assets

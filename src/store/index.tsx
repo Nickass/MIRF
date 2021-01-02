@@ -23,8 +23,10 @@ export const defaultState = {
 };
 export const history = isServer ? createMemoryHistory() : createBrowserHistory();
 
-export default function(initialState = defaultState): Store {
-  const composeEnhancers = !isServer && process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
+export default function store(initialState = defaultState): Store {
+  const composeEnhancers = !isServer && process.env.NODE_ENV === 'development'
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : compose;
   const routerReducer = connectRouter(history);
   const enhancer = composeEnhancers(applyMiddleware(routerMiddleware(history)));
 

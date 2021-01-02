@@ -53,7 +53,6 @@ module.exports = merge(common, {
     historyApiFallback: true,
     hot: true,
     inline: true,
-    historyApiFallback: true,
     publicPath,
   },
   plugins,
