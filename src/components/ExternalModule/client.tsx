@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Axios from 'axios';
-import { ClientEnvContext } from '~/env-facade/client';
 import AsyncComponent from '~/components/AsyncComponent';
 
 type ExternalModuleProps = {
@@ -13,7 +12,7 @@ type ExternalModuleProps = {
 }
 type ExternalModule = React.FunctionComponent<ExternalModuleProps> | React.ComponentClass<ExternalModuleProps>;
 
-export default function getExternalModule(ctx: ClientEnvContext): ExternalModule {
+export default function getExternalModule(ctx: any): ExternalModule {
   const externalCache: any = {}; // TODO: test with two imports the same module. The provided modules can be different and leads to bugs.
 
   return ({ path, Component, provide = {}, timeout }) => {

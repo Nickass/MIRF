@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ENVContext from '~/env-facade';
+import EnvComponentContext from '~/components';
 
 type ExternalComponentProps = {
   url: string;
@@ -9,9 +9,9 @@ type ExternalComponentProps = {
 }
 
 export const ExternalComponent: ReactComponent<ExternalComponentProps> = ({ url, provide = {} }) => {
-  const { EnvExternalComponent } = React.useContext(ENVContext);
+  const { ExternalComponent } = React.useContext(EnvComponentContext);
 
-  return <EnvExternalComponent url={url} provide={provide} />;
+  return <ExternalComponent url={url} provide={provide} />;
 };
 
 export default ExternalComponent;

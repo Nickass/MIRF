@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { ClientEnvContext } from '~/env-facade/client';
 import ExternalModule from '~/components/ExternalModule';
 
 type ExternalModuleProps = {
@@ -9,7 +8,7 @@ type ExternalModuleProps = {
   }
 }
 
-export default function getExternalModule(ctx: ClientEnvContext): ReactComponent<ExternalModuleProps> {
+export default function getExternalModule(ctx: any): ReactComponent<ExternalModuleProps> {
   return ({ url, provide = {} }) => {
     const SuccessComponent: any = React.useCallback((props: any) => {
       const { default: ExternalPage } = props;

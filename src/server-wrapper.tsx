@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Request, Response } from 'express';
 import { Provider as ReduxProvider } from 'react-redux';
 import { StaticRouter, StaticRouterContext } from 'react-router';
-import { Provider as EnvFacadeProvider } from '~/env-facade';
-import createEnvFacade from '~/env-facade/server'
+import EnvComponentContext from './components';
+
+const GetServerModules = require.context('~/components/', true, /.*\/server/);
 
 export type ServerWrapperProps = {
   store: any;
@@ -13,18 +14,29 @@ export type ServerWrapperProps = {
   children: any;
 }
 
-export const ServerWrapper: ReactComponent<ServerWrapperProps> = function ({ children, store, req, res, routerContext }) {
-  const envFacade = createEnvFacade({ store, req, res, routerContext });
+export const ServerWrapper: ReactComponent<ServerWrapperProps> = props => {
+  const { children, store, req, res, routerContext } = props;
+  const context = { store, req, res, routerContext };
+
+  const serverComponents = React.useMemo(() => GetServerModules
+    .keys()
+    .reduce((acc, key) => {
+      const name = key.replace(/\.\/(.*)\/server.*/, '$1');
+      const { default: getComponent } = GetServerModules(key);
+
+      return { ...acc, [name]: getComponent(context) };
+    }, {})
+  , [context]);
 
   return (
-    <EnvFacadeProvider value={envFacade}>
+    <EnvComponentContext.Provider value={serverComponents}>
       <ReduxProvider store={store}>
         <StaticRouter location={req.url} context={routerContext}>
           {children}
         </StaticRouter>
       </ReduxProvider>
-    </EnvFacadeProvider>
+    </EnvComponentContext.Provider>
   );
-}
+};
 
 export default ServerWrapper;

@@ -1,15 +1,14 @@
 import * as React from 'react'
 import * as ReactDom from 'react-dom/server';
-import ServerWrapper from '~/server-wrapper';
 import parse from 'html-react-parser';
+import ServerWrapper from '~/server-wrapper';
 import { ErrorDisplay, ErrorProtectorProps } from './index';
-import { ServerEnvContext } from '~/env-facade/server';
 
 export type EnvErrorProtectorProps = ErrorProtectorProps & {
   ErrorDisplay: ErrorDisplay;
 };
 
-export default function getEnvErrorProtector(ctx: ServerEnvContext): ReactComponent<EnvErrorProtectorProps> {
+export default function getEnvErrorProtector(ctx: any): ReactComponent<EnvErrorProtectorProps> {
   return ({ id, className, children, ErrorDisplay }) => {
     try {
       const __html = ReactDom.renderToString(

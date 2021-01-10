@@ -11,7 +11,7 @@ import configureStore from './store';
 import { Provider as RouterContextProvider } from '~/components/Router/RouterContext';
 import ExternalComponent from '~/components/ExternalComponent';
 import ServerWrapper from '~/server-wrapper';
-import * as providedModules from './provided';
+import * as components from '~/components';
 
 export default function init(rootUrl: string, share: string[] = []) {
   const publicPath = process.env.PUBLIC_PATH || '/';
@@ -40,7 +40,7 @@ export default function init(rootUrl: string, share: string[] = []) {
     try {
       const jsx = sheet.collectStyles(wrappComponent(
         <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '', middlewares: {} }}>
-          <ExternalComponent url={rootUrl} provide={providedModules} />
+          <ExternalComponent url={rootUrl} provide={components} />
         </RouterContextProvider>
       ));
 

@@ -39,8 +39,9 @@ clean_dist() {
 
 build() {
   export NODE_ENV="${NODE_ENV:-production}"
-  echo "Build main script with NODE_ENV=$NODE_ENV."
   webpack --config "$CWD/webpack/webpack.config.js"
+  tsc
+  echo "Builded main script with NODE_ENV=$NODE_ENV."
 }
 
 dev_main() {
@@ -85,7 +86,8 @@ dev_demo() {
     --share='public/' \
     --host=$HOST \
     --port=$PORT \
-    --rc=$ROOT_COMPONENT
+    --rc=$ROOT_COMPONENT \
+
 }
 
 develop() {

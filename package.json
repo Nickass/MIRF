@@ -5,17 +5,17 @@
   "bin": {
     "mirf": "index.js"
   },
-  "main": "dist/server.js",
-  "browser": {
-    "dist/client.js": "dist/client.js"
-  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.js",
   "scripts": {
     "start": "npm run dev",
     "build": "bash ./scripts.sh build",
     "dev": "bash ./scripts.sh develop",
     "deploy": "bash ./scripts.sh deploy",
     "demo": "bash ./scripts.sh demo",
-    "e2e": "bash ./scripts.sh e2e"
+    "e2e": "bash ./scripts.sh e2e",
+    "tsc": "tsc"
   },
   "author": "Mykola Nazaryshyn <nazaryshyn91@gmail.com>",
   "license": "ISC",
@@ -26,6 +26,9 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
     "@babel/preset-typescript": "^7.12.1",
+    "@types/jest": "^26.0.19",
+    "@types/react-helmet": "^5.0.8",
+    "@types/redux": "^3.6.0",
     "@types/classnames": "^2.2.7",
     "@types/express": "^4.16.1",
     "@types/fs-extra": "^5.0.5",
@@ -59,7 +62,7 @@
     "jest": "^26.6.3",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.11.0",
-    "nodemon": "^1.18.10",
+    "nodemon": "^1.19.4",
     "postcss-loader": "^3.0.0",
     "puppeteer": "^5.5.0",
     "sass-loader": "^7.1.0",
@@ -69,8 +72,6 @@
     "url-loader": "^3.0.0"
   },
   "dependencies": {
-    "@types/jest": "^26.0.19",
-    "@types/react-helmet": "^5.0.8",
     "axios": "^0.19.2",
     "body-parser": "^1.18.3",
     "change-case": "^4.1.1",
@@ -97,7 +98,7 @@
     "redux": "^4.0.1",
     "reselect": "^4.0.0",
     "styled-components": "^4.4.1",
-    "webpack": "^5.11.0",
+    "webpack": "^5.11.1",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^4.2.0",
     "webpack-dev-middleware": "^4.0.2",

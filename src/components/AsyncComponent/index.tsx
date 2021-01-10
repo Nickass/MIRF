@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { defaultState } from '~/store';
-import { default as ErrorProtector, ErrorDisplay } from '~/components/ErrorProtector';
+import ErrorProtector, { ErrorDisplay } from '~/components/ErrorProtector';
 
 type LoadComponentProps = {
   id: string;

@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import sc, { createGlobalStyle } from 'styled-components';
-import Router from '#external/ExternalRouter';
+import Router from '#external/Router';
 
 // assets
 import './assets/base.scss';

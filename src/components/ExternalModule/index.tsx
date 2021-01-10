@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ENVContext from '~/env-facade';
+import EnvComponentContext from '~/components';
 
 type ExternalModuleProps = {
   path: string;
@@ -11,9 +11,9 @@ type ExternalModuleProps = {
 }
 
 export const ExternalModule: ReactComponent<ExternalModuleProps> = ({ path, Component, provide = {}, timeout }) => {
-  const { EnvExternalModule } = React.useContext(ENVContext);
+  const { ExternalModule } = React.useContext(EnvComponentContext);
 
-  return <EnvExternalModule path={path} Component={Component} provide={provide} timeout={timeout} />;
+  return <ExternalModule path={path} Component={Component} provide={provide} timeout={timeout} />;
 };
 
 export default ExternalModule;

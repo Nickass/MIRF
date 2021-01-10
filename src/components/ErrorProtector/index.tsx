@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // system
-import { Consumer as EnvConsumer } from '~/env-facade';
+import EnvComponentContext from '~/components';
 
 // assets
 import {
@@ -41,17 +41,16 @@ export type ErrorProtectorProps = {
   ErrorDisplay?: ErrorDisplay;
 };
 
-export const ErrorProtector: ReactComponent<ErrorProtectorProps> = props => (
-  <EnvConsumer>
-    {env => (
-      <env.EnvErrorProtector
-        id={props.id}
-        className={props.className}
-        children={props.children}
-        ErrorDisplay={props.ErrorDisplay || ErrorDisplay}
-      />
-    )}
-  </EnvConsumer>
-);
+export const ErrorProtector: ReactComponent<ErrorProtectorProps> = props => {
+  const { ErrorProtector } = React.useContext(EnvComponentContext);
+  return (
+    <ErrorProtector
+      id={props.id}
+      className={props.className}
+      children={props.children}
+      ErrorDisplay={props.ErrorDisplay || ErrorDisplay}
+    />
+  );
+}
 
 export default ErrorProtector;

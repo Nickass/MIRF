@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { ServerEnvContext } from '~/env-facade/server';
-import AsyncComponent from '~/components/AsyncComponent';
 import Axios from 'axios';
+import AsyncComponent from '~/components/AsyncComponent';
 
 type ExternalModuleProps = {
   path: string;
@@ -13,7 +12,7 @@ type ExternalModuleProps = {
 }
 type ExternalModule = React.FunctionComponent<ExternalModuleProps> | React.ComponentClass<ExternalModuleProps>;
 
-export default function getExternalModule(ctx: ServerEnvContext): ExternalModule {
+export default function getExternalModule(ctx: any): ExternalModule {
   const externalCache: any = {};
 
   return ({ path, Component, provide = {}, timeout }) => {
