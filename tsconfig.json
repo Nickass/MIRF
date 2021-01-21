@@ -24,6 +24,6 @@
     },
     "outDir": "dist"
   },
-  "include": ["src/*.tsx", "global.d.ts"],
+  "include": ["src/**/*", "global.d.ts"],
   "exclude": ["dist", "node_modules"]
 }

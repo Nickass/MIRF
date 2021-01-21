@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 // system
-import Router from '#external/Router';
+import { Router } from 'mirf';
 
 // assets
 import { Container, Title } from './assets/styles';

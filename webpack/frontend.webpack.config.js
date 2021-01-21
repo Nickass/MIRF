@@ -4,7 +4,6 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const { camelCase } = require('change-case');
 const CopyPlugin = require("copy-webpack-plugin");
 const merge = require('webpack-merge');
 const common = require('./common.js');

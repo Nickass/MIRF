@@ -4,8 +4,6 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
-const { dependencies = [] } = require('../config.json');
-const { camelCase } = require('change-case');
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -30,21 +28,6 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /ExternalModule[\/\\](client|server)\.(j|t)sx?$/,
-        exclude: /node_modules/,
-        use: [{
-          loader: 'imports-loader',
-          options: {
-            imports: dependencies.map(name => ({
-              syntax: 'namespace',
-              moduleName: name,
-              name: camelCase(name),
-            })),
-            additionalCode: `var PROVIDED_MODULES = { ${dependencies.map(name => `'${name}': ${camelCase(name)}` )} };\n`,
-          },
-        }],
-      },
       {
         test: /\.(j|t)sx?$/,
         exclude: /node_modules/,

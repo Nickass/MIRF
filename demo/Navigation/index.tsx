@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // system
-import ErrorProtector from '#external/ErrorProtector';
+import { ErrorProtector } from 'mirf';
 // custom
 
 // assets

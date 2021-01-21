@@ -4,11 +4,9 @@ declare module '*.png';
 declare module '*.jpg';
 declare module '*.css';
 declare module '*.scss';
-declare module '#external/*';
 
 declare let CLIENT_JS_FILE_CONTENTS: string;
 declare let CLIENT_CSS_FILE_CONTENTS: string;
-declare let PROVIDED_MODULES: any;
 declare let __webpack_init_sharing__: any;
 declare let __webpack_share_scopes__: any;
 declare let __webpack_exports__: any;

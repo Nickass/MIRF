@@ -1,7 +1,7 @@
 // modules
 import * as React from 'react';
 import sc, { createGlobalStyle } from 'styled-components';
-import Router from '#external/Router';
+import { Router } from 'mirf';
 
 // assets
 import './assets/base.scss';

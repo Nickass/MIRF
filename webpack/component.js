@@ -1,8 +1,17 @@
 const webpack = require('webpack');
 const Path = require('path');
-const { camelCase } = require('change-case');
-const { dependencies = [] } = require('../config.json');
 
+const dependencies = [ // TODO: bind it with '../src/components/ExternalComponent/provided'
+  'mirf',
+  'react',
+  'react-dom',
+  'react-router',
+  'react-router-dom',
+  'react-helmet',
+  'react-redux',
+  'styled-components',
+  'classnames'
+];
 
 module.exports = params => {
   const { entryDir, outputPath, publicBase, publicPath, bundleName, fileName } = params;
@@ -41,7 +50,6 @@ module.exports = params => {
       globalObject: 'globalThis',
     },
     externals: [
-      /^\#external\//,
       dependencies.reduce((acc, curr) => ({ ...acc, [curr]: 'commonjs ' + curr }), {})
     ],
     node: {

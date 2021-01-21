@@ -1,12 +1,13 @@
 import * as React from 'react'
 import Axios from 'axios';
 import AsyncComponent from '~/components/AsyncComponent';
+import defaultProvided from './provided';
 
 type ExternalModuleProps = {
   path: string;
   Component: any;
   timeout?: number;
-  provide?: {
+  provided?: {
     [key: string]: any;
   }
 }
@@ -15,7 +16,7 @@ type ExternalModule = React.FunctionComponent<ExternalModuleProps> | React.Compo
 export default function getExternalModule(ctx: any): ExternalModule {
   const externalCache: any = {};
 
-  return ({ path, Component, provide = {}, timeout }) => {
+  return ({ path, Component, provided = defaultProvided, timeout }) => {
     const asyncId = `request-page-${path}`;
 
     const SuccessComponent = React.useCallback((props) => {
@@ -24,10 +25,11 @@ export default function getExternalModule(ctx: any): ExternalModule {
 
       if (!externalCache[path]) {
         const { body } = props;
+        // eslint-disable-next-line no-new-func
         (new Function('module', 'exports', 'require', `
           var __home_public_path__ = '${publicPath}';
           ${body};
-        `))(external, external.exports, (p: any) => provide[p.replace(/^#external\//, '')] || PROVIDED_MODULES[p]);
+        `))(external, external.exports, (p: string) => provided[p]);
         externalCache[path] = external; // TODO: check when script has syntax errors
       }
 

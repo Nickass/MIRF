@@ -54,6 +54,8 @@
     "no-undef": [0],
     "no-shadow": [0],
     "camelcase": [0],
-    "no-redeclare": [0]
+    "no-redeclare": [0],
+    "quote-props": [2, "consistent-as-needed"],
+    "global-require": [0]
   }
 }

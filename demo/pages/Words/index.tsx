@@ -1,6 +1,5 @@
 // modules
 import * as React from 'react';
-import ExternalComponent from '#external/ExternalComponent'
 
 // assets
 import { Container, Title } from './assets/styles';
