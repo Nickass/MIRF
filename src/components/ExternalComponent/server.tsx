@@ -1,20 +1,28 @@
 import * as React from 'react';
-import ExternalModule from '~/components/ExternalModule';
+import ExternalModule, { ExpectedExport } from '~/components/ExternalModule';
+import AsyncComponent from '~/components/AsyncComponent';
+import { Context } from '..';
 
-type ExternalModuleProps = {
+const asyncIdentity: asyncIdentity = async a => a;
+
+type ExternalComponentProps = {
   url: string;
-  provide?: {
-    [key: string]: any;
-  }
+  provided?: { [key: string]: unknown; }
+  innerProps?: { [key: string]: unknown; }
 }
 
-export default function getExternalModule(ctx: any): ReactComponent<ExternalModuleProps> {
-  return ({ url, provide = {} }) => {
-    const SuccessComponent: any = React.useCallback((props: any) => {
-      const { default: ExternalPage } = props;
-      return <ExternalPage />;
+export default function getExternalComponent(ctx: Context): ReactComponent<ExternalComponentProps> {
+  return ({ url, provided, innerProps = {} }) => {
+    const SuccessComponent: ReactComponent = React.useCallback((props: ExpectedExport) => {
+      const { default: TheExternalModule, init = asyncIdentity } = props;
+
+      return (
+        <AsyncComponent id={`init-component-${url}`} SuccessComponent={TheExternalModule}>
+          {() => init(innerProps, ctx)}
+        </AsyncComponent>
+      );
     }, []);
 
-    return <ExternalModule Component={SuccessComponent} path={url} provide={provide} />;
+    return <ExternalModule Component={SuccessComponent} path={url} provided={provided} />;
   };
 }

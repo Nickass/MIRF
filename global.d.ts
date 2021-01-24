@@ -15,7 +15,7 @@ declare let react: any;
 declare let reactDom: any;
 declare let styledComponents: any;
 
-declare type ReactComponent<Props = {}> = React.ComponentClass<Props> | React.FunctionComponent<Props>;
+declare type ReactComponent<Props = any> = React.ComponentClass<Props> | React.FunctionComponent<Props>;
 
 declare let ENTRYMODULE: string;
 declare module 'ENTRYMODULE' {

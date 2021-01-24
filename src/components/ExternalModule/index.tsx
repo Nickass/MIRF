@@ -1,19 +1,24 @@
 import * as React from 'react';
-import EnvComponentContext from '~/components';
+import EnvComponentContext, { Context } from '~/components';
 
-type ExternalModuleProps = {
+export type ExternalModuleProps = {
   path: string;
-  Component: any;
+  Component: ReactComponent;
   timeout?: number;
-  provide?: {
-    [key: string]: any;
+  provided?: {
+    [key: string]: unknown;
   }
 }
 
-export const ExternalModule: ReactComponent<ExternalModuleProps> = ({ path, Component, provide = {}, timeout }) => {
+export type ExpectedExport = {
+  default: ReactComponent,
+  init?: (props: { [key: string]: unknown }, ctx: Context) => Promise<unknown>, // eslint-disable-line no-unused-vars
+}
+
+export const ExternalModule: ReactComponent<ExternalModuleProps> = ({ Component, path, provided, timeout }) => {
   const { ExternalModule } = React.useContext(EnvComponentContext);
 
-  return <ExternalModule path={path} Component={Component} provide={provide} timeout={timeout} />;
+  return <ExternalModule Component={Component} path={path} provided={provided} timeout={timeout} />;
 };
 
 export default ExternalModule;

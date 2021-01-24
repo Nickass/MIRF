@@ -13,9 +13,8 @@ import NakedNavigation from './Navigation';
 
 // module
 import * as config from './config.json';
-import * as middlewares from './middlewares';
 
-export { config, middlewares };
+export { config };
 
 // assets
 const GlobalStyle = createGlobalStyle`
@@ -50,7 +49,6 @@ const Pages = sc(Router)`
   margin: auto;
   overflow: auto;
 `;
-
 
 type AppProps = {
   className?: string;

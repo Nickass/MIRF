@@ -11,8 +11,7 @@ import { Container, Title } from './assets/styles';
 
 // module
 import * as config from './config.json';
-import * as middlewares from './middlewares';
-export { config, middlewares };
+export { config };
 
 interface SettingsProps extends RouteComponentProps {
   className?: string;

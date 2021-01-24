@@ -23,7 +23,7 @@ export interface subConfig {
   id: string;
   path: string;
   dir: string;
-  middlewares?: string[];
+  middleware?: any;
   exact?: boolean;
   props?: { [propName: string]: any };
   module: string;
@@ -38,8 +38,6 @@ type RouterProps = {
 
 export const Router: ReactComponent<RouterProps> = ({ routes = [], base, ...rootProps }: RouterProps) => {
   const baseRoute = React.useContext(CustomRouterContext);
-  const parentMiddlewares = baseRoute.middlewares;
-  const providedModules = { ExternalComponent, ExternalModule, AsyncComponent, Router };
 
   return (
     <Switch>
@@ -50,25 +48,16 @@ export const Router: ReactComponent<RouterProps> = ({ routes = [], base, ...root
 
         return (
           <Route key={fullId} path={fullPath} exact={route.exact} render={props => {
-            const middlewaresToInvoke = [...(route.middlewares || []), 'init'];
             const allProps = { ...rootProps, ...route.props, ...props };
 
             const ModuleComponent = (props: any) => {
-              const { default: Page, config = {}, middlewares = {}, init = asyncIdentity } = props;
-              const allMWares = React.useMemo(
-                () => ({ ...parentMiddlewares, ...middlewares, init })
-                , [parentMiddlewares, middlewares, init]);
-              const callAllMwares = React.useMemo(() => middlewaresToInvoke.reduce((parentMW, name) => {
-                const mware = allMWares[name] || asyncIdentity;
-                return value => parentMW(value).then(mware);
-              }, asyncIdentity), [middlewaresToInvoke, allMWares]);
+              const { default: Page, config = {} } = props;
               const title = config.name || route.id;
               const newBaseRoute = React.useMemo(() => ({
                 full_id: fullId,
                 full_path: fullPath,
                 full_dir: fullDir,
-                middlewares: allMWares
-              }), [fullId, fullPath, fullDir, allMWares]);
+              }), [fullId, fullPath, fullDir]);
 
               const PageComponent = React.useCallback(props => (
                 <CustomRouterContext.Provider value={newBaseRoute}>
@@ -81,12 +70,18 @@ export const Router: ReactComponent<RouterProps> = ({ routes = [], base, ...root
 
               return (
                 <AsyncComponent id={'apply-middleware-' + route.id} SuccessComponent={PageComponent}>
-                  {() => callAllMwares(allProps)}
+                  {() => (route.middleware ? route.middleware(allProps) : {})}
                 </AsyncComponent>
               );
             };
 
-            return <ExternalModule path={base + route.module} Component={ModuleComponent} provide={providedModules} timeout={allProps.timeout} />;
+            return (
+              <ExternalModule
+                Component={ModuleComponent}
+                path={base + route.module}
+                timeout={allProps.timeout}
+              />
+            );
           }} />
         );
       })}

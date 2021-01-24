@@ -39,7 +39,7 @@ export default function init(rootUrl: string, share: string[] = []) {
 
     try {
       const jsx = sheet.collectStyles(wrappComponent(
-        <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '', middlewares: {} }}>
+        <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '' }}>
           <ExternalComponent url={rootUrl} provide={components} />
         </RouterContextProvider>
       ));

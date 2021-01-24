@@ -9,4 +9,11 @@ export { default as Router } from './Router';
 const EnvComponentContext = React.createContext<{[propname: string]: any}>({});
 EnvComponentContext.displayName = 'EnvComponentContext';
 
+export type Context = {
+  req?: Request,
+  res?: Response,
+  store: any;
+}
+
+
 export default EnvComponentContext;

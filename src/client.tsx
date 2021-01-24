@@ -31,7 +31,7 @@ function main(Root = ExternalComponent, hydrender = render) {
     <EnvComponentContext.Provider value={clientComponents}>
       <ReduxProvider store={store}>
         <RouterProvider history={history}>
-          <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '', middlewares: {} }}>
+          <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '' }}>
             <Root url={window.ROOT_COMPONENT} provide={components} />
           </RouterContextProvider>
         </RouterProvider>
