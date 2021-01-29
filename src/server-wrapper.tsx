@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Request, Response } from 'express';
 import { Provider as ReduxProvider } from 'react-redux';
 import { StaticRouter, StaticRouterContext } from 'react-router';
-import EnvComponentContext from './components';
+import EnvComponentContext, { ReactComponent } from './components';
 
 const GetServerModules = require.context('~/components/', true, /.*\/server/);
 

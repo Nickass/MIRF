@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as ReactDom from 'react-dom/server';
 import parse from 'html-react-parser';
 import ServerWrapper from '~/server-wrapper';
+import { ReactComponent } from '~/components';
 import { ErrorDisplay, ErrorProtectorProps } from './index';
 
 export type EnvErrorProtectorProps = ErrorProtectorProps & {

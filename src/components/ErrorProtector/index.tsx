@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // system
-import EnvComponentContext from '~/components';
+import EnvComponentContext, { ReactComponent } from '~/components';
 
 // assets
 import {

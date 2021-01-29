@@ -3,6 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { defaultState } from '~/store';
 import ErrorProtector, { ErrorDisplay } from '~/components/ErrorProtector';
+import { ReactComponent } from '~/components';
 
 type LoadComponentProps = {
   id: string;
@@ -17,7 +18,7 @@ type ErrorComponentProps = {
   message: string;
 }
 
-export interface AsyncComponentOwnProps {
+export interface AsyncComponentProps {
   id: string;
   caching?: boolean;
   timeout?: number;
@@ -30,9 +31,9 @@ export interface AsyncComponentWithStore {
   // allData: state;
   // dispatch: Dispatch
 };
-export interface AsyncComponentProps extends AsyncComponentOwnProps, AsyncComponentWithStore {};
+export interface AsyncComponentAllProps extends AsyncComponentProps, AsyncComponentWithStore {};
 
-const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props) {
+const AsyncComponent: React.ComponentType<AsyncComponentAllProps> = function (props) {
   const {
     ErrorComponent = ErrorDisplay,
     LoadComponent = DefaultLoadComponent,
@@ -114,7 +115,7 @@ const AsyncComponent: React.ComponentType<AsyncComponentProps> = function (props
   }
 }
 
-export default connect<any, AsyncComponentWithStore, AsyncComponentOwnProps, defaultState>(
+export default connect<any, AsyncComponentWithStore, AsyncComponentProps, defaultState>(
   (state, ownProps) => ({
     promise: state.asyncComponent.promises[ownProps.id],
     errorData: state.asyncComponent.errors[ownProps.id],

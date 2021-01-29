@@ -15,8 +15,6 @@ declare let react: any;
 declare let reactDom: any;
 declare let styledComponents: any;
 
-declare type ReactComponent<Props = any> = React.ComponentClass<Props> | React.FunctionComponent<Props>;
-
 declare let ENTRYMODULE: string;
 declare module 'ENTRYMODULE' {
   const any: any;
@@ -25,7 +23,7 @@ declare module 'ENTRYMODULE' {
 declare interface Window {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
   REDUX_STATE: any;
-  ROOT_COMPONENT: string;
+  ROOT_COMPONENT_HREF: string;
 }
 
 declare namespace Express {
@@ -33,8 +31,6 @@ declare namespace Express {
     _reduxStore?: any;
   }
 }
-
-declare type asyncIdentity<T = any> = (a: T) => Promise<T>;
 
 declare namespace NodeJS {
   export interface ProcessEnv {

@@ -5,8 +5,8 @@
     {
       "id": "home",
       "path": "/",
+      "src": "/pages/Home/index.js",
       "dir": "pages/Home/",
-      "module": "/pages/Home/index.js",
       "middlewares": ["auth"],
       "props": {},
       "exact": true
@@ -15,7 +15,7 @@
       "id": "settings-policy",
       "path": "/settings/policy",
       "dir": "pages/SettingsPolicy/",
-      "module": "/pages/SettingsPolicy/index.js",
+      "src": "/pages/SettingsPolicy/index.js",
       "props": {},
       "exact": true
     },
@@ -23,21 +23,21 @@
       "id": "settings",
       "path": "/settings",
       "dir": "pages/Settings/",
-      "module": "/pages/Settings/index.js",
+      "src": "/pages/Settings/index.js",
       "props": {}
     },
     {
       "id": "words",
       "path": "/words",
       "dir": "pages/Words/",
-      "module": "/pages/Words/index.js",
+      "src": "/pages/Words/index.js",
       "props": {}
     },
     {
       "id": "not-found",
       "path": "*",
       "dir": "pages/NotFound/",
-      "module": "/pages/NotFound/index.js",
+      "src": "/pages/NotFound/index.js",
       "props": {}
     }
   ]

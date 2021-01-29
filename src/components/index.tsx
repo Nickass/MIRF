@@ -9,6 +9,11 @@ export { default as Router } from './Router';
 const EnvComponentContext = React.createContext<{[propname: string]: any}>({});
 EnvComponentContext.displayName = 'EnvComponentContext';
 
+export type asyncIdentity<T = unknown> = (a: T) => Promise<T>; // eslint-disable-line no-unused-vars
+export const asyncIdentity: asyncIdentity = async a => a;
+
+export type ReactComponent<Props = unknown> = React.ComponentClass<Props> | React.FunctionComponent<Props>;
+
 export type Context = {
   req?: Request,
   res?: Response,

@@ -6,7 +6,7 @@
       "path": "/profile",
       "dir": "Profile/",
       "middlewares": ["profile"],
-      "module": "/pages/Settings/pages/Profile/index.js"
+      "src": "/pages/Settings/pages/Profile/index.js"
     }
   ]
 }

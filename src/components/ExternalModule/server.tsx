@@ -1,58 +1,49 @@
-import * as React from 'react'
+import * as React from 'react';
 import Axios from 'axios';
-import AsyncComponent from '~/components/AsyncComponent';
+import AsyncComponent from '../AsyncComponent';
+import { Context, ReactComponent } from '..';
+import { ExternalModuleProps, ExpectedExport } from '.';
 import defaultProvided from './provided';
 
-type ExternalModuleProps = {
-  path: string;
-  Component: any;
-  timeout?: number;
-  provided?: {
-    [key: string]: any;
-  }
-}
-type ExternalModule = React.FunctionComponent<ExternalModuleProps> | React.ComponentClass<ExternalModuleProps>;
+export default function getExternalModule(ctx: Context): ReactComponent<ExternalModuleProps> {
+  const externalCache: { [key: string]: ExpectedExport } = {}; // TODO: test with two imports the same module. The provided modules can be different and leads to bugs.
 
-export default function getExternalModule(ctx: any): ExternalModule {
-  const externalCache: any = {};
-
-  return ({ path, Component, provided = defaultProvided, timeout }) => {
-    const asyncId = `request-page-${path}`;
-
+  return ({ SuccessComponent: Component, href, id, provided = defaultProvided, ...restProps }) => {
+    const asyncId = `request-page-${id || href}`;
     const SuccessComponent = React.useCallback((props) => {
-      const external: any = { exports: {} };
-      const publicPath = path.split('/').slice(0, -1).join('/').replace(/\/$/, '') + '/';
+      const defaultComponent = () => (
+        <>The module by path ({href}) haven't export default component!</>
+      );
+      const external: { exports: ExpectedExport } = { exports: { default: defaultComponent } };
+      const publicPath = `${href.split('/').slice(0, -1).join('/').replace(/\/$/, '')}/`;
 
-      if (!externalCache[path]) {
+      if (!externalCache[href]) {
         const { body } = props;
         // eslint-disable-next-line no-new-func
         (new Function('module', 'exports', 'require', `
           var __home_public_path__ = '${publicPath}';
           ${body};
         `))(external, external.exports, (p: string) => provided[p]);
-        externalCache[path] = external; // TODO: check when script has syntax errors
+        externalCache[href] = external.exports;
       }
 
       return (
-        <Component {...externalCache[path].exports} />
+        <Component {...externalCache[href]} />
       )
-    }, [Component])
-
-
+    }, [Component]);
     const awaitFunc = React.useCallback(async () => {
       try {
-        const { data: body } = await Axios.get(path);
+        const { data: body } = await Axios.get(href);
         return { body };
       } catch (err) {
-        throw new Error(`Error while loading a script by "${path}" url.\n`);
+        throw new Error(`Error while loading a script by "${href}" url.\n`);
       }
-    }, [path]);
+    }, [href]);
 
     return (
-      <AsyncComponent id={asyncId} SuccessComponent={SuccessComponent} caching={true} timeout={timeout}>
+      <AsyncComponent {...restProps} id={asyncId} SuccessComponent={SuccessComponent} caching={true}>
         {awaitFunc}
       </AsyncComponent>
     );
   }
 }
-

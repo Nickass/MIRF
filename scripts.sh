@@ -47,7 +47,7 @@ build() {
 dev_main() {
   HOST=${1:-localhost}
   PORT=${2:-3000}
-  ROOT_COMPONENT=$3
+  ROOT_COMPONENT_HREF=$3
   HOT_SERVER_HOST="${HOT_SERVER_HOST:-localhost}"
   HOT_SERVER_PORT="${HOT_SERVER_PORT:-3333}"
 
@@ -66,13 +66,13 @@ dev_main() {
   # run webpack for watch and bundle backend
   webpack --config "$CWD/webpack/backend.webpack.config.js" --watch &
   # run nodemon for restart server after bundle will be finished
-  nodemon "$CWD/dist/server.js" $HOST $PORT $ROOT_COMPONENT
+  nodemon "$CWD/dist/server.js" $HOST $PORT $ROOT_COMPONENT_HREF
 }
 
 dev_demo() {
   HOST=${1:-localhost}
   PORT=${2:-3000}
-  ROOT_COMPONENT=${3:-"http://$HOST:$PORT/index.js"}
+  ROOT_COMPONENT_HREF=${3:-"http://$HOST:$PORT/index.js"}
 
   export NODE_ENV="${NODE_ENV:-development}"
   export SERVER_URL="http://$HOST:$PORT"
@@ -86,7 +86,7 @@ dev_demo() {
     --share='public/' \
     --host=$HOST \
     --port=$PORT \
-    --rc=$ROOT_COMPONENT \
+    --rc=$ROOT_COMPONENT_HREF \
 
 }
 
@@ -96,21 +96,21 @@ develop() {
   COMPONENT_SERVER_HOST="${COMPONENT_SERVER_HOST:-localhost}"
   COMPONENT_SERVER_PORT="${COMPONENT_SERVER_PORT:-8080}"
   SERVER_URL="http://$SERVER_HOST:$SERVER_PORT"
-  ROOT_COMPONENT="${ROOT_COMPONENT:-"http://$COMPONENT_SERVER_HOST:$COMPONENT_SERVER_PORT/index.js"}"
+  ROOT_COMPONENT_HREF="${ROOT_COMPONENT_HREF:-"http://$COMPONENT_SERVER_HOST:$COMPONENT_SERVER_PORT/index.js"}"
 
   export NODE_ENV=development
 
   clean_dist
   build
   wait_link $SERVER_URL && browser $SERVER_URL &
-  dev_main $SERVER_HOST $SERVER_PORT $ROOT_COMPONENT &
-  dev_demo $COMPONENT_SERVER_HOST $COMPONENT_SERVER_PORT $ROOT_COMPONENT
+  dev_main $SERVER_HOST $SERVER_PORT $ROOT_COMPONENT_HREF &
+  dev_demo $COMPONENT_SERVER_HOST $COMPONENT_SERVER_PORT $ROOT_COMPONENT_HREF
 }
 
 demo() {
   HOST=${1:-localhost}
   PORT=${2:-3000}
-  ROOT_COMPONENT=${3:-"http://$HOST:$PORT/index.js"}
+  ROOT_COMPONENT_HREF=${3:-"http://$HOST:$PORT/index.js"}
 
   export NODE_ENV="${NODE_ENV:-production}"
   export SERVER_URL="http://$HOST:$PORT"
@@ -124,7 +124,7 @@ demo() {
   node "$CWD/index.js" start \
     --host=$HOST \
     --port=$PORT \
-    --rc=$ROOT_COMPONENT
+    --rc=$ROOT_COMPONENT_HREF
 }
 
 deploy() {

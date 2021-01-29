@@ -11,7 +11,6 @@ import configureStore from './store';
 import { Provider as RouterContextProvider } from '~/components/Router/RouterContext';
 import ExternalComponent from '~/components/ExternalComponent';
 import ServerWrapper from '~/server-wrapper';
-import * as components from '~/components';
 
 export default function init(rootUrl: string, share: string[] = []) {
   const publicPath = process.env.PUBLIC_PATH || '/';
@@ -40,7 +39,7 @@ export default function init(rootUrl: string, share: string[] = []) {
     try {
       const jsx = sheet.collectStyles(wrappComponent(
         <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '' }}>
-          <ExternalComponent url={rootUrl} provide={components} />
+          <ExternalComponent href={rootUrl} />
         </RouterContextProvider>
       ));
 
@@ -84,7 +83,7 @@ export default function init(rootUrl: string, share: string[] = []) {
             <link rel="stylesheet" href="${publicPath}client.css" />
             <script>
               window.REDUX_STATE = ${JSONstate};
-              window.ROOT_COMPONENT = '${rootUrl}';
+              window.ROOT_COMPONENT_HREF = '${rootUrl}';
             </script>
             ${helmet.meta.toString()}
             ${helmet.link.toString()}

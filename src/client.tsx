@@ -8,7 +8,7 @@ import { ConnectedRouter as RouterProvider } from 'connected-react-router';
 import configureStore, { history } from './store';
 import { Provider as RouterContextProvider } from './components/Router/RouterContext';
 import ExternalComponent from './components/ExternalComponent';
-import EnvComponentContext, * as components from './components';
+import EnvComponentContext from './components';
 
 // assets
 import 'normalize.css/normalize.css';
@@ -32,7 +32,7 @@ function main(Root = ExternalComponent, hydrender = render) {
       <ReduxProvider store={store}>
         <RouterProvider history={history}>
           <RouterContextProvider value={{ full_id: 'base', full_dir: '', full_path: '' }}>
-            <Root url={window.ROOT_COMPONENT} provide={components} />
+            <Root href={window.ROOT_COMPONENT_HREF} />
           </RouterContextProvider>
         </RouterProvider>
       </ReduxProvider>

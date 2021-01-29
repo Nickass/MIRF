@@ -1,17 +1,15 @@
 import * as React from 'react';
-import EnvComponentContext from '~/components';
+import EnvComponentContext, { ReactComponent } from '..';
+import { ExternalModuleProps } from '../ExternalModule';
 
-type ExternalComponentProps = {
-  url: string;
-  provide?: {
-    [key: string]: any;
-  }
+export interface ExternalComponentProps extends Omit<ExternalModuleProps, 'SuccessComponent'> {
+  innerProps?: { [key: string]: unknown; };
 }
 
-export const ExternalComponent: ReactComponent<ExternalComponentProps> = ({ url, provide = {} }) => {
+const ExternalComponent: ReactComponent<ExternalComponentProps> = props => {
   const { ExternalComponent } = React.useContext(EnvComponentContext);
 
-  return <ExternalComponent url={url} provide={provide} />;
+  return <ExternalComponent {...props} />;
 };
 
 export default ExternalComponent;

@@ -1,24 +1,23 @@
 import * as React from 'react';
-import EnvComponentContext, { Context } from '~/components';
+import EnvComponentContext, { Context, ReactComponent } from '..';
+import { AsyncComponentProps } from '../AsyncComponent';
 
-export type ExternalModuleProps = {
-  path: string;
-  Component: ReactComponent;
-  timeout?: number;
-  provided?: {
-    [key: string]: unknown;
-  }
+export interface ExternalModuleProps extends Omit<AsyncComponentProps, 'children' | 'id'> {
+  id?: string;
+  href: string;
+  children?: React.ReactNode;
+  provided?: { [key: string]: unknown; }
 }
 
-export type ExpectedExport = {
-  default: ReactComponent,
-  init?: (props: { [key: string]: unknown }, ctx: Context) => Promise<unknown>, // eslint-disable-line no-unused-vars
+export interface ExpectedExport {
+  default: ReactComponent;
+  init?: (props: { [key: string]: unknown }, ctx: Context) => Promise<unknown>; // eslint-disable-line no-unused-vars
+  config?: any; // TODO
 }
 
-export const ExternalModule: ReactComponent<ExternalModuleProps> = ({ Component, path, provided, timeout }) => {
+const ExternalModule: ReactComponent<ExternalModuleProps> = props => {
   const { ExternalModule } = React.useContext(EnvComponentContext);
-
-  return <ExternalModule Component={Component} path={path} provided={provided} timeout={timeout} />;
+  return <ExternalModule {...props} />;
 };
 
 export default ExternalModule;
